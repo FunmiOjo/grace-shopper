@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
+const Op = Sequelize.Op
 
 const Product = db.define('product', {
   name: {
@@ -26,5 +27,14 @@ const Product = db.define('product', {
     defaultValue: 0
   }
 })
+
+// find all products based on categories
+Product.findByCategory = categoryName => {
+  return Product.findAll({
+    where: {
+      category: { [Op.contains]: [categoryName] }
+    }
+  })
+}
 
 module.exports = Product
