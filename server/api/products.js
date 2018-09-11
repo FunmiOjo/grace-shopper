@@ -14,7 +14,7 @@ router.get('/', (req, res, next) => {
 })
 
 // route to serve up a single product
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', (req, res, next) => {
   Product.findById(req.params.id)
     .then(product => res.status(200).json(product))
     .catch(next)
