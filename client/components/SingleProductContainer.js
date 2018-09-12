@@ -5,13 +5,16 @@ import { fetchProduct } from '../store/product'
 
 const mapStateToProps = state => {
   return {
-    selectedProduct: state.fetchProduct.selectedProduct
+    selectedProduct: state.product.selectedProduct
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    loadSingleProduct: () => dispatch(fetchProduct())
+    loadSingleProduct: () => {
+      const productId = ownProps.match.params.productId
+      dispatch(fetchProduct(productId))
+    }
   }
 }
 

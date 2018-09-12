@@ -12,12 +12,22 @@ export default class SingleProduct extends Component {
     return (
       <div className="container">
         {product && (
-          <div>
-            <img src={product.image} />
-            <p>{product.name}</p>
-            <p>{product.price}</p>
-            <p>{product.description}</p>
-          </div>
+          <Grid container direction="row">
+            <Grid item>
+              <img src={product.image} />
+            </Grid>
+            <Grid container direction="column">
+              <Grid item xs>
+                {product.name}
+              </Grid>
+              <Grid item xs>
+                ${product.price}
+              </Grid>
+              <Grid item xs>
+                {product.description}
+              </Grid>
+            </Grid>
+          </Grid>
         )}
       </div>
     )
