@@ -13,18 +13,6 @@ const AuthForm = props => {
     <div>
       <form onSubmit={handleSubmit} name={name}>
         <div>
-          <label htmlFor="firstName">
-            <small>First Name</small>
-          </label>
-          <input name="firstName" type="text" />
-        </div>
-        <div>
-          <label htmlFor="lastName">
-            <small>Last Name</small>
-          </label>
-          <input name="lastName" type="text" />
-        </div>
-        <div>
           <label htmlFor="email">
             <small>Email</small>
           </label>
@@ -35,18 +23,6 @@ const AuthForm = props => {
             <small>Password</small>
           </label>
           <input name="password" type="password" />
-        </div>
-        <div>
-          <label htmlFor="billingAddress">
-            <small>Billing address</small>
-          </label>
-          <input name="billingAddress" type="text" />
-        </div>
-        <div>
-          <label htmlFor="shippingAddress">
-            <small>Shipping address</small>
-          </label>
-          <input name="shippingAddress" type="text" />
         </div>
         <div>
           <button type="submit">{displayName}</button>

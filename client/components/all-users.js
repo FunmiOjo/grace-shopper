@@ -3,7 +3,7 @@ import store from '../store'
 import { fetchUsers } from '../store/allUsers'
 import { connect } from 'react-redux'
 
-// ---------------  Only admins can see this page
+// ---------- Only admins should be able to see this page
 class AllUsers extends Component {
   constructor () {
     super()
@@ -19,8 +19,8 @@ class AllUsers extends Component {
     const users = this.state.allUsers
     return (
       <div id='all-users'>
-        { users !== undefined? users.map(user => (
-          <div className='user' key={user.id}>
+        { users !== undefined ? users.map(user => (
+          <div key={user.id}>
             <ul>
               <li>Name: {user.firstName} {user.lastName}</li>
               <li>Email: {user.email}</li>
@@ -29,7 +29,7 @@ class AllUsers extends Component {
               <li>User type: {user.userType}</li>
             </ul>
           </div>
-        )) : null }
+        )) : <p>No users in the database.</p> }
       </div>
     )
   }
