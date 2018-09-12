@@ -14,13 +14,14 @@ const ALL_USERS = 'ALL_USERS'
 const initialState= {
   currentUser: {},
   allUsers: [],
+  singleUser: {},
   isLoading: false
 }
 
 /**
  * ACTION CREATORS
  */
-const getUser = user => ({type: GET_USER, user})
+const getUser = currentUser => ({type: GET_USER, currentUser})
 const removeUser = () => ({type: REMOVE_USER})
 const setAllUsers = (allUsers) => {
   return {
@@ -46,6 +47,22 @@ export const auth = (email, password, method) => async dispatch => {
   let res
   try {
     res = await axios.post(`/auth/${method}`, {email, password})
+  } catch (authError) {
+    return dispatch(getUser({error: authError}))
+  }
+
+  try {
+    dispatch(getUser(res.data))
+    history.push('/home')
+  } catch (dispatchOrHistoryErr) {
+    console.error(dispatchOrHistoryErr)
+  }
+}
+
+export const signUpUser = (firstName, lastName, email, password, billingAddress, shippingAddress) => async dispatch => {
+  let res
+  try {
+    res = await axios.post('/auth/signup', {firstName, lastName, email, password, billingAddress, shippingAddress})
   } catch (authError) {
     return dispatch(getUser({error: authError}))
   }
@@ -86,7 +103,7 @@ export default function(state = initialState, action) {
     case GET_USER:
       return {...state, currentUser}
     case REMOVE_USER:
-      return {...state}
+      return {...state, currentUser: {}}
     case ALL_USERS:
       return {...state, allUsers}
     default:

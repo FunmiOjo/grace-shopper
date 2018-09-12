@@ -31,7 +31,7 @@ class AllUsers extends Component {
         users.map(user => (
           <ListItem key={user.id}>
             <ListItemText
-              primary={user.firstName + user.lastName}
+              primary={user.firstName + ' ' + user.lastName}
               secondary={user.userType}
             />
           </ListItem>
