@@ -7,7 +7,7 @@ import {signUpUser} from '../store/user'
  * COMPONENT
  */
 const SignUpForm = props => {
-  const {displayName, handleSubmit, error} = props
+  const {handleSubmit, error} = props
 
   return (
     <div>
@@ -55,11 +55,11 @@ const SignUpForm = props => {
           <input name="userType" type="text" />
         </div>
         <div>
-          <button type="submit">{displayName}</button>
+          <button type="submit">Sign Up</button>
         </div>
         {error && error.response && <div> {error.response.data} </div>}
       </form>
-      <a href="/auth/google">{displayName} with Google</a>
+      <a href="/auth/google">Sign Up with Google</a>
     </div>
   )
 }
@@ -101,8 +101,6 @@ export const SignUp = connect(mapSignup, mapDispatch)(SignUpForm)
  * PROP TYPES
  */
 SignUpForm.propTypes = {
-  name: PropTypes.string.isRequired,
-  displayName: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   error: PropTypes.object
 }

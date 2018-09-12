@@ -43,10 +43,10 @@ export const me = () => async dispatch => {
   }
 }
 
-export const auth = (email, password, method) => async dispatch => {
+export const logInUser = (email, password) => async dispatch => {
   let res
   try {
-    res = await axios.post(`/auth/${method}`, {email, password})
+    res = await axios.post('/auth/login', {email, password})
   } catch (authError) {
     return dispatch(getUser({error: authError}))
   }
@@ -98,7 +98,7 @@ export const fetchAllUsers = () => {
 export default function(state = initialState, action) {
   //const user = action.user
   const allUsers = action.allUsers
-  const currentUser = state.currentUser
+  const currentUser = action.currentUser
   switch (action.type) {
     case GET_USER:
       return {...state, currentUser}
