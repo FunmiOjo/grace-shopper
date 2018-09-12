@@ -3,7 +3,8 @@ const db = require('../db')
 
 const Order = db.define('order', {
   isActive: {
-    type: Sequelize.BOOLEAN
+    type: Sequelize.BOOLEAN,
+    defaultValue: true
   },
   orderStatus: {
     type: Sequelize.ENUM('processing', 'shipped', 'fulfilled')
