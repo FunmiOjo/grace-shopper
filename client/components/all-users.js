@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import store from '../store'
-import { fetchUsers } from '../store/allUsers'
+import { fetchAllUsers } from '../store/user'
 import { connect } from 'react-redux'
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 
 // ---------- Only admins should be able to see this page
 class AllUsers extends Component {
@@ -14,29 +17,32 @@ class AllUsers extends Component {
   }
   componentDidMount(){
     this.props.fetchData()
+    this.setState({user: {isLoading: false}})
   }
   render () {
-    const users = this.state.allUsers
+    let loading, users;
+    if (this.state.user) {
+      users = this.state.user.allUsers
+      loading = this.state.user.isLoading
+    }
     return (
-      <div id='all-users'>
-        { users !== undefined ? users.map(user => (
-          <div key={user.id}>
-            <ul>
-              <li>Name: {user.firstName} {user.lastName}</li>
-              <li>Email: {user.email}</li>
-              <li>Billing address: {user.billingAddress}</li>
-              <li>Shipping address: {user.shippingAddress}</li>
-              <li>User type: {user.userType}</li>
-            </ul>
-          </div>
-        )) : <p>No users in the database.</p> }
-      </div>
+      <List>
+        { users && !loading ?
+        users.map(user => (
+          <ListItem key={user.id}>
+            <ListItemText
+              primary={user.firstName + user.lastName}
+              secondary={user.userType}
+            />
+          </ListItem>
+        )) : <p>Loading...</p> }
+      </List>
     )
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-  fetchData: () => dispatch(fetchUsers())
+  fetchData: () => dispatch(fetchAllUsers())
 })
 
 export default connect(null, mapDispatchToProps)(AllUsers)
