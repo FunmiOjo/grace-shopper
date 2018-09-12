@@ -6,7 +6,6 @@ const expect = chai.expect
 const db = require('../index')
 const Product = db.model('product')
 const Order = db.model('order')
-const OrderProduct = db.model('orderProduct')
 
 describe('Order model', () => {
   describe.only('Associated products', () => {
