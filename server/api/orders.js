@@ -16,6 +16,7 @@ router.get('/:userId', (req, res, next) => {
     }
   })
     .then(orders => res.status(200).json(orders))
+    .catch(next)
 })
 
 module.exports = router
