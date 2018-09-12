@@ -57,6 +57,7 @@ const User = db.define('user', {
   },
   userType: {
     type: Sequelize.ENUM('admin', 'user', 'guest'),
+    defaultValue: 'user',
     allowNull: false,
     validate: {
       notEmpty: true
