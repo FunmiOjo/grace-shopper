@@ -17,17 +17,16 @@ class AllUsers extends Component {
   }
   componentDidMount(){
     this.props.fetchData()
-    this.setState({user: {isLoading: false}})
   }
   render () {
-    let loading, users;
+    let isAdmin, users;
     if (this.state.user) {
       users = this.state.user.allUsers
-      loading = this.state.user.isLoading
+      isAdmin = ('admin' === this.state.user.currentUser.userType)
     }
     return (
       <List>
-        { users && !loading ?
+        { users && isAdmin ?
         users.map(user => (
           <ListItem key={user.id}>
             <ListItemText
@@ -35,7 +34,7 @@ class AllUsers extends Component {
               secondary={user.userType}
             />
           </ListItem>
-        )) : <p>Loading...</p> }
+        )) : <p>Only for admins.</p> }
       </List>
     )
   }

@@ -14,8 +14,7 @@ const ALL_USERS = 'ALL_USERS'
 const initialState= {
   currentUser: {},
   allUsers: [],
-  singleUser: {},
-  isLoading: false
+  singleUser: {}
 }
 
 /**
@@ -26,8 +25,7 @@ const removeUser = () => ({type: REMOVE_USER})
 const setAllUsers = (allUsers) => {
   return {
     type: ALL_USERS,
-    allUsers,
-    isLoading: true
+    allUsers
   }
 }
 
