@@ -1,12 +1,23 @@
 const router = require('express').Router()
 const { Order } = require('../db/models')
 
-//retrieves all orders from database
-//TODO:  Restrict access to admin users
+//retrieves a user's cart
+router.get(':/userId/cart', (req, res, next) => {
+  Order.findOne({
+    where: {
+      userId: req.params.userId,
+      isActive: true
+    }
+  })
+    .then(cart => res.json(cart))
+    .catch(next)
+})
+
+//retrieves all of a user's orders
 router.get('/:userId', (req, res, next) => {
   Order.findAll({
     where: {
-      userId: null
+      userId: req.params.userId
     },
     include: [{all: true}]
   })
@@ -14,6 +25,8 @@ router.get('/:userId', (req, res, next) => {
     .catch(next)
 })
 
+//retrieves all orders from database
+//TODO:  Restrict access to admin users
 router.get('/', (req, res, next) => {
   Order.findAll({
     include: [{all: true}]
