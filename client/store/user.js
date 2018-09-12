@@ -6,17 +6,29 @@ import history from '../history'
  */
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
+const ALL_USERS = 'ALL_USERS'
 
 /**
  * INITIAL STATE
  */
-const defaultUser = {}
+const initialState= {
+  currentUser: {},
+  allUsers: [],
+  isLoading: false
+}
 
 /**
  * ACTION CREATORS
  */
 const getUser = user => ({type: GET_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
+const setAllUsers = (allUsers) => {
+  return {
+    type: ALL_USERS,
+    allUsers,
+    isLoading: true
+  }
+}
 
 /**
  * THUNK CREATORS
@@ -24,7 +36,7 @@ const removeUser = () => ({type: REMOVE_USER})
 export const me = () => async dispatch => {
   try {
     const res = await axios.get('/auth/me')
-    dispatch(getUser(res.data || defaultUser))
+    dispatch(getUser(res.data || {}))
   } catch (err) {
     console.error(err)
   }
@@ -56,15 +68,27 @@ export const logout = () => async dispatch => {
   }
 }
 
+export const fetchAllUsers = () => {
+  return async dispatch => {
+    const {data} = await axios.get('/api/users')
+    dispatch(setAllUsers(data))
+  }
+}
+
 /**
  * REDUCER
  */
-export default function(state = defaultUser, action) {
+export default function(state = initialState, action) {
+  //const user = action.user
+  const allUsers = action.allUsers
+  const currentUser = state.currentUser
   switch (action.type) {
     case GET_USER:
-      return action.user
+      return {...state, currentUser}
     case REMOVE_USER:
-      return defaultUser
+      return {...state}
+    case ALL_USERS:
+      return {...state, allUsers}
     default:
       return state
   }
