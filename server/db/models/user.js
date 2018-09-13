@@ -5,14 +5,12 @@ const db = require('../db')
 const User = db.define('user', {
   firstName: {
     type: Sequelize.STRING,
-    allowNull: false,
     validate: {
       notEmpty: true
     }
   },
   lastName: {
     type: Sequelize.STRING,
-    allowNull: false,
     validate: {
       notEmpty: true
     }
@@ -20,9 +18,9 @@ const User = db.define('user', {
   email: {
     type: Sequelize.STRING,
     unique: true,
-    allowNull: false,
     validate: {
-      isEmail: true
+      isEmail: true,
+      notEmpty: true
     }
   },
   password: {
@@ -43,14 +41,12 @@ const User = db.define('user', {
   },
   billingAddress: {
     type: Sequelize.STRING,
-    allowNull: false,
     validate: {
       notEmpty: true
     }
   },
   shippingAddress: {
     type: Sequelize.STRING,
-    allowNull: false,
     validate: {
       notEmpty: true
     }
@@ -58,7 +54,6 @@ const User = db.define('user', {
   userType: {
     type: Sequelize.ENUM('admin', 'user', 'guest'),
     defaultValue: 'user',
-    allowNull: false,
     validate: {
       notEmpty: true
     }
