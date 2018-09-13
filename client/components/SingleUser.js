@@ -17,9 +17,18 @@ class SingleUser extends Component {
     store.subscribe(() => {
       this.setState(store.getState().user)
     })
+    this.delete = this.delete.bind(this)
+    this.redirect = this.redirect.bind(this)
   }
   componentDidMount(){
     this.props.fetchData(this.props.match.params.id)
+  }
+  delete (id) {
+    this.props.deleteUser(id)
+    this.props.fetchData(id)
+  }
+  redirect () {
+    this.props.history.push('/users');
   }
   render () {
     const id = this.props.match.params.id
@@ -28,10 +37,10 @@ class SingleUser extends Component {
       user = this.state.selectedUser
       isAdmin = ('admin' === this.state.currentUser.userType)
     }
-    return (
+    const padding = {padding: '0.5em'}
+    return ([
       user && isAdmin ?
-      <div>
-        <Table>
+        <Table key='userData'>
           <TableHead>
             <TableRow>
               <TableCell>Name</TableCell>
@@ -51,16 +60,24 @@ class SingleUser extends Component {
             </TableRow>
           </TableBody>
         </Table>
+      : <p key="error">NOT AVAILABLE</p>,
+      <div key='buttons'>
         <br />
-        <Button variant="outlined">EDIT</Button> <Button variant="outlined" color="secondary" onClick={ () => this.props.deleteUser(id)}>DELETE</Button>
-      </div> : <p>NOT AVAILABLE</p>
-    )
+        <Button variant="outlined" onClick={() => this.redirect()}>BACK TO LIST</Button>
+        <span style={padding} />
+        <Button variant="outlined">EDIT</Button>
+        <span style={padding} />
+        <Button variant="contained" color="secondary" onClick={() => this.delete(id)}>DELETE</Button>
+      </div>
+    ])
   }
 }
 
 const mapDispatchToProps = dispatch => ({
   fetchData: (id) => dispatch(fetchSingleUser(id)),
-  deleteUser: (id) => dispatch(deleteUserOnServer(id))
+  deleteUser: (id) => {
+    dispatch(deleteUserOnServer(id))
+  }
 })
 
 export default connect(null, mapDispatchToProps)(SingleUser)
