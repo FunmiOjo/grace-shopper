@@ -1,20 +1,23 @@
 const router = require('express').Router()
-const { Order } = require('../db/models')
+const { Order, Product } = require('../db/models')
 
 //retrieves a user's cart
-router.get(':/userId/cart', (req, res, next) => {
+router.get('/user/:userId/cart', (req, res, next) => {
   Order.findOne({
     where: {
       userId: req.params.userId,
       isActive: true
-    }
+    },
+    include: [{model: Product}]
   })
-    .then(cart => res.json(cart))
+    .then(cart => {
+      res.status(200).json(cart)
+    })
     .catch(next)
 })
 
 //retrieves all of a user's orders
-router.get('/:userId', (req, res, next) => {
+router.get('/user/:userId', (req, res, next) => {
   Order.findAll({
     where: {
       userId: req.params.userId
@@ -22,6 +25,12 @@ router.get('/:userId', (req, res, next) => {
     include: [{all: true}]
   })
     .then(orders => res.status(200).json(orders))
+    .catch(next)
+})
+
+router.get('/:id', (req, res, next) => {
+  Order.findById(req.params.id)
+    .then(order => res.status(200).json(order))
     .catch(next)
 })
 

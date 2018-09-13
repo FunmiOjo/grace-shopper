@@ -167,23 +167,28 @@ async function seed() {
   const orderproducts = await Promise.all([
     OrderProduct.create({
       orderId: 1,
-      productId: 1
+      productId: 1,
+      userId: 1
     }),
     OrderProduct.create({
       orderId: 1,
-      productId: 2
+      productId: 2,
+      userId: 1
     }),
     OrderProduct.create({
       orderId: 1,
-      productId: 3
+      productId: 3,
+      userId: 1
     }),
     OrderProduct.create({
       orderId: 2,
-      productId: 2
+      productId: 2,
+      userId: 2
     }),
     OrderProduct.create({
       orderId: 2,
-      productId: 4
+      productId: 4,
+      userId: 2
     })
   ])
 
