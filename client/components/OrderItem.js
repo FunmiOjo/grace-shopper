@@ -7,6 +7,7 @@ import ButtonBase from '@material-ui/core/ButtonBase'
 import Typography from '@material-ui/core/Typography'
 import Input from '@material-ui/core/Input'
 import TextField from '@material-ui/core/TextField'
+import { Link } from 'react-router'
 
 const styles = theme => ({
   root: {
@@ -19,7 +20,7 @@ const styles = theme => ({
 })
 
 const OrderItem = (props) => {
-  const { image, name, description, quantity } = props.product
+  const { image, name, description, quantity, id } = props.product
   const price = formatPrice(props.product.price)
   const { classes } = props
   return (
@@ -29,7 +30,7 @@ const OrderItem = (props) => {
             <Input defaultValue={quantity} size={1} className={classes.root}/>
           </Grid>
           <Grid item>
-            <ButtonBase>
+            <ButtonBase component='a' href={`/products/${id}`}>
               <img src={image} alt={name} className={classes.image} />
             </ButtonBase>
           </Grid>
