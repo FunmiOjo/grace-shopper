@@ -108,7 +108,6 @@ export const fetchSingleUser = (id) => {
  * REDUCER
  */
 export default function(state = initialState, action) {
-  //const user = action.user
   const singleUser = action.singleUser
   const allUsers = action.allUsers
   const currentUser = action.currentUser
