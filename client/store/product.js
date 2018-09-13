@@ -4,6 +4,8 @@ import history from '../history'
 // ACTION TYPES
 const SET_ALL_PRODUCTS = 'SET_ALL_PRODUCTS'
 const SET_PRODUCT = 'SET_PRODUCT'
+const SEARCH_PRODUCTS = 'SEARCH_PRODUCTS'
+const FILTER_PRODUCTS = 'FILTER_PRODUCTS'
 
 // ACTION CREATORS
 const setAllProducts = products => {
@@ -17,6 +19,20 @@ const setProduct = product => {
   return {
     type: SET_PRODUCT,
     product
+  }
+}
+
+export const searchProducts = text => {
+  return {
+    type: SEARCH_PRODUCTS,
+    text
+  }
+}
+
+const filterProducts = products => {
+  return {
+    type: FILTER_PRODUCTS,
+    products
   }
 }
 
@@ -40,6 +56,7 @@ export const fetchProduct = productId => {
 const initialState = {
   allProducts: [],
   selectedProduct: {},
+  searchedProducts: [],
   filters: [],
   isLoading: {},
   isError: {}
@@ -57,6 +74,15 @@ export default function(state = initialState, action) {
         ...state,
         selectedProduct: action.product
       }
+    case SEARCH_PRODUCTS: {
+      let searchResults = state.allProducts.filter(product =>
+        product.name.includes(action.text)
+      )
+      return {
+        ...state,
+        allProducts: searchResults
+      }
+    }
     default:
       return state
   }
