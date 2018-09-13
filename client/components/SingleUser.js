@@ -17,13 +17,13 @@ class SingleUser extends Component {
     this.state = {
       canEdit: false
     }
-    store.subscribe(() => {
-      this.setState(store.getState().user)
-    })
     this.delete = this.delete.bind(this)
     this.redirect = this.redirect.bind(this)
     this.update = this.update.bind(this)
     this.toggleUpdateForm = this.toggleUpdateForm.bind(this)
+    store.subscribe(() => {
+      this.setState(store.getState().user)
+    })
   }
   componentDidMount(){
     this.props.fetchData(this.props.match.params.id)

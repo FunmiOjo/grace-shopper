@@ -106,29 +106,46 @@ export const logout = () => async dispatch => {
 
 export const fetchAllUsers = () => {
   return async dispatch => {
-    const {data} = await axios.get('/api/users')
-    dispatch(setAllUsers(data))
+    try {
+      const {data} = await axios.get('/api/users')
+      dispatch(setAllUsers(data))
+    }
+    catch (err) {
+      console.error(err)
+    }
   }
 }
 
 export const fetchSingleUser = (id) => {
   return async dispatch => {
-    const {data} = await axios.get(`/api/users/${id}`)
-    dispatch(setSingleUser(data))
+    try {
+      const {data} = await axios.get(`/api/users/${id}`)
+      dispatch(setSingleUser(data))
+    } catch (err) {
+      console.error(err)
+    }
   }
 }
 
 export const deleteUserOnServer = (id) => {
   return async dispatch => {
-    const {data} = await axios.delete(`/api/users/${id}`)
-    dispatch(setAfterDeleting(data))
+    try {
+      const {data} = await axios.delete(`/api/users/${id}`)
+      dispatch(setAfterDeleting(data))
+    } catch (err) {
+      console.error(err)
+    }
   }
 }
 
 export const updateUserOnServer = (id, userData) => {
   return async dispatch => {
-    const {data} = await axios.put(`/api/users/${id}`, userData)
-    dispatch(setUpdatedUser(data))
+    try {
+      const {data} = await axios.put(`/api/users/${id}`, userData)
+      dispatch(setUpdatedUser(data))
+    } catch (err) {
+      console.error(err)
+    }
   }
 }
 

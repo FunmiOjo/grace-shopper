@@ -24,6 +24,7 @@ export default class UpdateForm extends Component {
   }
   render () {
     const user = this.state
+    const padding = {padding: '0.5em'}
     return (
       <div>
         <FormControl>
@@ -57,7 +58,9 @@ export default class UpdateForm extends Component {
           <MenuItem value="guest">Guest</MenuItem>
         </TextField>
         <br /><br />
-        <Button variant="outlined" color="secondary" onClick={this.handleSubmit}>UPDATE</Button> <Button variant="outlined" onClick={this.props.hide}>CANCEL</Button>
+        <Button variant="outlined" color="secondary" onClick={this.handleSubmit}>UPDATE</Button>
+        <span style={padding} />
+        <Button variant="outlined" onClick={this.props.hide}>CANCEL</Button>
       </div>
     )
   }
