@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const { Order, Product } = require('../db/models')
 
+//GET routes
 //retrieves a user's cart
 router.get('/cart', (req, res, next) => {
   Order.findOne({
@@ -46,5 +47,16 @@ router.get('/', (req, res, next) => {
     .catch(next)
 })
 
+//POST routes
+router.post('/cart', (req, res, next) => {
+  const { name, price, image, description, quantity } = req.body.product
+  const product = {
+    name,
+    price,
+    image,
+    description,
+    quantity
+  }
+})
 
 module.exports = router
