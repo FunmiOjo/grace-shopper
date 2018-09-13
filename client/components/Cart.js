@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import OrderItem from './OrderItem'
 import { connect } from 'react-redux'
 import { fetchCart } from '../store/cart'
+import PropTypes from 'prop-types'
 
 class Cart extends Component {
 
