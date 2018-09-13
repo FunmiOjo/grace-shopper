@@ -9,6 +9,7 @@ const LOGOUT_USER = 'LOGOUT_USER'
 const ALL_USERS = 'ALL_USERS'
 const SELECTED_USER = 'SELECTED_USER'
 const DELETE_USER = 'DELETE_USER'
+const UPDATE_USER = 'UPDATE_USER'
 
 /**
  * INITIAL STATE
@@ -40,6 +41,12 @@ const setAfterDeleting = (deletedUser) => {
   return {
     type: DELETE_USER,
     deletedUser
+  }
+}
+const setUpdatedUser = (selectedUser) => {
+  return {
+    type: UPDATE_USER,
+    selectedUser
   }
 }
 
@@ -115,6 +122,13 @@ export const deleteUserOnServer = (id) => {
   return async dispatch => {
     const {data} = await axios.delete(`/api/users/${id}`)
     dispatch(setAfterDeleting(data))
+  }
+}
+
+export const updateUserOnServer = (id, userData) => {
+  return async dispatch => {
+    const {data} = await axios.put(`/api/users/${id}`, userData)
+    dispatch(setUpdatedUser(data))
   }
 }
 

@@ -32,3 +32,13 @@ router.delete('/:id', async (req, res, next) => {
    next(err)
   }
 })
+
+router.put('/:id', async (req, res, next) => {
+  try {
+    let updateUser = await User.findById(req.params.id)
+    updateUser.update(req.body)
+    res.json(updateUser)
+  } catch (err) {
+    next(err)
+  }
+})
