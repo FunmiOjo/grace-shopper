@@ -5,7 +5,6 @@ const Op = Sequelize.Op
 const Product = db.define('product', {
   name: {
     type: Sequelize.STRING,
-    allowNull: false,
     validate: {
       notEmpty: true
     }
