@@ -9,8 +9,8 @@ import Grid from '@material-ui/core/Grid'
 
 class Cart extends Component {
 
-  async componentDidMount() {
-    await this.props.fetchCart() //leaving this hard-coded until user is complete
+  componentDidMount() {
+    this.props.fetchCart()
   }
 
   render() {
@@ -19,11 +19,11 @@ class Cart extends Component {
     return (
       <div>
         {
-          products
+          this.props.isLoading
           ?
-          products.map(product => (<OrderItem key={product.id} product={product} />))
-          :
           <p>Loading</p>
+          :
+          products.map(product => (<OrderItem key={product.id} product={product} />))
         }
       </div>
     )
@@ -32,8 +32,9 @@ class Cart extends Component {
 
 const mapState = state => {
   return {
-    cart: { ...state.cart},
-    userId: state.user.currentUser.id
+    cart: { ...state.cart.cartData},
+    userId: state.user.currentUser.id,
+    isLoading: state.cart.isLoading
   }
 }
 
