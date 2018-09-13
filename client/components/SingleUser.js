@@ -22,8 +22,8 @@ class SingleUser extends Component {
   }
   render () {
     let user, isAdmin;
-    if (this.state.singleUser) {
-      user = this.state.singleUser
+    if (this.state.selectedUser) {
+      user = this.state.selectedUser
       isAdmin = ('admin' === this.state.currentUser.userType)
     }
     return (

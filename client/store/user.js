@@ -7,7 +7,7 @@ import history from '../history'
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
 const ALL_USERS = 'ALL_USERS'
-const SINGLE_USER = 'SINGLE_USER'
+const SELECTED_USER = 'SELECTED_USER'
 
 /**
  * INITIAL STATE
@@ -15,7 +15,7 @@ const SINGLE_USER = 'SINGLE_USER'
 const initialState= {
   currentUser: {},
   allUsers: [],
-  singleUser: {}
+  selectedUser: {}
 }
 
 /**
@@ -29,10 +29,10 @@ const setAllUsers = (allUsers) => {
     allUsers
   }
 }
-const setSingleUser = (singleUser) =>{
+const setSingleUser = (selectedUser) =>{
   return {
-    type: SINGLE_USER,
-    singleUser
+    type: SELECTED_USER,
+    selectedUser
   }
 }
 
@@ -108,7 +108,7 @@ export const fetchSingleUser = (id) => {
  * REDUCER
  */
 export default function(state = initialState, action) {
-  const singleUser = action.singleUser
+  const selectedUser = action.selectedUser
   const allUsers = action.allUsers
   const currentUser = action.currentUser
   switch (action.type) {
@@ -118,8 +118,8 @@ export default function(state = initialState, action) {
       return {...state, currentUser: {}}
     case ALL_USERS:
       return {...state, allUsers}
-    case SINGLE_USER:
-      return {...state, singleUser}
+    case SELECTED_USER:
+      return {...state, selectedUser}
     default:
       return state
   }
