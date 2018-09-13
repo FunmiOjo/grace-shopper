@@ -5,9 +5,10 @@ import history from '../history'
  * ACTION TYPES
  */
 const GET_USER = 'GET_USER'
-const REMOVE_USER = 'REMOVE_USER'
+const LOGOUT_USER = 'LOGOUT_USER'
 const ALL_USERS = 'ALL_USERS'
 const SELECTED_USER = 'SELECTED_USER'
+const DELETE_USER = 'DELETE_USER'
 
 /**
  * INITIAL STATE
@@ -22,7 +23,7 @@ const initialState= {
  * ACTION CREATORS
  */
 const getUser = currentUser => ({type: GET_USER, currentUser})
-const removeUser = () => ({type: REMOVE_USER})
+const logoutUser = () => ({type: LOGOUT_USER})
 const setAllUsers = (allUsers) => {
   return {
     type: ALL_USERS,
@@ -33,6 +34,12 @@ const setSingleUser = (selectedUser) =>{
   return {
     type: SELECTED_USER,
     selectedUser
+  }
+}
+const setAfterDeleting = (deletedUser) => {
+  return {
+    type: DELETE_USER,
+    deletedUser
   }
 }
 
@@ -83,7 +90,7 @@ export const signUpUser = (firstName, lastName, email, password, billingAddress,
 export const logout = () => async dispatch => {
   try {
     await axios.post('/auth/logout')
-    dispatch(removeUser())
+    dispatch(logoutUser())
     history.push('/login')
   } catch (err) {
     console.error(err)
@@ -104,6 +111,13 @@ export const fetchSingleUser = (id) => {
   }
 }
 
+export const deleteUserOnServer = (id) => {
+  return async dispatch => {
+    const {data} = await axios.delete(`/api/users/${id}`)
+    dispatch(setAfterDeleting(data))
+  }
+}
+
 /**
  * REDUCER
  */
@@ -111,15 +125,18 @@ export default function(state = initialState, action) {
   const selectedUser = action.selectedUser
   const allUsers = action.allUsers
   const currentUser = action.currentUser
+  const newUserList = state.allUsers.filter(user => user.id !== action.deletedUser.id)
   switch (action.type) {
     case GET_USER:
       return {...state, currentUser}
-    case REMOVE_USER:
+    case LOGOUT_USER:
       return {...state, currentUser: {}}
     case ALL_USERS:
       return {...state, allUsers}
     case SELECTED_USER:
       return {...state, selectedUser}
+    case DELETE_USER:
+      return {...state, allUsers: newUserList}
     default:
       return state
   }
