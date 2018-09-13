@@ -12,7 +12,7 @@ class AllUsers extends Component {
     super()
     this.state = {}
     store.subscribe(() => {
-      this.setState(store.getState())
+      this.setState(store.getState().user)
     })
   }
   componentDidMount(){
@@ -20,9 +20,9 @@ class AllUsers extends Component {
   }
   render () {
     let isAdmin, users;
-    if (this.state.user) {
-      users = this.state.user.allUsers
-      isAdmin = ('admin' === this.state.user.currentUser.userType)
+    if (this.state.currentUser) {
+      users = this.state.allUsers
+      isAdmin = ('admin' === this.state.currentUser.userType)
     }
     return (
       <List>
@@ -34,7 +34,7 @@ class AllUsers extends Component {
               secondary={user.userType}
             />
           </ListItem>
-        )) : <p>Only for admins.</p> }
+        )) : <p>NOT AVAILABLE</p> }
       </List>
     )
   }

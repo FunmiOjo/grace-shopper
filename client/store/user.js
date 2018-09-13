@@ -7,6 +7,7 @@ import history from '../history'
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
 const ALL_USERS = 'ALL_USERS'
+const SINGLE_USER = 'SINGLE_USER'
 
 /**
  * INITIAL STATE
@@ -26,6 +27,12 @@ const setAllUsers = (allUsers) => {
   return {
     type: ALL_USERS,
     allUsers
+  }
+}
+const setSingleUser = (singleUser) =>{
+  return {
+    type: SINGLE_USER,
+    singleUser
   }
 }
 
@@ -90,11 +97,19 @@ export const fetchAllUsers = () => {
   }
 }
 
+export const fetchSingleUser = (id) => {
+  return async dispatch => {
+    const {data} = await axios.get(`/api/users/${id}`)
+    dispatch(setSingleUser(data))
+  }
+}
+
 /**
  * REDUCER
  */
 export default function(state = initialState, action) {
   //const user = action.user
+  const singleUser = action.singleUser
   const allUsers = action.allUsers
   const currentUser = action.currentUser
   switch (action.type) {
@@ -104,6 +119,8 @@ export default function(state = initialState, action) {
       return {...state, currentUser: {}}
     case ALL_USERS:
       return {...state, allUsers}
+    case SINGLE_USER:
+      return {...state, singleUser}
     default:
       return state
   }
