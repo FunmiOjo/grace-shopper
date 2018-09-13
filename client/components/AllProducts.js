@@ -43,6 +43,14 @@ class AllProducts extends Component {
     const products = this.props.products
     return (
       <div className="container">
+        <TextField
+          id="search"
+          label="search for a product"
+          className={classes.textField}
+          value={this.state.search}
+          onChange={this.handleChange}
+          margin="normal"
+        />
         {products && (
           <GridList cellHeight={500}>
             <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
