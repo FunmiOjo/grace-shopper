@@ -19,7 +19,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => {
   // const { classes } = props
   return (
     <div>
-      <AppBar>
+      <AppBar position="static">
         {isLoggedIn ? (
           <div>
             {/* The navbar will show these links after you log in */}
