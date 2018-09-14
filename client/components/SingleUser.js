@@ -30,14 +30,12 @@ class SingleUser extends Component {
   }
   delete (id) {
     this.props.deleteUser(id)
-    this.props.fetchData(id)
   }
   redirect () {
     this.props.history.push('/users');
   }
   update (id, data) {
     this.props.updateUser(id, data)
-    this.props.fetchData(id)
   }
   toggleUpdateForm () {
     let canEdit = this.state.canEdit

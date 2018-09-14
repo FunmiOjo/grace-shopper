@@ -71,8 +71,13 @@ export const logInUser = (email, password) => async dispatch => {
   }
 
   try {
-    dispatch(getUser(res.data))
-    history.push('/home')
+    const user = res.data
+    dispatch(getUser(user))
+    if (user.resetPassword){
+      history.push('/reset')
+    } else {
+      history.push('/home')
+    }
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)
   }
@@ -168,6 +173,8 @@ export default function(state = initialState, action) {
       return {...state, selectedUser}
     case DELETE_USER:
       return {...state, allUsers: newUserList}
+    case UPDATE_USER:
+      return {...state, selectedUser}
     default:
       return state
   }
