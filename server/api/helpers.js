@@ -14,13 +14,14 @@ const getCart = id => {
 }
 
 
-const getOrderProduct = (productId, orderId) => {
-  return OrderProduct.findOrCreate({
+const getOrderProduct = async (productId, orderId) => {
+  const response = await OrderProduct.findOrCreate({
     where: {
       productId,
       orderId
     }
   })
+  return response[0]
 }
 
 module.exports = {
