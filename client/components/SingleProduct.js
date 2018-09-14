@@ -11,12 +11,13 @@ export default class SingleProduct extends Component {
       quantityInput: 1
     }
     this.handleClick = this.handleClick.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
 
   handleClick() {
-    const { selectedProduct } = this.props
-    selectedProduct.quantity = this.state.quantityInput
-    this.props.addProduct(selectedProduct)
+    const { id } = this.props.selectedProduct
+    const { quantityInput } = this.state
+    this.props.addProduct(id, quantityInput)
   }
 
   handleChange(event) {
