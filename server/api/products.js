@@ -26,7 +26,7 @@ router.get('/:id', (req, res, next) => {
 
 router.post('/', (req, res, next) => {
   Product.create(req.body)
-    .then(product => res.status(201).json(product))
+    .then(product => res.json(product))
     .catch(next)
 })
 

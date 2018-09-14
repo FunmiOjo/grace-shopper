@@ -4,8 +4,9 @@ import history from '../history'
 // ACTION TYPES
 const SET_ALL_PRODUCTS = 'SET_ALL_PRODUCTS'
 const SET_PRODUCT = 'SET_PRODUCT'
-const SEARCH_PRODUCTS = 'SEARCH_PRODUCTS'
-const FILTER_PRODUCTS = 'FILTER_PRODUCTS'
+const ADD_PRODUCT = 'ADD_PRODUCT'
+const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
+const DELETE_PRODUCT = 'DELETE_PRODUCT'
 
 // ACTION CREATORS
 const setAllProducts = products => {
@@ -22,17 +23,24 @@ const setProduct = product => {
   }
 }
 
-export const searchProducts = text => {
+const addProduct = product => {
   return {
-    type: SEARCH_PRODUCTS,
-    text
+    type: ADD_PRODUCT,
+    product
   }
 }
 
-const filterProducts = products => {
+const updateProduct = product => {
   return {
-    type: FILTER_PRODUCTS,
-    products
+    type: UPDATE_PRODUCT,
+    product
+  }
+}
+
+const deleteProduct = product => {
+  return {
+    type: DELETE_PRODUCT,
+    product
   }
 }
 
@@ -53,10 +61,33 @@ export const fetchProduct = productId => {
   }
 }
 
+export const postProduct = product => {
+  return async dispatch => {
+    const response = await axios.post('/api/products', product)
+    const newProduct = response.data
+    dispatch(addProduct(newProduct))
+  }
+}
+
+export const removeProduct = productId => {
+  return async dispatch => {
+    const response = await axios.delete(`/api/products/${productId}`)
+    const product = response.data
+    dispatch(deleteProduct(product))
+  }
+}
+
+export const editProduct = (productId, productData) => {
+  return async dispatch => {
+    const response = await axios.put(`/api/products/${productId}`, productData)
+    const updatedProduct = response.data
+    dispatch(updateProduct(updatedProduct))
+  }
+}
+
 const initialState = {
   allProducts: [],
   selectedProduct: {},
-  searchedProducts: [],
   filters: [],
   isLoading: {},
   isError: {}
@@ -74,15 +105,25 @@ export default function(state = initialState, action) {
         ...state,
         selectedProduct: action.product
       }
-    case SEARCH_PRODUCTS: {
-      let searchResults = state.allProducts.filter(product =>
-        product.name.includes(action.text)
-      )
+    case ADD_PRODUCT:
       return {
         ...state,
-        searchedProducts: searchResults
+        allProducts: [...state.allProducts, action.product]
       }
-    }
+    case DELETE_PRODUCT:
+      return {
+        ...state,
+        allProducts: [
+          ...state.allProducts.filter(
+            product => product.id !== action.productId
+          )
+        ]
+      }
+    case UPDATE_PRODUCT:
+      return {
+        ...state,
+        selectedProduct: action.product
+      }
     default:
       return state
   }

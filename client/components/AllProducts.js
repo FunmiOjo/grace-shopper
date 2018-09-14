@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
-import { withStyles } from '@material-ui/core/styles'
+import { Link } from 'react-router-dom'
 import ProductGridList from './ProductGridList'
+import { withStyles } from '@material-ui/core/styles'
+import Button from '@material-ui/core/Button'
 
 const styles = theme => ({
   container: {
@@ -15,6 +17,13 @@ const styles = theme => ({
 })
 
 class AllProducts extends Component {
+  constructor() {
+    super()
+    this.state = {
+      canEdit: false
+    }
+  }
+
   componentDidMount() {
     this.props.loadAllProducts()
   }
@@ -23,7 +32,11 @@ class AllProducts extends Component {
     const products = this.props.products
     return (
       <div className="container">
-        {products && <ProductGridList products={products} />}
+        {products && (
+          <div>
+            <ProductGridList products={products} />
+          </div>
+        )}
       </div>
     )
   }
