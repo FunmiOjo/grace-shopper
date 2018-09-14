@@ -15,7 +15,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       const productId = ownProps.match.params.productId
       dispatch(fetchProduct(productId))
     },
-    addProduct: (product) => addProductToCart(product)
+    addProduct: (id, quantity) => dispatch(addProductToCart(id, quantity))
   }
 }
 
