@@ -9,6 +9,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import UpdateForm from './UpdateForm'
+import { Link } from 'react-router-dom'
 
 // ---------- Only admins should be able to see this page
 class SingleUser extends Component {
@@ -76,7 +77,7 @@ class SingleUser extends Component {
       : <p key="error">NOT AVAILABLE</p>,
       <div key='buttons'>
         <br />
-        <Button variant="outlined" onClick={() => this.redirect()}>BACK TO LIST</Button>
+        <Link to="/users"><Button variant="outlined">BACK TO LIST</Button></Link>
         <span style={padding} />
         <Button variant="outlined" onClick={this.toggleUpdateForm}>EDIT</Button>
         <span style={padding} />
