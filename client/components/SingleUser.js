@@ -10,7 +10,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import UpdateForm from './UpdateForm'
 import { Link } from 'react-router-dom'
-
+import TextField from '@material-ui/core/TextField';
+import MenuItem from '@material-ui/core/MenuItem';
 // ---------- Only admins should be able to see this page
 class SingleUser extends Component {
   constructor () {
@@ -54,6 +55,7 @@ class SingleUser extends Component {
     const padding = {padding: '0.5em'}
     return ([
       user && isAdmin ?
+      <div>
         <Table key='userData'>
           <TableHead>
             <TableRow>
@@ -70,19 +72,24 @@ class SingleUser extends Component {
               <TableCell>{user.email}</TableCell>
               <TableCell>{user.billingAddress}</TableCell>
               <TableCell>{user.shippingAddress}</TableCell>
-              <TableCell>{user.userType}</TableCell>
+              <TableCell>
+                <TextField classes={{}} select value={user.userType} name="userType">
+                  <MenuItem value="user">User</MenuItem>
+                  <MenuItem value="admin">Admin</MenuItem>
+                  <MenuItem value="guest">Guest</MenuItem>
+                </TextField>
+              </TableCell>
             </TableRow>
           </TableBody>
         </Table>
-      : <p key="error">NOT AVAILABLE</p>,
-      <div key='buttons'>
         <br />
         <Link to="/users"><Button variant="outlined">BACK TO LIST</Button></Link>
         <span style={padding} />
         <Button variant="outlined" onClick={this.toggleUpdateForm}>EDIT</Button>
         <span style={padding} />
         <Button variant="contained" color="secondary" onClick={() => this.delete(id)}>DELETE</Button>
-      </div>,
+      </div>
+      : <p key="error">NOT AVAILABLE</p>,
       user && this.state.canEdit ? <span key='update' style={padding}><UpdateForm update={this.update} user={user} hide={this.toggleUpdateForm} /></span> : null
     ])
   }
