@@ -37,10 +37,10 @@ const setSingleUser = (selectedUser) =>{
     selectedUser
   }
 }
-const setAfterDeleting = (deletedUser) => {
+const setAfterDeleting = (selectedUser) => {
   return {
     type: DELETE_USER,
-    deletedUser
+    selectedUser
   }
 }
 const setUpdatedUser = (selectedUser) => {
@@ -71,7 +71,8 @@ export const logInUser = (email, password) => async dispatch => {
   }
 
   try {
-    dispatch(getUser(res.data))
+    const user = res.data
+    dispatch(getUser(user))
     history.push('/home')
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)
@@ -156,7 +157,6 @@ export default function(state = initialState, action) {
   const selectedUser = action.selectedUser
   const allUsers = action.allUsers
   const currentUser = action.currentUser
-  const newUserList = state.allUsers.filter(user => user.id !== action.deletedUser.id)
   switch (action.type) {
     case GET_USER:
       return {...state, currentUser}
@@ -167,7 +167,10 @@ export default function(state = initialState, action) {
     case SELECTED_USER:
       return {...state, selectedUser}
     case DELETE_USER:
-      return {...state, allUsers: newUserList}
+      const newUserList = state.allUsers.filter(user => user.id !== action.selectedUser.id)
+      return {...state, allUsers: newUserList, selectedUser: null}
+    case UPDATE_USER:
+      return {...state, selectedUser}
     default:
       return state
   }

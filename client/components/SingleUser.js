@@ -13,6 +13,7 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Button from '@material-ui/core/Button'
 import UpdateForm from './UpdateForm'
+import { Link } from 'react-router-dom'
 
 // ---------- Only admins should be able to see this page
 class SingleUser extends Component {
@@ -22,26 +23,31 @@ class SingleUser extends Component {
       canEdit: false
     }
     this.delete = this.delete.bind(this)
-    this.redirect = this.redirect.bind(this)
     this.update = this.update.bind(this)
     this.toggleUpdateForm = this.toggleUpdateForm.bind(this)
     store.subscribe(() => {
-      this.setState(store.getState().user)
+      if(this._mounted) this.setState(store.getState().user)
     })
   }
   componentDidMount() {
     this.props.fetchData(this.props.match.params.id)
+    this._mounted = true
+  }
+  componentWillUnmount(){
+    this._mounted = false
   }
   delete(id) {
     this.props.deleteUser(id)
+<<<<<<< HEAD
     this.props.fetchData(id)
   }
   redirect() {
     this.props.history.push('/users')
+=======
+>>>>>>> dev
   }
   update(id, data) {
     this.props.updateUser(id, data)
-    this.props.fetchData(id)
   }
   toggleUpdateForm() {
     let canEdit = this.state.canEdit
@@ -86,9 +92,13 @@ class SingleUser extends Component {
       ),
       <div key="buttons">
         <br />
+<<<<<<< HEAD
         <Button variant="outlined" onClick={() => this.redirect()}>
           BACK TO LIST
         </Button>
+=======
+        <Link to="/users"><Button variant="outlined">BACK TO LIST</Button></Link>
+>>>>>>> dev
         <span style={padding} />
         <Button variant="outlined" onClick={this.toggleUpdateForm}>
           EDIT
