@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize')
+const Product = require('./product')
 const db = require('../db')
 
 const Category = db.define('category', {
@@ -13,5 +14,11 @@ const Category = db.define('category', {
     defaultValue: 'cat.jpg'
   }
 })
+
+Category.findByCategory = name => {
+  return Product.findAll({
+    include: [{ model: Product, where: { name }, as: 'productcategory' }]
+  })
+}
 
 module.exports = Category

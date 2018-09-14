@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize')
+const Category = require('./category')
 const db = require('../db')
 const Op = Sequelize.Op
 
@@ -28,11 +29,12 @@ const Product = db.define('product', {
 })
 
 // find all products based on categories
-Product.findByCategory = categoryName => {
+// not sure why this isn't working or what the alias is supposed to be
+// using a category route for now
+Product.findByCategory = name => {
+  console.log(name)
   return Product.findAll({
-    where: {
-      category: { [Op.contains]: [categoryName] }
-    }
+    include: [{ model: Category, where: { name }, as: 'category' }]
   })
 }
 
