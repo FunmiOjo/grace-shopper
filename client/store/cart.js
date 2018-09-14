@@ -66,6 +66,20 @@ const reducer = (state = initialState, action) => {
         ...state,
         cartData: action.cart
       }
+    case SET_ADDED_PRODUCT:
+      return {
+        ...state,
+        cartData: {
+          ...state.cartData,
+          products: state.cartData.products.map(product => {
+            if (product.id === action.product.id) {
+              return action.product
+            } else {
+              return product
+            }
+          })
+        }
+      }
     case SET_LOADING_STATUS:
       return {
         ...state,
