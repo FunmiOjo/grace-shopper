@@ -1,7 +1,9 @@
 import React from 'react';
+import { formatPrice } from '../helpers'
 
 const OrderItem = (props) => {
-  const { image, name, price, description, quantity } = props.product
+  const { image, name, description, quantity } = props.product
+  const price = formatPrice(props.product.price)
 
   return (
     <div>
