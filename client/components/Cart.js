@@ -3,11 +3,13 @@ import OrderItem from './OrderItem'
 import { connect } from 'react-redux'
 import { fetchCart } from '../store/cart'
 import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import Grid from '@material-ui/core/Grid'
 
 class Cart extends Component {
 
-  async componentDidMount() {
-    await this.props.fetchCart(2) //leaving this hard-coded until user is complete
+  componentDidMount() {
+    this.props.fetchCart()
   }
 
   render() {
@@ -16,11 +18,11 @@ class Cart extends Component {
     return (
       <div>
         {
-          products
+          this.props.isLoading
           ?
-          products.map(product => (<OrderItem key={product.id} product={product} />))
-          :
           <p>Loading</p>
+          :
+          products.map(product => (<OrderItem key={product.id} product={product} />))
         }
       </div>
     )
@@ -29,14 +31,15 @@ class Cart extends Component {
 
 const mapState = state => {
   return {
-    cart: { ...state.cart},
-    userId: state.user.id
+    cart: { ...state.cart.cartData},
+    userId: state.user.currentUser.id,
+    isLoading: state.cart.isLoading
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-    fetchCart: (userId) => dispatch(fetchCart(userId))
+    fetchCart: () => dispatch(fetchCart())
   }
 }
 
