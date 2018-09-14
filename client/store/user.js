@@ -73,11 +73,7 @@ export const logInUser = (email, password) => async dispatch => {
   try {
     const user = res.data
     dispatch(getUser(user))
-    if (user.resetPassword){
-      history.push('/reset')
-    } else {
-      history.push('/home')
-    }
+    history.push('/home')
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)
   }
