@@ -15,7 +15,7 @@ const getCart = id => {
 
 
 const getOrderProduct = (productId, orderId) => {
-  return OrderProduct.findOne({
+  return OrderProduct.findOrCreate({
     where: {
       productId,
       orderId

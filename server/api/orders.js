@@ -50,12 +50,13 @@ router.get('/', (req, res, next) => {
 
 //POST routes
 router.post('/cart', async (req, res, next) => {
-  const { productId } = req.body
+  const { productId, quantity } = req.body
   const userId = req.session.passport.user
   if (userLoggedIn(req)) {
    const cart = await getCart(userId)
    if (cart) {
-    const orderProduct = getOrderProduct()
+    const orderProduct = getOrderProduct(productId, cart.id)
+
    }
   }
 
