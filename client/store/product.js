@@ -80,7 +80,7 @@ export default function(state = initialState, action) {
       )
       return {
         ...state,
-        allProducts: searchResults
+        searchedProducts: searchResults
       }
     }
     default:

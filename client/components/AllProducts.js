@@ -20,13 +20,11 @@ const styles = theme => ({
 })
 
 class AllProducts extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
-      searchInput: '',
-      currentCategory: ''
+      searchInput: ''
     }
-    console.log(this.state.searchInput)
     this.handleKey = this.handleKey.bind(this)
   }
   componentDidMount() {
@@ -44,30 +42,9 @@ class AllProducts extends Component {
   }
 
   render() {
-    // const { classes } = this.props
     const products = this.props.products
     return (
       <div className="container">
-        <form autoComplete="off">
-          <TextField
-            id="searchInput"
-            name="searchInput"
-            label="search for a product"
-            value={this.state.searchInput}
-            onChange={evt => {
-              this.setState({ searchInput: evt.target.value })
-            }}
-            onKeyDown={this.handleKey}
-            margin="normal"
-          />
-          <InputLabel htmlFor="category">Category</InputLabel>
-          {/* <Select
-            value={this.state.currentCategory}
-            onChange={this.handleSelect}
-            inputProps={{
-              [category]
-            }} */}
-        </form>
         {products && <ProductGridList products={products} />}
       </div>
     )
@@ -79,10 +56,6 @@ const mapDispatchToProps = dispatch => {
     search: input => dispatch(searchProducts(input))
   }
 }
-
-// TextField.propTypes = {
-//   classes: PropTypes.object.isRequired
-// }
 
 export default withStyles(styles)(
   connect(null, mapDispatchToProps)(AllProducts)
