@@ -61,9 +61,7 @@ export default class UpdateProductForm extends Component {
           value={product.quantity}
           onChange={this.handleChange}
           type="number"
-          InputLabelProps={{
-            shrink: true
-          }}
+          InputLabelProps={{ shrink: true }}
           margin="normal"
         />
         <br />
@@ -71,7 +69,7 @@ export default class UpdateProductForm extends Component {
         <Button
           variant="outlined"
           color="secondary"
-          onClick={this.handleSubmit}
+          onClick={() => this.handleSubmit}
         >
           UPDATE
         </Button>

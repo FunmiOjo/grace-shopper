@@ -9,6 +9,7 @@ import SingleUser from './components/SingleUser'
 import ManageProducts from './components/ManageProducts'
 import AllProductsContainer from './components/AllProductsContainer'
 import SingleProductContainer from './components/SingleProductContainer'
+import { fetchAllProducts } from './store/product'
 
 /**
  * COMPONENT
@@ -16,6 +17,7 @@ import SingleProductContainer from './components/SingleProductContainer'
 class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData()
+    this.props.loadAllProducts()
   }
 
   render() {
@@ -34,10 +36,7 @@ class Routes extends Component {
             <Route path="/home" component={UserHome} />
             <Route exact path="/users" component={allUsers} />
             <Route path="/users/:id" component={SingleUser} />
-            {/* <Route
-              path="/products/:productId/edit"
-              component={ManageProducts}
-            /> */}
+            <Route path="/manageproducts" component={ManageProducts} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
@@ -62,7 +61,8 @@ const mapDispatch = dispatch => {
   return {
     loadInitialData() {
       dispatch(me())
-    }
+    },
+    loadAllProducts: () => dispatch(fetchAllProducts())
   }
 }
 

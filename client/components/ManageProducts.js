@@ -10,13 +10,10 @@ class ManageProducts extends Component {
   constructor() {
     super()
     this.state = {}
-    store.subscribe(() => {
-      this.setState(store.getState().product)
-    })
   }
 
   render() {
-    const products = this.state.allProducts
+    const products = this.props.products
     return (
       <div>
         {products && (
@@ -41,10 +38,10 @@ class ManageProducts extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = state => {
   return {
-    loadAllProducts: () => dispatch(fetchAllProducts())
+    products: state.product.allProducts
   }
 }
 
-export default connect(null, mapDispatchToProps)(ManageProducts)
+export default connect(mapStateToProps)(ManageProducts)

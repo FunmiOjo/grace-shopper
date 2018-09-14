@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import ProductGridList from './ProductGridList'
 import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
+import ManageProducts from './ManageProducts'
 
 const styles = theme => ({
   container: {
@@ -17,13 +18,6 @@ const styles = theme => ({
 })
 
 class AllProducts extends Component {
-  constructor() {
-    super()
-    this.state = {
-      canEdit: false
-    }
-  }
-
   componentDidMount() {
     this.props.loadAllProducts()
   }

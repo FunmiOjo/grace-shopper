@@ -17,15 +17,14 @@ export default class ProductGridList extends Component {
   }
 
   handleChange(event) {
-    if (event.target.value.length !== 0) {
-      let updatedProductGrid = this.props.products.filter(product =>
-        product.name.toLowerCase().includes(event.target.value.toLowerCase())
-      )
-      this.setState({
-        products: updatedProductGrid,
-        searchInput: event.target.value
-      })
-    }
+    let updatedProductGrid = this.props.products.filter(product =>
+      product.name.toLowerCase().includes(event.target.value.toLowerCase())
+    )
+    this.setState({
+      products: updatedProductGrid,
+      searchInput: event.target.value
+    })
+    console.log(updatedProductGrid)
   }
 
   render() {
