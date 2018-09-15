@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import OrderItem from './OrderItem'
 import { connect } from 'react-redux'
 import { fetchCart } from '../store/cart'
@@ -7,6 +7,14 @@ import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 
 class Cart extends Component {
+  constructor() {
+    super()
+    this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
+  handleSubmit(updatedQuantity, id) {
+    console.log('---------------------------------------------value', updatedQuantity, id)
+  }
 
   componentDidMount() {
     this.props.fetchCart()
@@ -17,13 +25,17 @@ class Cart extends Component {
 
     return (
       <div>
-        {
-          this.props.isLoading
-          ?
+        {this.props.isLoading ? (
           <p>Loading</p>
-          :
-          products.map(product => (<OrderItem key={product.id} product={product} />))
-        }
+        ) : (
+          products.map(product => (
+            <OrderItem
+              key={product.id}
+              product={product}
+              handleSubmit={this.handleSubmit}
+            />
+          ))
+        )}
       </div>
     )
   }
@@ -31,7 +43,7 @@ class Cart extends Component {
 
 const mapState = state => {
   return {
-    cart: { ...state.cart.cartData},
+    cart: { ...state.cart.cartData },
     userId: state.user.currentUser.id,
     isLoading: state.cart.isLoading
   }
