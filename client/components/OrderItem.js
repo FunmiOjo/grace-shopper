@@ -7,7 +7,6 @@ import ButtonBase from '@material-ui/core/ButtonBase'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import Input from '@material-ui/core/Input'
-import TextField from '@material-ui/core/TextField'
 import { Link } from 'react-router'
 
 const styles = theme => ({
@@ -42,26 +41,26 @@ class OrderItem extends React.Component {
   }
 
   render() {
-    const { image, name, description, id } = this.props.product
-    //const { quantity } = this.props.product.orderProduct
+    const { image, name, description, id: productId } = this.props.product
+    const { orderId: cartId } = this.props.product.orderProduct
     const price = formatPrice(this.props.product.price)
     const { classes, handleSubmit } = this.props
 
     return (
-      <div key={id}>
+      <div key={productId}>
         <Grid container spacing={16}>
           <Grid item>
             <Input
               size={1}
               className={classes.root}
-              name={id.toString()}
+              name={productId.toString()}
               value={this.state.quantity}
               onChange={this.handleChange}
             />
             <Button
               size="small"
               onClick={() =>
-                handleSubmit({ quantity: this.state.quantity, id })
+                handleSubmit({ quantity: this.state.quantity, productId, cartId})
               }
             >
               Update Quantity
@@ -69,7 +68,7 @@ class OrderItem extends React.Component {
           </Grid>
 
           <Grid item>
-            <ButtonBase component="a" href={`/products/${id}`}>
+            <ButtonBase component="a" href={`/products/${productId}`}>
               <img src={image} alt={name} className={classes.image} />
             </ButtonBase>
           </Grid>

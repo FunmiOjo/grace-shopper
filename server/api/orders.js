@@ -79,11 +79,32 @@ router.put('/cart', async (req, res, next) => {
         const updatedOrder = await orderProduct.update({
           quantity: quantity
         })
-        console.log('updatedOrder', updatedOrder)
         res.json(updatedOrder)
       }
     }
   } catch (error) {
+    res.send(error)
+  }
+})
+
+//DELETE routes
+router.delete('/cart', async (req, res, next) => {
+  try {
+    const { cartId, productId } = req.query
+    if (userLoggedIn(req)) {
+      const orderProduct = await getOrderProduct(productId, cartId)
+      const emptyArray = await orderProduct.destroy()
+      if (emptyArray.length === 0) {
+        console.log('productId', productId)
+        res.send(productId)
+      } else {
+        const err = new Error('Database error')
+        console.error(err, emptyArray)
+        res.send(err)
+      }
+    }
+  } catch (error) {
+    //console.error(error)
     res.send(error)
   }
 })

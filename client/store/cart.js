@@ -7,6 +7,7 @@ export const SET_LOADING_STATUS = 'SET_LOADING_STATUS'
 export const SET_ADDED_PRODUCT = 'SET_ADDED_PRODUCT'
 export const SET_UPDATED_ITEM_QUANTITY = 'SET_UPDATED_ITEM_QUANTITY'
 export const SET_ERROR_STATUS = 'SET_ERROR_STATUS'
+export const SET_CART_WITHOUT_REMOVED_ITEM = 'SET_CART_WITHOUT_REMOVED_ITEM'
 
 //ACTION CREATORS
 export const setCart = cart => {
@@ -27,6 +28,13 @@ export const setUpdatedItemQuantity = orderProduct => {
   return {
     type: SET_UPDATED_ITEM_QUANTITY,
     orderProduct
+  }
+}
+
+export const setCartWithoutRemovedItem = productId => {
+  return {
+    type:  SET_CART_WITHOUT_REMOVED_ITEM,
+    productId
   }
 }
 
@@ -75,11 +83,29 @@ export const addProductToCart = (id, quantity) => {
   }
 }
 
-export const updateCartItemQuantity = (itemInfo) => {
+export const updateCartItemQuantity = itemInfo => {
   return async dispatch => {
     try {
-      const { data: updatedItem } = await axios.put(`/api/orders/cart`, itemInfo)
+      const { data: updatedItem } = await axios.put(
+        `/api/orders/cart`,
+        itemInfo
+      )
       dispatch(setUpdatedItemQuantity(updatedItem))
+    } catch (error) {
+      dispatch(setLoadingStatus(false))
+      dispatch(setErrorStatus(true))
+    }
+  }
+}
+
+export const removeItemFromCart = itemInfo => {
+  return async dispatch => {
+    try {
+      const { data: removedItemId } = await axios.delete(
+        `/api/orders/cart`,
+        {params: itemInfo}
+      )
+      dispatch(setCartWithoutRemovedItem(removedItemId))
     } catch (error) {
       dispatch(setLoadingStatus(false))
       dispatch(setErrorStatus(true))
@@ -95,6 +121,18 @@ const initialState = {
 
 //REDUCER
 const reducer = (state = initialState, action) => {
+
+  const replaceUpdatedItemInState = () => {
+    return state.cartData.products.map(product => {
+      if (product.id === action.productId) {
+        product.orderProduct = action.orderProduct
+        return product
+      } else {
+        return product
+      }
+    })
+  }
+
   switch (action.type) {
     case SET_CART:
       return {
@@ -129,6 +167,16 @@ const reducer = (state = initialState, action) => {
             } else {
               return product
             }
+          })
+        }
+      }
+    case SET_CART_WITHOUT_REMOVED_ITEM:
+      return {
+        ...state,
+        cartData: {
+          ...state.cartData,
+          products: state.cartData.products.filter(product => {
+            return product.id !== action.productId
           })
         }
       }
