@@ -40,7 +40,7 @@ class SingleUser extends Component {
   handleChange(event) {
     const currentData = this.state.selectedUser
     this.setState({
-      selectedUser: { ...currentData, userType: event.target.value}
+      selectedUser: { ...currentData, [event.target.name]: event.target.value}
     })
   }
   render () {
@@ -62,6 +62,7 @@ class SingleUser extends Component {
               <TableCell>Billing Address</TableCell>
               <TableCell>Shipping Address</TableCell>
               <TableCell>User Type</TableCell>
+              <TableCell>Reset Password?</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -77,6 +78,14 @@ class SingleUser extends Component {
                   <MenuItem value="user">User</MenuItem>
                   <MenuItem value="admin">Admin</MenuItem>
                   <MenuItem value="guest">Guest</MenuItem>
+                </Select>
+              </TableCell>
+              <TableCell>
+                <Select
+                  value={user.resetPassword} name="resetPassword"
+                  onChange={this.handleChange}>
+                    <MenuItem value={true}>Yes</MenuItem>
+                    <MenuItem value={false}>No</MenuItem>
                 </Select>
               </TableCell>
             </TableRow>

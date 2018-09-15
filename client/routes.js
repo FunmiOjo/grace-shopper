@@ -8,6 +8,7 @@ import allUsers from './components/AllUsers'
 import SingleUser from './components/SingleUser'
 import AllProductsContainer from './components/AllProductsContainer'
 import SingleProductContainer from './components/SingleProductContainer'
+import PasswordReset from '../client/components/PasswordReset'
 
 /**
  * COMPONENT
@@ -33,6 +34,7 @@ class Routes extends Component {
             <Route path="/home" component={UserHome} />
             <Route exact path="/users" component={allUsers} />
             <Route path="/users/:id" component={SingleUser} />
+            <Route path='/reset' component={PasswordReset} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

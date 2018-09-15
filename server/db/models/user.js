@@ -57,6 +57,13 @@ const User = db.define('user', {
     validate: {
       notEmpty: true
     }
+  },
+  resetPassword: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
+    validate: {
+      notEmpty: true
+    }
   }
 })
 
