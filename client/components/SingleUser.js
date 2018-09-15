@@ -26,25 +26,18 @@ class SingleUser extends Component {
     this.update = this.update.bind(this)
     this.toggleUpdateForm = this.toggleUpdateForm.bind(this)
     store.subscribe(() => {
-      if(this._mounted) this.setState(store.getState().user)
+      if (this._mounted) this.setState(store.getState().user)
     })
   }
   componentDidMount() {
     this.props.fetchData(this.props.match.params.id)
     this._mounted = true
   }
-  componentWillUnmount(){
+  componentWillUnmount() {
     this._mounted = false
   }
   delete(id) {
     this.props.deleteUser(id)
-<<<<<<< HEAD
-    this.props.fetchData(id)
-  }
-  redirect() {
-    this.props.history.push('/users')
-=======
->>>>>>> dev
   }
   update(id, data) {
     this.props.updateUser(id, data)
@@ -92,13 +85,9 @@ class SingleUser extends Component {
       ),
       <div key="buttons">
         <br />
-<<<<<<< HEAD
-        <Button variant="outlined" onClick={() => this.redirect()}>
-          BACK TO LIST
-        </Button>
-=======
-        <Link to="/users"><Button variant="outlined">BACK TO LIST</Button></Link>
->>>>>>> dev
+        <Link to="/users">
+          <Button variant="outlined">BACK TO LIST</Button>
+        </Link>
         <span style={padding} />
         <Button variant="outlined" onClick={this.toggleUpdateForm}>
           EDIT

@@ -1,16 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
+import AdminDashboard from './AdminDashboard'
 
 /**
  * COMPONENT
  */
 export const UserHome = props => {
-  const {firstName} = props
+  const { firstName } = props
 
   return (
     <div>
       <h3>Welcome, {firstName}!</h3>
+      <AdminDashboard />
     </div>
   )
 }
