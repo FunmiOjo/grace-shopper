@@ -8,7 +8,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
-import UpdateForm from './UpdateForm'
 import { Link } from 'react-router-dom'
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -16,12 +15,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 class SingleUser extends Component {
   constructor () {
     super()
-    this.state = {
-      canEdit: false
-    }
+    this.state = {}
     this.delete = this.delete.bind(this)
     this.update = this.update.bind(this)
-    this.toggleUpdateForm = this.toggleUpdateForm.bind(this)
+    this.handleChange = this.handleChange.bind(this)
     store.subscribe(() => {
       if(this._mounted) this.setState(store.getState().user)
     })
@@ -36,13 +33,13 @@ class SingleUser extends Component {
   delete (id) {
     this.props.deleteUser(id)
   }
-  update (id, data) {
-    this.props.updateUser(id, data)
+  update (id) {
+    this.props.updateUser(id, this.state.selectedUser)
   }
-  toggleUpdateForm () {
-    let canEdit = this.state.canEdit
+  handleChange(event) {
+    const currentData = this.state.selectedUser
     this.setState({
-      canEdit: !canEdit
+      selectedUser: { ...currentData, userType: event.target.value}
     })
   }
   render () {
@@ -53,10 +50,10 @@ class SingleUser extends Component {
       isAdmin = ('admin' === this.state.currentUser.userType)
     }
     const padding = {padding: '0.5em'}
-    return ([
+    return (
       user && isAdmin ?
       <div>
-        <Table key='userData'>
+        <Table>
           <TableHead>
             <TableRow>
               <TableCell>Name</TableCell>
@@ -73,7 +70,9 @@ class SingleUser extends Component {
               <TableCell>{user.billingAddress}</TableCell>
               <TableCell>{user.shippingAddress}</TableCell>
               <TableCell>
-                <TextField classes={{}} select value={user.userType} name="userType">
+                <TextField classes={{}} select
+                  value={user.userType} name="userType"
+                  onChange={this.handleChange}>
                   <MenuItem value="user">User</MenuItem>
                   <MenuItem value="admin">Admin</MenuItem>
                   <MenuItem value="guest">Guest</MenuItem>
@@ -85,13 +84,12 @@ class SingleUser extends Component {
         <br />
         <Link to="/users"><Button variant="outlined">BACK TO LIST</Button></Link>
         <span style={padding} />
-        <Button variant="outlined" onClick={this.toggleUpdateForm}>EDIT</Button>
+        <Button variant="outlined" onClick={() => this.update(id)}>UPDATE</Button>
         <span style={padding} />
         <Button variant="contained" color="secondary" onClick={() => this.delete(id)}>DELETE</Button>
       </div>
-      : <p key="error">NOT AVAILABLE</p>,
-      user && this.state.canEdit ? <span key='update' style={padding}><UpdateForm update={this.update} user={user} hide={this.toggleUpdateForm} /></span> : null
-    ])
+      : <p>NOT AVAILABLE</p>
+    )
   }
 }
 
