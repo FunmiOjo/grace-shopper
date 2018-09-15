@@ -9,8 +9,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom'
-import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+
 // ---------- Only admins should be able to see this page
 class SingleUser extends Component {
   constructor () {
@@ -70,13 +71,13 @@ class SingleUser extends Component {
               <TableCell>{user.billingAddress}</TableCell>
               <TableCell>{user.shippingAddress}</TableCell>
               <TableCell>
-                <TextField classes={{}} select
+                <Select
                   value={user.userType} name="userType"
                   onChange={this.handleChange}>
                   <MenuItem value="user">User</MenuItem>
                   <MenuItem value="admin">Admin</MenuItem>
                   <MenuItem value="guest">Guest</MenuItem>
-                </TextField>
+                </Select>
               </TableCell>
             </TableRow>
           </TableBody>
@@ -88,7 +89,11 @@ class SingleUser extends Component {
         <span style={padding} />
         <Button variant="contained" color="secondary" onClick={() => this.delete(id)}>DELETE</Button>
       </div>
-      : <p>NOT AVAILABLE</p>
+      :
+      <div>
+        <p>NOT AVAILABLE</p>
+        <Link to="/users"><Button variant="outlined">BACK TO LIST</Button></Link>
+      </div>
     )
   }
 }
