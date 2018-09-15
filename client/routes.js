@@ -8,6 +8,7 @@ import allUsers from './components/AllUsers'
 import SingleUser from './components/SingleUser'
 import AllProductsContainer from './components/AllProductsContainer'
 import SingleProductContainer from './components/SingleProductContainer'
+import ErrorView from './components/ErrorView'
 import { fetchCart } from './store/cart'
 /**
  * COMPONENT
@@ -28,6 +29,7 @@ class Routes extends Component {
         <Route exact path="/products" component={AllProductsContainer} />
         <Route path="/products/:productId" component={SingleProductContainer} />
         <Route path="/cart" component={Cart} />
+        <Route path="/error" component={ErrorView} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}

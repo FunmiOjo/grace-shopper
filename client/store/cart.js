@@ -5,12 +5,21 @@ import history from '../history'
 export const SET_CART = 'SET_CART'
 export const SET_LOADING_STATUS = 'SET_LOADING_STATUS'
 export const SET_ADDED_PRODUCT = 'SET_ADDED_PRODUCT'
+export const SET_ERROR_STATUS = 'SET_ERROR_STATUS'
 
 //ACTION CREATORS
 export const setCart = cart => {
   return {
     type: SET_CART,
     cart
+  }
+}
+
+
+export const setAddedProduct = (product) => {
+  return {
+    type: SET_ADDED_PRODUCT,
+    product
   }
 }
 
@@ -21,10 +30,10 @@ export const setLoadingStatus = status => {
   }
 }
 
-export const setAddedProduct = (product) => {
+export const setErrorStatus = status => {
   return {
-    type: SET_ADDED_PRODUCT,
-    product
+    type: SET_ERROR_STATUS,
+    status
   }
 }
 
@@ -34,10 +43,12 @@ export const fetchCart = () => {
     try {
       dispatch(setLoadingStatus(true))
       const { data: cart} = await axios.get(`/api/orders/cart`)
+
       dispatch(setCart(cart))
-      dispatch(setLoadingStatus(false))
     } catch (error) {
       console.error(error)
+      dispatch(setLoadingStatus(false))
+      dispatch(setErrorStatus(true))
     }
   }
 }
@@ -48,14 +59,27 @@ export const addProductToCart = (id, quantity) => {
       const { data: addedProduct } = await axios.post(`/api/orders/cart`, {id, quantity})
       dispatch(setAddedProduct(addedProduct))
     } catch (error) {
-      console.error(error)
+      dispatch(setLoadingStatus(false))
+      dispatch(setErrorStatus(true))
+    }
+  }
+}
+
+export const updateCartItemQuantity = (id, newQuantity) => {
+  return async dispatch => {
+    try {
+
+    } catch (error) {
+      dispatch(setLoadingStatus(false))
+      dispatch(setErrorStatus(true))
     }
   }
 }
 
 const initialState = {
   cartData: {},
-  isLoading: true
+  isLoading: true,
+  errorHappened: false
 }
 
 //REDUCER
@@ -84,6 +108,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: action.status
+      }
+    case SET_ERROR_STATUS:
+      return {
+        ...state,
+        errorHappened: action.status
       }
     default:
       return state
