@@ -2,10 +2,10 @@ const router = require('express').Router()
 const { Order, Product } = require('../db/models')
 
 //retrieves a user's cart
-router.get('/user/:userId/cart', (req, res, next) => {
+router.get('/cart', (req, res, next) => {
   Order.findOne({
     where: {
-      userId: req.params.userId,
+      userId: req.session.passport.user,
       isActive: true
     },
     include: [{model: Product}]
