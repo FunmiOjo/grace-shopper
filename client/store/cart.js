@@ -5,6 +5,7 @@ import history from '../history'
 export const SET_CART = 'SET_CART'
 export const SET_LOADING_STATUS = 'SET_LOADING_STATUS'
 export const SET_ADDED_PRODUCT = 'SET_ADDED_PRODUCT'
+export const SET_UPDATED_ITEM_QUANTITY = 'SET_UPDATED_ITEM_QUANTITY'
 export const SET_ERROR_STATUS = 'SET_ERROR_STATUS'
 
 //ACTION CREATORS
@@ -15,11 +16,17 @@ export const setCart = cart => {
   }
 }
 
-
-export const setAddedProduct = (product) => {
+export const setAddedProduct = orderProduct => {
   return {
     type: SET_ADDED_PRODUCT,
-    product
+    orderProduct
+  }
+}
+
+export const setUpdatedItemQuantity = orderProduct => {
+  return {
+    type: SET_UPDATED_ITEM_QUANTITY,
+    orderProduct
   }
 }
 
@@ -42,9 +49,9 @@ export const fetchCart = () => {
   return async dispatch => {
     try {
       dispatch(setLoadingStatus(true))
-      const { data: cart} = await axios.get(`/api/orders/cart`)
-
+      const { data: cart } = await axios.get(`/api/orders/cart`)
       dispatch(setCart(cart))
+      dispatch(setLoadingStatus(false))
     } catch (error) {
       console.error(error)
       dispatch(setLoadingStatus(false))
@@ -56,7 +63,10 @@ export const fetchCart = () => {
 export const addProductToCart = (id, quantity) => {
   return async dispatch => {
     try {
-      const { data: addedProduct } = await axios.post(`/api/orders/cart`, {id, quantity})
+      const { data: addedProduct } = await axios.post(`/api/orders/cart`, {
+        id,
+        quantity
+      })
       dispatch(setAddedProduct(addedProduct))
     } catch (error) {
       dispatch(setLoadingStatus(false))
@@ -65,10 +75,11 @@ export const addProductToCart = (id, quantity) => {
   }
 }
 
-export const updateCartItemQuantity = (id, newQuantity) => {
+export const updateCartItemQuantity = (itemInfo) => {
   return async dispatch => {
     try {
-
+      const { data: updatedItem } = await axios.put(`/api/orders/cart`, itemInfo)
+      dispatch(setUpdatedItemQuantity(updatedItem))
     } catch (error) {
       dispatch(setLoadingStatus(false))
       dispatch(setErrorStatus(true))
@@ -96,8 +107,25 @@ const reducer = (state = initialState, action) => {
         cartData: {
           ...state.cartData,
           products: state.cartData.products.map(product => {
-            if (product.id === action.product.id) {
-              return action.product
+            if (product.id === action.productId) {
+              product.orderProduct = action.orderProduct
+              return product
+            } else {
+              return product
+            }
+          })
+        }
+      }
+    //the same as SET_ADDED_PRODUCT case, may refactor to have the same case deal with both actions
+    case SET_UPDATED_ITEM_QUANTITY:
+      return {
+        ...state,
+        cartData: {
+          ...state.cartData,
+          products: state.cartData.products.map(product => {
+            if (product.id === action.orderProduct.productId) {
+              product.orderProduct = action.orderProduct
+              return product
             } else {
               return product
             }

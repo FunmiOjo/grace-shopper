@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import OrderItem from './OrderItem'
 import ErrorView from './ErrorView'
 import { connect } from 'react-redux'
-import { fetchCart } from '../store/cart'
+import { fetchCart, updateCartItemQuantity } from '../store/cart'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
@@ -14,8 +14,8 @@ class Cart extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  handleSubmit(updatedQuantity, id) {
-    console.log('---------------------------------------------value', updatedQuantity, id)
+  handleSubmit(updatedItemInfo) {
+    this.props.updateCartItemQuantity(updatedItemInfo)
   }
 
   componentDidMount() {
@@ -62,7 +62,8 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    fetchCart: () => dispatch(fetchCart())
+    fetchCart: () => dispatch(fetchCart()),
+    updateCartItemQuantity: (itemInfo) => dispatch(updateCartItemQuantity(itemInfo))
   }
 }
 

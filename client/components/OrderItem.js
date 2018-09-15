@@ -43,26 +43,30 @@ class OrderItem extends React.Component {
 
   render() {
     const { image, name, description, id } = this.props.product
-    const { quantity } = this.props.product.orderProduct
+    //const { quantity } = this.props.product.orderProduct
     const price = formatPrice(this.props.product.price)
     const { classes, handleSubmit } = this.props
 
     return (
-      <div>
+      <div key={id}>
         <Grid container spacing={16}>
-
-            <Grid item>
-
-              <Input
-                size={1}
-                className={classes.root}
-                name={id.toString()}
-                value={this.state.quantity}
-                onChange={this.handleChange}
-              />
-                <Button size="small" onClick={() => handleSubmit(this.state.quantity, id)}>Update Quantity</Button>
-
-            </Grid>
+          <Grid item>
+            <Input
+              size={1}
+              className={classes.root}
+              name={id.toString()}
+              value={this.state.quantity}
+              onChange={this.handleChange}
+            />
+            <Button
+              size="small"
+              onClick={() =>
+                handleSubmit({ quantity: this.state.quantity, id })
+              }
+            >
+              Update Quantity
+            </Button>
+          </Grid>
 
           <Grid item>
             <ButtonBase component="a" href={`/products/${id}`}>
