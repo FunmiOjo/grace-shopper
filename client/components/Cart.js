@@ -4,6 +4,7 @@ import ErrorView from './ErrorView'
 import { connect } from 'react-redux'
 import { fetchCart, updateCartItemQuantity, removeItemFromCart } from '../store/cart'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import Typography from '@material-ui/core/Typography'
 
 class Cart extends Component {
   constructor() {
@@ -39,13 +40,20 @@ class Cart extends Component {
         {this.props.isLoading ? (
           <CircularProgress size={200}/>
         ) : (
-          products.map(product => (
-            <OrderItem
-              key={product.id}
-              product={product}
-              handleSubmit={this.handleSubmit}
-            />
-          ))
+          <div>
+            {products.map(product => (
+              <OrderItem
+                key={product.id}
+                product={product}
+                handleSubmit={this.handleSubmit}
+              />
+            ))}
+            <div>
+              <Typography variant="headline">
+                {`Subtotal: $${products.reduce((accum, curr) => accum + ((curr.price) / 100) * curr.orderProduct.quantity, 0).toLocaleString()}`}
+              </Typography>
+            </div>
+          </div>
         )}
       </div>
     )
