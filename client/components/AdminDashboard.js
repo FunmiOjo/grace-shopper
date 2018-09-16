@@ -9,7 +9,6 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import Divider from '@material-ui/core/Divider'
-import ManageProducts from './ManageProducts'
 import FaceIcon from '@material-ui/icons/Face'
 import WeekendIcon from '@material-ui/icons/Weekend'
 import ReceiptIcon from '@material-ui/icons/Receipt'
@@ -17,7 +16,6 @@ import Collapse from '@material-ui/core/Collapse'
 import ListIcon from '@material-ui/icons/List'
 import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
-import StarBorder from '@material-ui/icons/StarBorder'
 
 const styles = theme => ({
   root: {

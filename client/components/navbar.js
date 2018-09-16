@@ -19,9 +19,6 @@ const styles = theme => ({
   },
   grow: {
     flexGrow: 1
-  },
-  productsButton: {
-    justify: 'center'
   }
 })
 
@@ -31,48 +28,46 @@ class Navbar extends Component {
   render() {
     const { classes } = this.props
     return (
-      <div>
-        <AppBar position="static">
-          <Toolbar>
-            <Typography variant="title" color="inherit">
-              Grace Shopper
-            </Typography>
-            {this.props.isLoggedIn ? (
-              <Grid
-                container
-                direction="row"
-                justify="flex-end"
-                alignItems="center"
-              >
-                <Button className={classes.productsButton} color="inherit">
-                  <Link to="/products">Products</Link>
-                </Button>
-                <Button color="inherit">
-                  <a href="#" onClick={this.props.handleClick}>
-                    Logout
-                  </a>
-                </Button>
-                <IconButton color="inherit" component={Link} to="/home">
-                  <AccountCircle />
-                </IconButton>
-              </Grid>
-            ) : (
-              <div>
-                {/* The navbar will show these links before you log in */}
-                <Button color="inherit">
-                  <Link to="/login">Login</Link>
-                </Button>
-                <Button color="inherit">
-                  <Link to="/signup">Sign Up</Link>
-                </Button>
-                <Button color="inherit">
-                  <Link to="/products">Products</Link>
-                </Button>
-              </div>
-            )}
-          </Toolbar>
-        </AppBar>
-      </div>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="title" color="inherit">
+            Grace Shopper
+          </Typography>
+          {this.props.isLoggedIn ? (
+            <Grid
+              container
+              direction="row"
+              justify="flex-end"
+              alignItems="center"
+            >
+              <Button className={classes.productsButton} color="inherit">
+                <Link to="/products">Products</Link>
+              </Button>
+              <Button color="inherit">
+                <a href="#" onClick={this.props.handleClick}>
+                  Logout
+                </a>
+              </Button>
+              <IconButton color="inherit" component={Link} to="/home">
+                <AccountCircle />
+              </IconButton>
+            </Grid>
+          ) : (
+            <div>
+              {/* The navbar will show these links before you log in */}
+              <Button color="inherit">
+                <Link to="/login">Login</Link>
+              </Button>
+              <Button color="inherit">
+                <Link to="/signup">Sign Up</Link>
+              </Button>
+              <Button color="inherit">
+                <Link to="/products">Products</Link>
+              </Button>
+            </div>
+          )}
+        </Toolbar>
+      </AppBar>
     )
   }
 }

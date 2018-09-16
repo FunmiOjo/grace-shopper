@@ -10,7 +10,7 @@ export default class ProductGridList extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      products: this.props.products,
+      products: [],
       searchInput: ''
     }
     this.handleChange = this.handleChange.bind(this)
@@ -18,19 +18,17 @@ export default class ProductGridList extends Component {
   }
 
   handleChange(event) {
-    if (event.target.value !== '') {
-      let updatedProductGrid = this.props.products.filter(product =>
-        product.name.toLowerCase().includes(event.target.value.toLowerCase())
-      )
-      this.setState({
-        products: updatedProductGrid,
-        searchInput: event.target.value
-      })
-    }
+    let updatedProductGrid = this.props.products.filter(product =>
+      product.name.toLowerCase().includes(event.target.value.toLowerCase())
+    )
+    this.setState({
+      products: updatedProductGrid,
+      searchInput: event.target.value
+    })
   }
 
   render() {
-    const products = this.state.products
+    const products = this.props.products
     return (
       <div>
         <form autoComplete="off">
@@ -48,17 +46,29 @@ export default class ProductGridList extends Component {
           <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
             <ListSubheader component="div">All Products</ListSubheader>
           </GridListTile>
-          {products.map(product => (
-            <GridListTile key={product.id}>
-              <img src={product.image} alt={product.name} />
-              <Link to={`products/${product.id}`}>
-                <GridListTileBar
-                  title={product.name}
-                  subtitle={<span>{product.price}</span>}
-                />
-              </Link>
-            </GridListTile>
-          ))}
+          {this.state.searchInput === ''
+            ? products.map(product => (
+                <GridListTile key={product.id}>
+                  <img src={product.image} alt={product.name} />
+                  <Link to={`products/${product.id}`}>
+                    <GridListTileBar
+                      title={product.name}
+                      subtitle={<span>{product.price}</span>}
+                    />
+                  </Link>
+                </GridListTile>
+              ))
+            : this.state.products.map(product => (
+                <GridListTile key={product.id}>
+                  <img src={product.image} alt={product.name} />
+                  <Link to={`products/${product.id}`}>
+                    <GridListTileBar
+                      title={product.name}
+                      subtitle={<span>{product.price}</span>}
+                    />
+                  </Link>
+                </GridListTile>
+              ))}
         </GridList>
       </div>
     )
