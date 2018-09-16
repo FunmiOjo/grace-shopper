@@ -1,13 +1,11 @@
 import React from 'react'
 import { formatPrice } from '../helpers'
-import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import ButtonBase from '@material-ui/core/ButtonBase'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import Input from '@material-ui/core/Input'
-import { Link } from 'react-router'
 
 const styles = theme => ({
   root: {

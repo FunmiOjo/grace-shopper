@@ -3,9 +3,6 @@ import OrderItem from './OrderItem'
 import ErrorView from './ErrorView'
 import { connect } from 'react-redux'
 import { fetchCart, updateCartItemQuantity, removeItemFromCart } from '../store/cart'
-import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Grid'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
 class Cart extends Component {
@@ -15,8 +12,6 @@ class Cart extends Component {
   }
 
   handleSubmit(updatedItemInfo) {
-    console.log("updatedItemInfo", updatedItemInfo);
-
     if (updatedItemInfo.quantity > 0) {
       this.props.updateCartItemQuantity(updatedItemInfo)
     } else {
