@@ -30,7 +30,7 @@ class OrderItem extends React.Component {
 
   handleChange(event) {
     this.setState({
-      quantity: event.target.value
+      quantity: Number(event.target.value)
     })
   }
 
@@ -63,7 +63,15 @@ class OrderItem extends React.Component {
                 handleSubmit({ quantity: this.state.quantity, productId, cartId})
               }
             >
-              Update Quantity
+              Update
+            </Button>
+            <Button
+              size="small"
+              onClick={() =>
+                handleSubmit({ quantity: 0, productId, cartId})
+              }
+            >
+              Delete
             </Button>
           </Grid>
 
