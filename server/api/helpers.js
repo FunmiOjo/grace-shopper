@@ -8,7 +8,8 @@ const getCart = async id => {
   try {
     return await Order.findOne({
       where: {
-        userId: id
+        userId: id,
+        isActive: true
       },
       include: [{model: Product}]
     })

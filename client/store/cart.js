@@ -8,6 +8,7 @@ export const SET_ADDED_PRODUCT = 'SET_ADDED_PRODUCT'
 export const SET_UPDATED_ITEM_QUANTITY = 'SET_UPDATED_ITEM_QUANTITY'
 export const SET_ERROR_STATUS = 'SET_ERROR_STATUS'
 export const SET_CART_WITHOUT_REMOVED_ITEM = 'SET_CART_WITHOUT_REMOVED_ITEM'
+export const SET_NO_PRODUCTS_STATUS = 'SET_NO_PRODUCTS_STATUS'
 
 //ACTION CREATORS
 export const setCart = cart => {
@@ -17,10 +18,10 @@ export const setCart = cart => {
   }
 }
 
-export const setAddedProduct = orderProduct => {
+export const setAddedProduct = product => {
   return {
     type: SET_ADDED_PRODUCT,
-    orderProduct
+    product
   }
 }
 
@@ -33,7 +34,7 @@ export const setUpdatedItemQuantity = orderProduct => {
 
 export const setCartWithoutRemovedItem = productId => {
   return {
-    type:  SET_CART_WITHOUT_REMOVED_ITEM,
+    type: SET_CART_WITHOUT_REMOVED_ITEM,
     productId
   }
 }
@@ -101,10 +102,9 @@ export const updateCartItemQuantity = itemInfo => {
 export const removeItemFromCart = itemInfo => {
   return async dispatch => {
     try {
-      const { data: removedItemId } = await axios.delete(
-        `/api/orders/cart`,
-        {params: itemInfo}
-      )
+      const { data: removedItemId } = await axios.delete(`/api/orders/cart`, {
+        params: itemInfo
+      })
       dispatch(setCartWithoutRemovedItem(removedItemId))
     } catch (error) {
       dispatch(setLoadingStatus(false))
@@ -121,16 +121,19 @@ const initialState = {
 
 //REDUCER
 const reducer = (state = initialState, action) => {
-
   const replaceUpdatedItemInState = () => {
     return state.cartData.products.map(product => {
-      if (product.id === action.productId) {
-        product.orderProduct = action.orderProduct
+      if (product.id === action.id) {
+        product.orderProduct = action.product.orderProduct
         return product
       } else {
         return product
       }
     })
+  }
+
+  const addNewItemToProducts = () => {
+    return [...state.cartData.products, action.product]
   }
 
   switch (action.type) {
@@ -144,14 +147,13 @@ const reducer = (state = initialState, action) => {
         ...state,
         cartData: {
           ...state.cartData,
-          products: state.cartData.products.map(product => {
-            if (product.id === action.productId) {
-              product.orderProduct = action.orderProduct
-              return product
-            } else {
-              return product
-            }
-          })
+          products: state.cartData.products.filter(product => {
+            return product.id === action.productId
+          }).length
+            ?
+            replaceUpdatedItemInState()
+            :
+            addNewItemToProducts()
         }
       }
     //the same as SET_ADDED_PRODUCT case, may refactor to have the same case deal with both actions

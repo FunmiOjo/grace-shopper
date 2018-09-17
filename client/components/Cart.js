@@ -97,7 +97,7 @@ const mapState = state => {
     cart: { ...state.cart.cartData },
     userId: state.user.currentUser.id,
     isLoading: state.cart.isLoading,
-    errorHappened: state.cart.errorHappened
+    errorHappened: state.cart.errorHappened,
   }
 }
 
