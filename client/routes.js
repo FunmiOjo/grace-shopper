@@ -7,6 +7,7 @@ import { me } from './store'
 import allUsers from './components/AllUsers'
 import Home from './components/Home'
 import SingleUser from './components/SingleUser'
+import PasswordReset from '../client/components/PasswordReset'
 import ManageProducts from './components/Products/ManageProducts'
 import AllProductsContainer from './components/Products/AllProductsContainer'
 import SingleProductContainer from './components/Products/SingleProductContainer'
@@ -17,6 +18,7 @@ import { fetchAllProducts } from './store/product'
 import { fetchAllCategories } from './store/category'
 import ErrorView from './components/ErrorView'
 import { fetchCart } from './store/cart'
+
 /**
  * COMPONENT
  */
@@ -47,6 +49,7 @@ class Routes extends Component {
             <Route path="/home" component={UserHome} />
             <Route exact path="/users" component={allUsers} />
             <Route path="/users/:id" component={SingleUser} />
+            <Route path='/reset' component={PasswordReset} />
             <Route exact path="/manageproducts" component={ManageProducts} />
             <Route path="/manageproducts/products/add" component={AddProduct} />
             <Route

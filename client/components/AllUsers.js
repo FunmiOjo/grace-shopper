@@ -12,11 +12,15 @@ class AllUsers extends Component {
     super()
     this.state = {}
     store.subscribe(() => {
-      this.setState(store.getState().user)
+      if(this._mounted) this.setState(store.getState().user)
     })
   }
   componentDidMount(){
     this.props.fetchData()
+    this._mounted = true
+  }
+  componentWillUnmount(){
+    this._mounted = false
   }
   render () {
     let isAdmin, users;

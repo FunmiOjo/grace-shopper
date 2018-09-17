@@ -57,21 +57,19 @@ const User = db.define('user', {
     validate: {
       notEmpty: true
     }
+  },
+  resetPassword: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
+    validate: {
+      notEmpty: true
+    }
+  },
+  googleId: {
+    type: Sequelize.STRING
   }
 })
 
-/*
-googleId: {
-    type: Sequelize.STRING
-  }
-salt: {
-  type: Sequelize.STRING,
-  // Making `.salt` act like a function hides it when serializing to JSON.
-  // This is a hack to get around Sequelize's lack of a "private" option.
-  get() {
-    return () => this.getDataValue('salt')
-  }
-}, */
 
 /**
  * instanceMethods
