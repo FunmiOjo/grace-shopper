@@ -58,7 +58,7 @@ class Cart extends Component {
 
     return (
       <div>
-        {this.props.isLoading ? (
+        {this.props.isLoading || (!this.props.cart.products) ? (
           <CircularProgress size={200} />
         ) : (
           <div>
@@ -94,7 +94,7 @@ class Cart extends Component {
 
 const mapState = state => {
   return {
-    cart: { ...state.cart.cartData },
+    cart: state.cart.cartData,
     userId: state.user.currentUser.id,
     isLoading: state.cart.isLoading,
     errorHappened: state.cart.errorHappened,

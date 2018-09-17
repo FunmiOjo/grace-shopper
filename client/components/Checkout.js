@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import StripeCheckout from 'react-stripe-checkout'
 import { connect } from 'react-redux'
-import { makePayment } from '../store/payment'
+import { makePayment } from '../store/cart'
 
 class Checkout extends Component {
   constructor() {
@@ -14,7 +14,8 @@ class Checkout extends Component {
       source: token.id,
       userId: this.props.user.id,
       amount: this.props.subtotal,
-      currency: 'usd'
+      currency: 'usd',
+      cartId: this.props.cartId
     })
   }
 
@@ -32,6 +33,7 @@ class Checkout extends Component {
 
 const mapState = state => {
   return {
+    cartId: state.cart.cartData.id,
     user: state.user.currentUser,
     subtotal: state.cart.cartData.products.reduce((accum, curr) => {
       return accum + curr.price / 100 * curr.orderProduct.quantity

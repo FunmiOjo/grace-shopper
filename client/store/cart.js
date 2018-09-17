@@ -9,6 +9,7 @@ export const SET_UPDATED_ITEM_QUANTITY = 'SET_UPDATED_ITEM_QUANTITY'
 export const SET_ERROR_STATUS = 'SET_ERROR_STATUS'
 export const SET_CART_WITHOUT_REMOVED_ITEM = 'SET_CART_WITHOUT_REMOVED_ITEM'
 export const SET_NO_PRODUCTS_STATUS = 'SET_NO_PRODUCTS_STATUS'
+export const SET_PAYMENT_STATUS = 'SET_PAYMENT_STATUS'
 
 //ACTION CREATORS
 export const setCart = cart => {
@@ -39,6 +40,13 @@ export const setCartWithoutRemovedItem = productId => {
   }
 }
 
+export const setPayment = status => {
+  return {
+    type: SET_PAYMENT_STATUS,
+    status
+  }
+}
+
 export const setLoadingStatus = status => {
   return {
     type: SET_LOADING_STATUS,
@@ -59,7 +67,7 @@ export const fetchCart = () => {
     try {
       dispatch(setLoadingStatus(true))
       const { data: cart } = await axios.get(`/api/orders/cart`)
-      dispatch(setCart(cart))
+      await dispatch(setCart(cart))
       dispatch(setLoadingStatus(false))
     } catch (error) {
       console.error(error)
@@ -88,7 +96,7 @@ export const updateCartItemQuantity = itemInfo => {
   return async dispatch => {
     try {
       const { data: updatedItem } = await axios.put(
-        `/api/orders/cart`,
+        `/api/orders/cart/updateItems`,
         itemInfo
       )
       dispatch(setUpdatedItemQuantity(updatedItem))
@@ -113,10 +121,25 @@ export const removeItemFromCart = itemInfo => {
   }
 }
 
+export const makePayment = paymentInfo => {
+  return async dispatch => {
+    try {
+      const { data } = await axios.post('/payment', paymentInfo)
+      dispatch(setPayment(!!data.paid))
+      await axios.put('api/orders/cart/deactivate', {
+        cartId: paymentInfo.cartId
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
 const initialState = {
   cartData: {},
   isLoading: true,
-  errorHappened: false
+  errorHappened: false,
+  paid: false
 }
 
 //REDUCER
@@ -150,10 +173,8 @@ const reducer = (state = initialState, action) => {
           products: state.cartData.products.filter(product => {
             return product.id === action.productId
           }).length
-            ?
-            replaceUpdatedItemInState()
-            :
-            addNewItemToProducts()
+            ? replaceUpdatedItemInState()
+            : addNewItemToProducts()
         }
       }
     //the same as SET_ADDED_PRODUCT case, may refactor to have the same case deal with both actions
@@ -181,6 +202,11 @@ const reducer = (state = initialState, action) => {
             return product.id !== action.productId
           })
         }
+      }
+    case SET_PAYMENT_STATUS:
+      return {
+        ...state,
+        paid: action.status
       }
     case SET_LOADING_STATUS:
       return {
