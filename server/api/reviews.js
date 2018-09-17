@@ -35,4 +35,13 @@ router.get('/product/:id', async (req, res, next) => {
   }
 })
 
+router.post('/', (req, res, next) => {
+  try {
+    const review = Review.create(req.body)
+    res.json(review)
+  } catch (err) {
+    next(err)
+  }
+})
+
 module.exports = router

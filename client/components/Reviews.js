@@ -9,7 +9,7 @@ const Review = props => {
     review.user ?
       <Card>
         <CardContent>
-          <Typography variant="headline" component="h2">
+          <Typography variant="headline" component="h3">
             {'★'.repeat(review.rating)}
           </Typography>
           <Typography color="textSecondary">
