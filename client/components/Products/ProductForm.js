@@ -125,7 +125,7 @@ class AddProduct extends Component {
                       key={category.id}
                       control={
                         <Checkbox
-                          onChange={handleChange(category.name)}
+                          onChange={() => handleChange(category.name)}
                           value={`${category.id}`}
                         />
                       }

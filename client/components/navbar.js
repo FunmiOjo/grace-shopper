@@ -15,7 +15,9 @@ import AccountCircle from '@material-ui/icons/AccountCircle'
 
 const styles = theme => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
+    backgroundColor: 'white',
+    boxShadow: 'none'
   },
   grow: {
     flexGrow: 1
@@ -28,7 +30,7 @@ class Navbar extends Component {
   render() {
     const { classes } = this.props
     return (
-      <AppBar position="static">
+      <AppBar className={classes.root} position="static">
         <Toolbar>
           <Typography variant="title" color="inherit">
             Grace Shopper

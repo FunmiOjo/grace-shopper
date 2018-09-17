@@ -95,11 +95,13 @@ class ManageProducts extends Component {
                     <img className={classes.productImage} src={product.image} />
                   </TableCell>
                   <TableCell className={classes.tableCells} numeric>
-                    <ul>
-                      {product.categories.map(category => (
-                        <li key={category.id}>{category.name}</li>
-                      ))}
-                    </ul>
+                    {product.categories && (
+                      <ul>
+                        {product.categories.map(category => (
+                          <li key={category.id}>{category.name}</li>
+                        ))}
+                      </ul>
+                    )}
                   </TableCell>
                   <TableCell className={classes.tableCells} numeric>
                     {product.name}

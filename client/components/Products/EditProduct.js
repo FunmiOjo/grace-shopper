@@ -18,11 +18,12 @@ import AppBar from '@material-ui/core/AppBar'
 class EditProduct extends Component {
   constructor(props) {
     super(props)
-    this.state = this.props.selectedProduct
+    this.state = this.props.product
   }
 
   componentDidMount() {
-    this.props.loadSingleProduct()
+    // set state with the product
+    this.props.loadSingleProduct(this.props.match.params.id)
   }
 
   handleChange = prop => event => {
