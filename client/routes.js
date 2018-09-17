@@ -14,7 +14,7 @@ import EditProductContainer from './components/Products/EditProductContainer'
 import AddProduct from './components/Products/AddProduct'
 import { fetchAllProducts } from './store/product'
 import { fetchAllCategories } from './store/category'
-
+import { fetchCart } from './store/cart'
 /**
  * COMPONENT
  */
@@ -23,6 +23,7 @@ class Routes extends Component {
     this.props.loadInitialData()
     this.props.loadAllProducts()
     this.props.loadAllCategories()
+    this.props.fetchCart()
   }
 
   render() {
@@ -74,7 +75,8 @@ const mapDispatch = dispatch => {
       dispatch(me())
     },
     loadAllProducts: () => dispatch(fetchAllProducts()),
-    loadAllCategories: () => dispatch(fetchAllCategories())
+    loadAllCategories: () => dispatch(fetchAllCategories()),
+    fetchCart: () => dispatch(fetchCart())
   }
 }
 

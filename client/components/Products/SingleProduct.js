@@ -7,8 +7,30 @@ import TextField from '@material-ui/core/TextField'
 import ProductForm from './ProductForm'
 import { editProduct, removeProduct } from '../../store/product'
 import { connect } from 'react-redux'
+import Input from '@material-ui/core/Input'
 
 class SingleProduct extends Component {
+  constructor() {
+    super()
+    this.state = {
+      quantityInput: 1
+    }
+    this.handleClick = this.handleClick.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  handleClick() {
+    const { id } = this.props.selectedProduct
+    const { quantityInput } = this.state
+    this.props.addProduct(id, quantityInput)
+  }
+
+  handleChange(event) {
+    this.setState({
+      quantityInput: event.target.value
+    })
+  }
+
   componentDidMount() {
     this.props.loadSingleProduct()
   }
@@ -32,6 +54,12 @@ class SingleProduct extends Component {
               <Grid item xs>
                 {product.description}
               </Grid>
+            </Grid>
+            <Grid item>
+              <Input defaultValue={1} onChange={this.handleChange} />
+            </Grid>
+            <Grid item>
+              <Button onClick={this.handleClick}>Add to cart</Button>
             </Grid>
           </Grid>
         )}
