@@ -3,9 +3,6 @@
 const express = require('express')
 const { Product, Category } = require('../db/models')
 const router = express.Router()
-const url = require('url')
-const querystring = require('querystring')
-const bodyParser = require('body-parser')
 
 // route to serve up all products
 router.get('/', (req, res, next) => {
@@ -22,6 +19,80 @@ router.get('/:id', (req, res, next) => {
     include: [{ model: Category }]
   })
     .then(product => res.status(200).json(product))
+    .catch(next)
+})
+
+router.get('/categories/:categoryId', (req, res, next) => {
+  Product.findByCategory(req.params.categoryId, {
+    include: [{ model: Category }]
+  })
+    .then(products => res.status(200).json(products))
+    .catch(next)
+})
+
+// POST
+
+router.post('/', (req, res, next) => {
+  Product.create(req.body)
+    .then(product => res.json(product))
+    .catch(next)
+})
+
+// PUT
+
+router.put(':/productId', (req, res, next) => {
+  Product.findById(req.params.productId)
+    .then(product => {
+      if (product) {
+        product.update(req.body).then(updatedProduct => {
+          return res.send(updatedProduct)
+        })
+      }
+      const err = new Error('Product not found.')
+      err.status = 404
+      next(err)
+    })
+    .catch(next)
+})
+
+// DELETE
+
+router.delete(':/productId', (req, res, next) => {
+  Product.findById(req.params.productId)
+    .then(product => {
+      if (!product) {
+        const err = new Error('Product not found.')
+        err.status = 404
+        next(err)
+      }
+      if (product) {
+        product.destroy({ force: true }).then(products => res.json(products))
+      }
+    })
+    .catch(next)
+})
+
+// figure out why this isn't working
+// route to serve up all products belonging to a category
+router.get('/category/:categoryName', (req, res, next) => {
+  Product.findAll({
+    include: [
+      {
+        model: Category,
+        where: { name: req.params.categoryName },
+        as: 'productcategory'
+      }
+    ]
+  })
+    .then(products => res.status(200).json(products))
+    .catch(next)
+})
+
+// temp
+// route to serve up all products belonging to a cateogry
+router.get('/category/:categoryId', (req, res, next) => {
+  Category.findById(req.params.categoryId)
+    .then(products => res.status(200).json(products))
     .catch(next)
 })
 

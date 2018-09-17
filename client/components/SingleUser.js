@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
 import store from '../store'
-import { fetchSingleUser, deleteUserOnServer, updateUserOnServer } from '../store/user'
+import {
+  fetchSingleUser,
+  deleteUserOnServer,
+  updateUserOnServer
+} from '../store/user'
 import { connect } from 'react-redux'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -14,24 +18,24 @@ import Select from '@material-ui/core/Select';
 
 // ---------- Only admins should be able to see this page
 class SingleUser extends Component {
-  constructor () {
+  constructor() {
     super()
     this.state = {}
     this.delete = this.delete.bind(this)
     this.update = this.update.bind(this)
     this.handleChange = this.handleChange.bind(this)
     store.subscribe(() => {
-      if(this._mounted) this.setState(store.getState().user)
+      if (this._mounted) this.setState(store.getState().user)
     })
   }
-  componentDidMount(){
+  componentDidMount() {
     this.props.fetchData(this.props.match.params.id)
     this._mounted = true
   }
-  componentWillUnmount(){
+  componentWillUnmount() {
     this._mounted = false
   }
-  delete (id) {
+  delete(id) {
     this.props.deleteUser(id)
   }
   update (id) {
@@ -43,12 +47,12 @@ class SingleUser extends Component {
       selectedUser: { ...currentData, [event.target.name]: event.target.value}
     })
   }
-  render () {
+  render() {
     const id = this.props.match.params.id
-    let user, isAdmin;
+    let user, isAdmin
     if (this.state.selectedUser) {
       user = this.state.selectedUser
-      isAdmin = ('admin' === this.state.currentUser.userType)
+      isAdmin = 'admin' === this.state.currentUser.userType
     }
     const padding = {padding: '0.5em'}
     return (
@@ -67,7 +71,9 @@ class SingleUser extends Component {
           </TableHead>
           <TableBody>
             <TableRow>
-              <TableCell>{user.firstName} {user.lastName}</TableCell>
+              <TableCell>
+                {user.firstName} {user.lastName}
+              </TableCell>
               <TableCell>{user.email}</TableCell>
               <TableCell>{user.billingAddress}</TableCell>
               <TableCell>{user.shippingAddress}</TableCell>
@@ -92,7 +98,9 @@ class SingleUser extends Component {
           </TableBody>
         </Table>
         <br />
-        <Link to="/users"><Button variant="outlined">BACK TO LIST</Button></Link>
+        <Link to="/users">
+          <Button variant="outlined">BACK TO LIST</Button>
+        </Link>
         <span style={padding} />
         <Button variant="outlined" onClick={() => this.update(id)}>UPDATE</Button>
         <span style={padding} />
@@ -108,8 +116,8 @@ class SingleUser extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  fetchData: (id) => dispatch(fetchSingleUser(id)),
-  deleteUser: (id) => dispatch(deleteUserOnServer(id)),
+  fetchData: id => dispatch(fetchSingleUser(id)),
+  deleteUser: id => dispatch(deleteUserOnServer(id)),
   updateUser: (id, data) => dispatch(updateUserOnServer(id, data))
 })
 

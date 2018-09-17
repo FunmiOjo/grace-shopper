@@ -4,6 +4,7 @@ body {
 
 a {
   text-decoration: none;
+  color: #000;
 }
 
 label {
@@ -17,4 +18,8 @@ nav a {
 
 form div {
   display: inline-block;
+}
+
+.MuiAppBar-root-03 {
+  height: 55px;
 }

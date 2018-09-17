@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import AllProducts from './AllProducts'
-import { fetchAllProducts } from '../store/product'
+import ManageProducts from './ManageProducts'
+import { fetchAllProducts } from '../../store/product'
 
 const mapStateToProps = state => {
   return {
