@@ -1,6 +1,8 @@
 const router = require('express').Router()
-const { Order, Product } = require('../db/models')
+const { Order, Product, OrderProduct } = require('../db/models')
+const { userLoggedIn, getCart, getOrderProduct } = require('./helpers')
 
+//GET routes
 //retrieves a user's cart
 router.get('/cart', (req, res, next) => {
   Order.findOne({
@@ -46,5 +48,31 @@ router.get('/', (req, res, next) => {
     .catch(next)
 })
 
+//POST routes
+router.post('/cart', async (req, res, next) => {
+  const { id: productId, quantity } = req.body
+  const userId = req.session.passport.user
+  if (userLoggedIn(req)) {
+    const cart = await getCart(userId)
+    if (cart) {
+      const orderProduct = await getOrderProduct(productId, cart.id)
+      const updatedOrder = await orderProduct.update({
+        quantity: orderProduct.quantity + quantity
+      })
+      res.json(updatedOrder)
+    }
+  }
+
+  res.end()
+  //scenario 1: user is not logged in/does not have account
+  //scenario 2: user is logged in
+  //  a: user already has cart
+  //  b: user does not have cart
+  //other scenarios:  product is already in cart
+  //other scenarios:  product is not already in cart
+
+
+
+})
 
 module.exports = router

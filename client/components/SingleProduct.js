@@ -1,8 +1,31 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid'
+import Button from '@material-ui/core/Button'
+import Input from '@material-ui/core/Input'
 
 export default class SingleProduct extends Component {
+  constructor() {
+    super()
+    this.state = {
+      quantityInput: 1
+    }
+    this.handleClick = this.handleClick.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  handleClick() {
+    const { id } = this.props.selectedProduct
+    const { quantityInput } = this.state
+    this.props.addProduct(id, quantityInput)
+  }
+
+  handleChange(event) {
+    this.setState({
+      quantityInput: event.target.value
+    })
+  }
+
   componentDidMount() {
     this.props.loadSingleProduct()
   }
@@ -26,6 +49,14 @@ export default class SingleProduct extends Component {
               <Grid item xs>
                 {product.description}
               </Grid>
+            </Grid>
+            <Grid item>
+              <Input defaultValue={1} onChange={this.handleChange} />
+            </Grid>
+            <Grid item>
+              <Button onClick={this.handleClick}>
+                Add to cart
+              </Button>
             </Grid>
           </Grid>
         )}
