@@ -3,14 +3,12 @@ import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
-import MenuItem from '@material-ui/core/MenuItem';
-import TextField from '@material-ui/core/TextField';
 
 export default class AddReview extends Component {
   constructor(props){
     super()
     this.state = {
-      rating: 0,
+      rating: 1,
       comment: '',
       productId: props.productId,
       userId: props.userId
@@ -31,15 +29,16 @@ export default class AddReview extends Component {
     return (
       <form onSubmit={this.handleSubmit} onChange={this.handleChange}>
         <FormControl>
-          <InputLabel>Rating</InputLabel>
-          <Input name="rating" type="number" />
+          <InputLabel>Review</InputLabel>
+          <Input name="comment" type="text" multiline />
         </FormControl>
         <FormControl>
-          <InputLabel>Comment</InputLabel>
-          <Input name="comment" type="text" />
+          <InputLabel>★</InputLabel>
+          <Input name="rating" type="number" inputProps={{ min: 1, max: 5 }} />
         </FormControl>
-        <Button type="submit">POST</Button>
+        <Button type="submit" style={{padding: '1em'}}>POST</Button>
       </form>
+
     )
   }
 }

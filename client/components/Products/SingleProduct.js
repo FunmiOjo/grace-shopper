@@ -85,7 +85,11 @@ class SingleProduct extends Component {
         : null}
         <br />
         {currentUser.id && product.id ?
+        <div>
+        <hr />
+        <h2>Add review</h2>
         <AddReview productId={product.id} userId={currentUser.id} postReview={this.postReview} />
+        </div>
         : null}
       </div>
     )
