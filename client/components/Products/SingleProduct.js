@@ -1,24 +1,26 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
 import store from '../../store'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
-import ProductForm from './ProductForm'
-import { editProduct, removeProduct } from '../../store/product'
 import { connect } from 'react-redux'
 import Input from '@material-ui/core/Input'
 import Review from '../Reviews'
 import AddReview from '../AddReview'
+import { postReview } from '../../store/reviews'
 
 class SingleProduct extends Component {
   constructor() {
     super()
     this.state = {
-      quantityInput: 1
+      quantityInput: 1,
+      product: {}
     }
     this.handleClick = this.handleClick.bind(this)
     this.handleChange = this.handleChange.bind(this)
+    this.postReview = this.postReview.bind(this)
+    store.subscribe(() => {
+      if (this._mounted) this.setState({product: store.getState().product.selectedProduct})
+    })
   }
 
   handleClick() {
@@ -35,10 +37,20 @@ class SingleProduct extends Component {
 
   componentDidMount() {
     this.props.loadSingleProduct()
+    this._mounted = true
+  }
+
+  componentWillUnmount() {
+    this._mounted = false
+  }
+
+  postReview(data){
+    this.props.postReview(data)
+    this.props.loadSingleProduct()
   }
 
   render() {
-    const product = this.props.selectedProduct
+    const product = this.state.product
     const reviews = product.reviews
     const currentUser = this.props.currentUser
     return (
@@ -53,7 +65,7 @@ class SingleProduct extends Component {
                 {product.name}
               </Grid>
               <Grid item xs>
-                ${product.price}
+                ${product.price / 100}
               </Grid>
               <Grid item xs>
                 {product.description}
@@ -71,10 +83,17 @@ class SingleProduct extends Component {
         {reviews ? reviews.map(review => (
           <Review key={review.id} review={review} />))
         : null}
-        {currentUser.id ? <AddReview productId={product.id} userId={currentUser.id} /> : null}
+        <br />
+        {currentUser.id && product.id ?
+        <AddReview productId={product.id} userId={currentUser.id} postReview={this.postReview} />
+        : null}
       </div>
     )
   }
 }
 
-export default SingleProduct
+const mapDispatchToProps = dispatch => ({
+  postReview: data => dispatch(postReview(data))
+})
+
+export default connect(null, mapDispatchToProps)(SingleProduct)

@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { postReview } from '../store/reviews'
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
+import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField';
 
-class AddReview extends Component {
+export default class AddReview extends Component {
   constructor(props){
     super()
     this.state = {
@@ -43,9 +43,3 @@ class AddReview extends Component {
     )
   }
 }
-
-const mapDispatchToProps = dispatch => ({
-  postReview: data => dispatch(postReview(data))
-})
-
-export default connect(null, mapDispatchToProps)(AddReview)
