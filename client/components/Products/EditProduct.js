@@ -26,7 +26,8 @@ class EditProduct extends Component {
   }
 
   handleChange = prop => event => {
-    this.setState({ [prop]: event.target.value })
+    const currentState = this.state
+    this.setState({ ...currentState, [prop]: event.target.value })
   }
 
   handleSelect = event => {
@@ -54,7 +55,7 @@ class EditProduct extends Component {
             handleChange={this.handleChange}
             handleSelect={this.handleSelect}
             productAction={this.props.updateProduct}
-            buttonName="UPDATE PRODUCT"
+            buttonName="UPDATE"
           />
           <Button
             variant="contained"
@@ -81,8 +82,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     loadSingleProduct: () => {
       dispatch(fetchProduct(productId))
     },
-    updateProduct: data => {
-      dispatch(editProduct(productId, data))
+    updateProduct: (id, data) => {
+      dispatch(editProduct(id, data))
     },
     deleteProduct: id => dispatch(removeProduct(id))
   }

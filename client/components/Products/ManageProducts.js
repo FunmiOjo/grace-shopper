@@ -59,7 +59,7 @@ class ManageProducts extends Component {
         <Button
           className={classes.buttons}
           component={Link}
-          to="/manageproducts/product/add"
+          to="/manageproducts/products/add"
         >
           Add new product
         </Button>
