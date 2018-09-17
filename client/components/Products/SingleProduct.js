@@ -8,6 +8,7 @@ import ProductForm from './ProductForm'
 import { editProduct, removeProduct } from '../../store/product'
 import { connect } from 'react-redux'
 import Input from '@material-ui/core/Input'
+import Review from '../Reviews'
 
 class SingleProduct extends Component {
   constructor() {
@@ -37,6 +38,7 @@ class SingleProduct extends Component {
 
   render() {
     const product = this.props.selectedProduct
+    const reviews = product.reviews
     return (
       <div className="container">
         {product && (
@@ -63,6 +65,10 @@ class SingleProduct extends Component {
             </Grid>
           </Grid>
         )}
+        <br />
+        {reviews ? reviews.map(review => (
+          <Review key={review.id} review={review} />))
+        : null}
       </div>
     )
   }

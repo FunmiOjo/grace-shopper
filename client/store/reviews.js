@@ -2,6 +2,12 @@ import axios from 'axios'
 
 const ALL_REVIEWS = 'ALL_REVIEWS'
 const SELECTED_REVIEW = 'SELECTED_REVIEW'
+const REVIEWS_FOR_PRODUCT = 'REVIEWS_FOR_PRODUCT'
+
+const initialState = {
+  allReviews: [],
+  selectedReview: {}
+}
 
 const setAllReviews = allReviews => {
   return {
@@ -10,10 +16,10 @@ const setAllReviews = allReviews => {
   }
 }
 
-const setSelectedReview = selectedReview => {
+const setReviewsForProduct = reviewsForProduct => {
   return {
-    type: SELECTED_REVIEW,
-    selectedReview
+    type: REVIEWS_FOR_PRODUCT,
+    reviewsForProduct
   }
 }
 
@@ -28,18 +34,7 @@ export const fetchAllReviews = () => {
   }
 }
 
-export const fetchSelectedReview = (id) => {
-  return async dispatch => {
-    try {
-      const { data } = await axios.get(`/api/reviews/${id}`)
-      dispatch(setSelectedReview(data))
-    } catch (err) {
-      console.error(err)
-    }
-  }
-}
-
-export default function(state, action){
+export default function(state = initialState, action){
   const allReviews = action.allReviews
   const selectedReview = action.selectedReview
   switch(action.type) {
