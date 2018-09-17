@@ -79,7 +79,7 @@ class Cart extends Component {
                   )
                   .toLocaleString()}`}
               </Typography>
-            {!this.props.checkout &&
+            {!this.props.heckout &&
             <Button size="large" variant="outlined" onClick={this.handleCheckout}>
               <Typography variant="headline">
                 Checkout
@@ -98,7 +98,7 @@ const mapState = state => {
     cart: state.cart.cartData,
     userId: state.user.currentUser.id,
     isLoading: state.cart.isLoading,
-    errorHappened: state.cart.errorHappened,
+    errorHappened: state.cart.errorHappened
   }
 }
 

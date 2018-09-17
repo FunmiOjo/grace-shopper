@@ -218,9 +218,9 @@ const reducer = (state = initialState, action) => {
     case SET_SUBTOTAL:
       return {
         ...state,
-        subtotal: state.cartData.products.reduce((accum, curr) => {
+        subtotal: state.cartData.products ? state.cartData.products.reduce((accum, curr) => {
           return accum + curr.price * curr.orderProduct.quantity
-        }, 0)
+        }, 0) : 0
       }
     case SET_PAYMENT_STATUS:
       return {

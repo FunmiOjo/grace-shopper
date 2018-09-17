@@ -3,6 +3,7 @@ import StripeCheckout from 'react-stripe-checkout'
 import { connect } from 'react-redux'
 import { makePayment, fetchCart } from '../store/cart'
 import Cart from './Cart'
+import CheckoutUserInfo from './CheckoutUserInfo'
 
 class Checkout extends Component {
   constructor() {
@@ -28,6 +29,7 @@ class Checkout extends Component {
     const { user, subtotal } = this.props
     return <div>
       <Cart checkout={1}/>
+      <CheckoutUserInfo />
       <StripeCheckout
         token={this.onToken}
         stripeKey="pk_test_eRGqXtCXghlozssQP3iTYo6E"
