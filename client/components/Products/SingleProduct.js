@@ -21,7 +21,9 @@ class SingleProduct extends Component {
 
   handleClick() {
     const { id } = this.props.selectedProduct
-    const { quantityInput } = this.state
+    let { quantityInput } = this.state
+    quantityInput = Number(quantityInput)
+    console.log('type', typeof quantityInput)
     this.props.addProduct(id, quantityInput)
   }
 
