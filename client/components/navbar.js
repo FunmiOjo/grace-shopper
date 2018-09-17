@@ -1,45 +1,75 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { logout } from '../store'
 import AppBar from '@material-ui/core/AppBar'
 import { withStyles } from '@material-ui/core'
+import Toolbar from '@material-ui/core/Toolbar'
+import Typography from '@material-ui/core/Typography'
+import Grid from '@material-ui/core/Grid'
+import Button from '@material-ui/core/Button'
+import IconButton from '@material-ui/core/IconButton'
+import HomeIcon from '@material-ui/icons/Home'
+import AccountCircle from '@material-ui/icons/AccountCircle'
 
 const styles = theme => ({
   root: {
-    width: '100%'
+    flexGrow: 1
   },
   grow: {
     flexGrow: 1
   }
 })
 
-const Navbar = ({ handleClick, isLoggedIn }) => {
-  // const { classes } = props
-  return (
-    <div>
-      <AppBar>
-        {isLoggedIn ? (
-          <div>
-            {/* The navbar will show these links after you log in */}
-            <Link to="/home">Home</Link>
-            <a href="#" onClick={handleClick}>
-              Logout
-            </a>
-          </div>
-        ) : (
-          <div>
-            {/* The navbar will show these links before you log in */}
-            <Link to="/login">Login</Link>
-            <Link to="/signup">Sign Up</Link>
-          </div>
-        )}
+// const Navbar = props => {
+//   const { classes } = props
+class Navbar extends Component {
+  render() {
+    const { classes } = this.props
+    return (
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="title" color="inherit">
+            Grace Shopper
+          </Typography>
+          {this.props.isLoggedIn ? (
+            <Grid
+              container
+              direction="row"
+              justify="flex-end"
+              alignItems="center"
+            >
+              <Button className={classes.productsButton} color="inherit">
+                <Link to="/products">Products</Link>
+              </Button>
+              <Button color="inherit">
+                <a href="#" onClick={this.props.handleClick}>
+                  Logout
+                </a>
+              </Button>
+              <IconButton color="inherit" component={Link} to="/home">
+                <AccountCircle />
+              </IconButton>
+            </Grid>
+          ) : (
+            <div>
+              {/* The navbar will show these links before you log in */}
+              <Button color="inherit">
+                <Link to="/login">Login</Link>
+              </Button>
+              <Button color="inherit">
+                <Link to="/signup">Sign Up</Link>
+              </Button>
+              <Button color="inherit">
+                <Link to="/products">Products</Link>
+              </Button>
+            </div>
+          )}
+        </Toolbar>
       </AppBar>
-      <h1>GRACE SHOPPER</h1>
-      <hr />
-    </div>
-  )
+    )
+  }
 }
 
 /**

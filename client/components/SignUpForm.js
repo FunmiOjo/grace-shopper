@@ -2,6 +2,12 @@ import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {signUpUser} from '../store/user'
+import Button from '@material-ui/core/Button';
+import FormControl from '@material-ui/core/FormControl';
+import FormGroup from '@material-ui/core/FormGroup';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import Card from '@material-ui/core/Card';
 
 /**
  * COMPONENT
@@ -10,57 +16,40 @@ const SignUpForm = props => {
   const {handleSubmit, error} = props
 
   return (
-    <div>
+    <Card style={{width: "40%"}}>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="firstName">
-            <small>First Name</small>
-          </label>
-          <input name="firstName" type="text" />
-        </div>
-        <div>
-          <label htmlFor="lastName">
-            <small>Last Name</small>
-          </label>
-          <input name="lastName" type="text" />
-        </div>
-        <div>
-          <label htmlFor="email">
-            <small>Email</small>
-          </label>
-          <input name="email" type="text" />
-        </div>
-        <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input name="password" type="password" />
-        </div>
-        <div>
-          <label htmlFor="billingAddress">
-            <small>Billing Address</small>
-          </label>
-          <input name="billingAddress" type="text" />
-        </div>
-        <div>
-          <label htmlFor="shippingAddress">
-            <small>Shipping Address</small>
-          </label>
-          <input name="shippingAddress" type="text" />
-        </div>
-        <div>
-          <label htmlFor="userType">
-            <small>User Type</small>
-          </label>
-          <input name="userType" type="text" />
-        </div>
-        <div>
-          <button type="submit">Sign Up</button>
-        </div>
+      <FormGroup style={{margin: "1em"}}>
+        <FormControl>
+          <InputLabel>First Name</InputLabel>
+          <Input name="firstName" type="text" />
+        </FormControl>
+        <FormControl>
+          <InputLabel>Last Name</InputLabel>
+          <Input name="lastName" type="text" />
+        </FormControl>
+        <FormControl>
+          <InputLabel>Email</InputLabel>
+          <Input name="email" type="text" />
+        </FormControl>
+        <FormControl>
+          <InputLabel>Password</InputLabel>
+          <Input name="password" type="password" />
+        </FormControl>
+        <FormControl>
+          <InputLabel>Billing Address</InputLabel>
+          <Input name="billingAddress" type="text" />
+        </FormControl>
+        <FormControl>
+          <InputLabel>Shipping Address</InputLabel>
+          <Input name="shippingAddress" type="text" />
+        </FormControl>
+        <br />
+        <Button type="submit">SUBMIT</Button>
+        <Button component="a" href="/auth/google">Sign up with Google</Button>
         {error && error.response && <div> {error.response.data} </div>}
+      </FormGroup>
       </form>
-      <a href="/auth/google">Sign Up with Google</a>
-    </div>
+    </Card>
   )
 }
 
