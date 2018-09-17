@@ -10,6 +10,7 @@ export const SET_ERROR_STATUS = 'SET_ERROR_STATUS'
 export const SET_CART_WITHOUT_REMOVED_ITEM = 'SET_CART_WITHOUT_REMOVED_ITEM'
 export const SET_NO_PRODUCTS_STATUS = 'SET_NO_PRODUCTS_STATUS'
 export const SET_PAYMENT_STATUS = 'SET_PAYMENT_STATUS'
+export const SET_SUBTOTAL = 'SET_SUBTOTAL'
 
 //ACTION CREATORS
 export const setCart = cart => {
@@ -47,6 +48,12 @@ export const setPayment = status => {
   }
 }
 
+export const setSubtotal = () => {
+  return {
+    type: SET_SUBTOTAL
+  }
+}
+
 export const setLoadingStatus = status => {
   return {
     type: SET_LOADING_STATUS,
@@ -67,7 +74,8 @@ export const fetchCart = () => {
     try {
       dispatch(setLoadingStatus(true))
       const { data: cart } = await axios.get(`/api/orders/cart`)
-      await dispatch(setCart(cart))
+      dispatch(setCart(cart))
+      dispatch(setSubtotal())
       dispatch(setLoadingStatus(false))
     } catch (error) {
       console.error(error)
@@ -85,6 +93,7 @@ export const addProductToCart = (id, quantity) => {
         quantity
       })
       dispatch(setAddedProduct(addedProduct))
+      dispatch(setSubtotal())
     } catch (error) {
       dispatch(setLoadingStatus(false))
       dispatch(setErrorStatus(true))
@@ -100,6 +109,7 @@ export const updateCartItemQuantity = itemInfo => {
         itemInfo
       )
       dispatch(setUpdatedItemQuantity(updatedItem))
+      dispatch(setSubtotal())
     } catch (error) {
       dispatch(setLoadingStatus(false))
       dispatch(setErrorStatus(true))
@@ -114,6 +124,7 @@ export const removeItemFromCart = itemInfo => {
         params: itemInfo
       })
       dispatch(setCartWithoutRemovedItem(removedItemId))
+      dispatch(setSubtotal())
     } catch (error) {
       dispatch(setLoadingStatus(false))
       dispatch(setErrorStatus(true))
@@ -139,7 +150,8 @@ const initialState = {
   cartData: {},
   isLoading: true,
   errorHappened: false,
-  paid: false
+  paid: false,
+  subtotalInPennies: 0
 }
 
 //REDUCER
@@ -202,6 +214,13 @@ const reducer = (state = initialState, action) => {
             return product.id !== action.productId
           })
         }
+      }
+    case SET_SUBTOTAL:
+      return {
+        ...state,
+        subtotal: state.cartData.products.reduce((accum, curr) => {
+          return accum + curr.price * curr.orderProduct.quantity
+        }, 0)
       }
     case SET_PAYMENT_STATUS:
       return {

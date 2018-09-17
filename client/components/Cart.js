@@ -79,12 +79,13 @@ class Cart extends Component {
                   )
                   .toLocaleString()}`}
               </Typography>
-
+            {!this.props.checkout &&
             <Button size="large" variant="outlined" onClick={this.handleCheckout}>
               <Typography variant="headline">
                 Checkout
               </Typography>
             </Button>
+            }
           </div>
         )}
       </div>
