@@ -4,24 +4,32 @@ const userLoggedIn = req => {
   return !!req.session.passport.user
 }
 
-const getCart = id => {
-  return Order.findOne({
-    where: {
-      userId: id
-    },
-    include: [{model: Product}]
-  })
+const getCart = async id => {
+  try {
+    return await Order.findOne({
+      where: {
+        userId: id
+      },
+      include: [{model: Product}]
+    })
+  } catch (error) {
+    return error
+  }
 }
 
 
 const getOrderProduct = async (productId, orderId) => {
-  const response = await OrderProduct.findOrCreate({
-    where: {
-      productId,
-      orderId
-    }
-  })
-  return response[0]
+  try {
+    const response = await OrderProduct.findOrCreate({
+      where: {
+        productId,
+        orderId
+      }
+    })
+    return response[0]
+  } catch (error) {
+    return error
+  }
 }
 
 module.exports = {
