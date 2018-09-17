@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import store from '../store'
+import store from '../../store'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
-import UpdateProductForm from './UpdateProductForm'
-import { editProduct, removeProduct } from '../store/product'
+import ProductForm from './ProductForm'
+import { editProduct, removeProduct } from '../../store/product'
 import { connect } from 'react-redux'
 
 class SingleProduct extends Component {

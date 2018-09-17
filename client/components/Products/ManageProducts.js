@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
-import store from '../store'
+import store from '../../store'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
@@ -14,7 +14,7 @@ import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
 import EditIcon from '@material-ui/icons/Edit'
-import { fetchAllProducts } from '../store/product'
+import { fetchAllProducts } from '../../store/product'
 
 const styles = theme => ({
   root: {
@@ -23,11 +23,15 @@ const styles = theme => ({
     overflowX: 'auto',
     textAlign: 'center'
   },
+  buttons: {
+    display: 'flex',
+    justifyContent: 'flex-end'
+  },
   table: {
     minWidth: 700
   },
   productImage: {
-    maxWidth: 200
+    maxWidth: 100
   },
   tableCells: {
     textAlign: 'center'
@@ -52,11 +56,21 @@ class ManageProducts extends Component {
     const products = this.props.products
     return (
       <Paper className={classes.root}>
+        <Button
+          className={classes.buttons}
+          component={Link}
+          to="/manageproducts/product/add"
+        >
+          Add new product
+        </Button>
         <Table className={classes.table}>
           <TableHead>
             <TableRow className={classes.tableRows}>
               <TableCell className={classes.tableCells}>
                 Product Image
+              </TableCell>
+              <TableCell className={classes.tableCells} numeric>
+                Category
               </TableCell>
               <TableCell className={classes.tableCells} numeric>
                 Name
@@ -81,6 +95,13 @@ class ManageProducts extends Component {
                     <img className={classes.productImage} src={product.image} />
                   </TableCell>
                   <TableCell className={classes.tableCells} numeric>
+                    <ul>
+                      {product.categories.map(category => (
+                        <li key={category.id}>{category.name}</li>
+                      ))}
+                    </ul>
+                  </TableCell>
+                  <TableCell className={classes.tableCells} numeric>
                     {product.name}
                   </TableCell>
                   <TableCell className={classes.tableCells} numeric>
@@ -93,7 +114,11 @@ class ManageProducts extends Component {
                     {product.quantity}
                   </TableCell>
                   <TableCell>
-                    <Button variant="contained">
+                    <Button
+                      variant="contained"
+                      component={Link}
+                      to={`/manageproducts/edit/product/${product.id}`}
+                    >
                       edit<EditIcon />
                     </Button>
                   </TableCell>
@@ -103,26 +128,6 @@ class ManageProducts extends Component {
           </TableBody>
         </Table>
       </Paper>
-      //   <div>
-      //     {products && (
-      //       <List>
-      //         {products.map(product => (
-      //           <ListItem
-      //             button
-      //             component={Link}
-      //             to={'/products/' + product.id}
-      //             key={product.id}
-      //           >
-      //             <img className={classes.productImage} src={product.image} />
-      //             <ListItemText
-      //               primary={product.name}
-      //               secondary={product.price}
-      //             />
-      //           </ListItem>
-      //         ))}
-      //       </List>
-      //     )}
-      //   </div>
     )
   }
 }

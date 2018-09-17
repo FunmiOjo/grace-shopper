@@ -31,6 +31,7 @@ router.post('/', (req, res, next) => {
 })
 
 // PUT
+
 router.put(':/productId', (req, res, next) => {
   Product.findById(req.params.productId)
     .then(product => {

@@ -7,9 +7,11 @@ import { me } from './store'
 import allUsers from './components/AllUsers'
 import Home from './components/Home'
 import SingleUser from './components/SingleUser'
-import ManageProducts from './components/ManageProducts'
-import AllProductsContainer from './components/AllProductsContainer'
-import SingleProductContainer from './components/SingleProductContainer'
+import ManageProducts from './components/Products/ManageProducts'
+import AllProductsContainer from './components/Products/AllProductsContainer'
+import SingleProductContainer from './components/Products/SingleProductContainer'
+import EditProductContainer from './components/Products/EditProductContainer'
+import AddProduct from './components/Products/AddProduct'
 import { fetchAllProducts } from './store/product'
 
 /**
@@ -38,7 +40,12 @@ class Routes extends Component {
             <Route path="/home" component={UserHome} />
             <Route exact path="/users" component={allUsers} />
             <Route path="/users/:id" component={SingleUser} />
-            <Route path="/manageproducts" component={ManageProducts} />
+            <Route exact path="/manageproducts" component={ManageProducts} />
+            <Route path="/manageproducts/product/add" component={AddProduct} />
+            <Route
+              path="/manageproducts/edit/product/:productId"
+              component={EditProductContainer}
+            />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
