@@ -73,7 +73,7 @@ class SingleUser extends Component {
               <TableCell>{user.shippingAddress}</TableCell>
               <TableCell>
                 <Select
-                  value={user.userType} name="userType"
+                  value={user.userType || 'user'} name="userType"
                   onChange={this.handleChange}>
                   <MenuItem value="user">User</MenuItem>
                   <MenuItem value="admin">Admin</MenuItem>
@@ -82,7 +82,7 @@ class SingleUser extends Component {
               </TableCell>
               <TableCell>
                 <Select
-                  value={user.resetPassword} name="resetPassword"
+                  value={user.resetPassword || false} name="resetPassword"
                   onChange={this.handleChange}>
                     <MenuItem value={true}>Yes</MenuItem>
                     <MenuItem value={false}>No</MenuItem>

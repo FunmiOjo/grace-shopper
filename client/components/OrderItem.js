@@ -1,13 +1,11 @@
-import React from 'react';
+import React from 'react'
 import { formatPrice } from '../helpers'
-import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import ButtonBase from '@material-ui/core/ButtonBase'
+import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import Input from '@material-ui/core/Input'
-import TextField from '@material-ui/core/TextField'
-import { Link } from 'react-router'
 
 const styles = theme => ({
   root: {
@@ -19,19 +17,64 @@ const styles = theme => ({
   }
 })
 
-const OrderItem = (props) => {
-  const { image, name, description, id } = props.product
-  const { quantity } = props.product.orderProduct
-  const price = formatPrice(props.product.price)
-  const { classes } = props
-  return (
-    <div>
+class OrderItem extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      quantity: 0
+    }
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  handleChange(event) {
+    this.setState({
+      quantity: Number(event.target.value)
+    })
+  }
+
+  componentDidMount() {
+    this.setState({
+      quantity: this.props.product.orderProduct.quantity
+    })
+  }
+
+  render() {
+    const { image, name, description, id: productId } = this.props.product
+    const { orderId: cartId } = this.props.product.orderProduct
+    const price = formatPrice(this.props.product.price)
+    const { classes, handleSubmit } = this.props
+
+    return (
+      <div key={productId}>
         <Grid container spacing={16}>
           <Grid item>
-            <Input defaultValue={quantity} size={1} className={classes.root}/>
+            <Input
+              size={1}
+              className={classes.root}
+              name={productId.toString()}
+              value={this.state.quantity}
+              onChange={this.handleChange}
+            />
+            <Button
+              size="small"
+              onClick={() =>
+                handleSubmit({ quantity: this.state.quantity, productId, cartId})
+              }
+            >
+              Update
+            </Button>
+            <Button
+              size="small"
+              onClick={() =>
+                handleSubmit({ quantity: 0, productId, cartId})
+              }
+            >
+              Delete
+            </Button>
           </Grid>
+
           <Grid item>
-            <ButtonBase component='a' href={`/products/${id}`}>
+            <ButtonBase component="a" href={`/products/${productId}`}>
               <img src={image} alt={name} className={classes.image} />
             </ButtonBase>
           </Grid>
@@ -43,14 +86,13 @@ const OrderItem = (props) => {
               <Typography gutterBottom variant="headline">
                 {price}
               </Typography>
-              <Typography gutterBottom>
-                {description}
-              </Typography>
+              <Typography gutterBottom>{description}</Typography>
             </Grid>
           </Grid>
         </Grid>
-    </div>
-  )
+      </div>
+    )
+  }
 }
 
-export default withStyles(styles)(OrderItem);
+export default withStyles(styles)(OrderItem)
