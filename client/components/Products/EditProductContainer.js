@@ -4,7 +4,8 @@ import { fetchProduct, editProduct } from '../../store/product'
 
 const mapStateToProps = state => {
   return {
-    selectedProduct: state.product.selectedProduct
+    selectedProduct: state.product.selectedProduct,
+    categories: state.category.allCategories
   }
 }
 
@@ -14,6 +15,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     loadSingleProduct: () => {
       dispatch(fetchProduct(productId))
     },
+
     updateProduct: (id, data) => {
       dispatch(editProduct(productId, data))
     }

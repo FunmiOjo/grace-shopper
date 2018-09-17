@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
+import { fetchProduct, editProduct, removeProduct } from '../../store/product'
 import ProductForm from './ProductForm'
 import TextField from '@material-ui/core/TextField'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -13,107 +15,77 @@ import Tab from '@material-ui/core/Tab'
 import SwipeableViews from 'react-swipeable-views'
 import AppBar from '@material-ui/core/AppBar'
 
-function TabContainer({ children, dir }) {
-  return (
-    <Typography component="div" dir={dir} style={{ padding: 8 * 3 }}>
-      {children}
-    </Typography>
-  )
-}
-
-const styles = theme => ({
-  root: {
-    width: '100%',
-    marginTop: theme.spacing.unit * 3,
-    overflowX: 'auto',
-    textAlign: 'center'
-  }
-})
-
 class EditProduct extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      product: this.props.selectedProduct,
-      value: 0
-    }
+    this.state = this.props.selectedProduct
   }
-
-  handleChange = (event, value) => {
-    this.setState({ value })
-  }
-
-  handleChangeIndex = index => {
-    this.setState({ value: index })
-  }
-  //   handleChange(event) {
-  //     const change = {}
-  //     change[event.target.name] = event.target.value
-  //     this.setState(change)
-  //   }
-  //   handleSubmit(event) {
-  //     event.preventDefault()
-  //     this.props.update(this.state.id, this.state)
-  //   }
 
   componentDidMount() {
     this.props.loadSingleProduct()
   }
 
+  handleChange = prop => event => {
+    this.setState({ [prop]: event.target.value })
+  }
+
+  handleSelect = event => {
+    if (event.target.checked) {
+      this.state.categories.push(event.target.value)
+    } else {
+      this.state.categories.filter(
+        category => category.id !== event.target.value
+      )
+    }
+  }
+
   render() {
     const { classes, theme } = this.props
     const product = this.props.selectedProduct
+    const deleteProduct = this.props.deleteProduct
+    console.log('state', this.state)
     return (
-      <div className={classes.root}>
-        <AppBar position="static" color="default">
-          <Tabs
-            value={this.state.value}
-            onChange={this.handleChange}
-            indicatorColor="primary"
-            textColor="secondary"
-            fullWidth
+      product && (
+        <div>
+          <Typography variant="title">Edit Product</Typography>
+          <ProductForm
+            product={product}
+            categories={this.props.categories}
+            handleChange={this.handleChange}
+            handleSelect={this.handleSelect}
+            productAction={this.props.updateProduct}
+            buttonName="UPDATE PRODUCT"
+          />
+          <Button
+            variant="contained"
+            color="red"
+            onClick={() => deleteProduct(product.id)}
           >
-            <Tab label="Product Details" />
-            <Tab label="Product Image" />
-            <Tab label="Item Three" />
-          </Tabs>
-        </AppBar>
-        <SwipeableViews
-          axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-          index={this.state.value}
-          onChangeIndex={this.handleChangeIndex}
-        >
-          <TabContainer dir={theme.direction}>
-            {product && (
-              <ProductForm
-                product={product}
-                update={this.props.updateProduct}
-              />
-            )}
-          </TabContainer>
-          <TabContainer dir={theme.direction}>Item Two</TabContainer>
-          <TabContainer dir={theme.direction}>Item Three</TabContainer>
-        </SwipeableViews>
-      </div>
-      //   <div>
-      //     {product && (
-      //       <div>
-      //         <Typography variant="title">
-      //           {this.props.selectedProduct.name}
-      //         </Typography>
-      //         <FormControl>
-      //           <InputLabel htmlFor="productName">Product Name</InputLabel>
-      //           <Input
-      //             value={product.name}
-      //             name="productName"
-      //             onChange={this.handleChange}
-      //           />
-      //         </FormControl>
-      //       </div>
-      //     )}
-      //   </div>
+            DELETE PRODUCT
+          </Button>
+        </div>
+      )
     )
   }
 }
 
-export default withStyles(styles, { withTheme: true })(EditProduct)
+const mapStateToProps = state => {
+  return {
+    categories: state.category.allCategories
+  }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  const productId = ownProps.match.params.productId
+  return {
+    loadSingleProduct: () => {
+      dispatch(fetchProduct(productId))
+    },
+    updateProduct: data => {
+      dispatch(editProduct(productId, data))
+    },
+    deleteProduct: id => dispatch(removeProduct(id))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditProduct)

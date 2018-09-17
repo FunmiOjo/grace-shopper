@@ -13,6 +13,7 @@ class AddProduct extends Component {
       image: '',
       description: '',
       quantity: 0,
+      categories: [],
       value: 0
     }
   }
@@ -21,17 +22,36 @@ class AddProduct extends Component {
     this.setState({ [prop]: event.target.value })
   }
 
+  handleSelect = event => {
+    if (event.target.checked) {
+      this.state.categories.push(event.target.value)
+    } else {
+      this.state.categories.filter(
+        category => category.id !== event.target.value
+      )
+    }
+  }
+
   render() {
     return (
       <div>
         <Typography variant="title">Add a new product</Typography>
         <ProductForm
-          newProduct={this.state}
+          product={this.state}
+          categories={this.props.categories}
           handleChange={this.handleChange}
-          addProduct={this.props.addProduct}
+          handleSelect={this.handleSelect}
+          productAction={this.props.addProduct}
+          buttonName="ADD PRODUCT"
         />
       </div>
     )
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    categories: state.category.allCategories
   }
 }
 
@@ -41,4 +61,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(AddProduct)
+export default connect(mapStateToProps, mapDispatchToProps)(AddProduct)

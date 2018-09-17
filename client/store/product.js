@@ -73,6 +73,7 @@ export const removeProduct = productId => {
   return async dispatch => {
     const response = await axios.delete(`/api/products/${productId}`)
     const product = response.data
+    console.log('deleting', product)
     dispatch(deleteProduct(product))
   }
 }

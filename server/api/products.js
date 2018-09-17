@@ -22,6 +22,14 @@ router.get('/:id', (req, res, next) => {
     .catch(next)
 })
 
+router.get('/categories/:categoryId', (req, res, next) => {
+  Product.findByCategory(req.params.categoryId, {
+    include: [{ model: Category }]
+  })
+    .then(products => res.status(200).json(products))
+    .catch(next)
+})
+
 // POST
 
 router.post('/', (req, res, next) => {

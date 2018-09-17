@@ -31,10 +31,10 @@ const Product = db.define('product', {
 // find all products based on categories
 // not sure why this isn't working or what the alias is supposed to be
 // using a category route for now
-Product.findByCategory = name => {
-  console.log(name)
+// write an Op.contains bc multiple categories
+Product.findByCategory = id => {
   return Product.findAll({
-    include: [{ model: Category, where: { name }, as: 'category' }]
+    include: [{ model: Category, where: { id }, through: 'productcategory' }]
   })
 }
 

@@ -13,6 +13,7 @@ const Category = db.define('category', {
     type: Sequelize.STRING,
     defaultValue: 'cat.jpg'
   }
+  // add an active property?
 })
 
 Category.findByCategory = name => {
