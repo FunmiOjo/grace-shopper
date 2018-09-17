@@ -9,6 +9,7 @@ import SingleUser from './components/SingleUser'
 import AllProductsContainer from './components/AllProductsContainer'
 import SingleProductContainer from './components/SingleProductContainer'
 import PasswordReset from '../client/components/PasswordReset'
+import { fetchCart } from './store/cart'
 
 /**
  * COMPONENT
@@ -16,6 +17,7 @@ import PasswordReset from '../client/components/PasswordReset'
 class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData()
+    this.props.fetchCart()
   }
 
   render() {
@@ -57,11 +59,11 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    loadInitialData() {
-      dispatch(me())
-    }
+    loadInitialData: () => dispatch(me()),
+    fetchCart: () => dispatch(fetchCart())
   }
 }
+
 
 // The `withRouter` wrapper makes sure that updates are not blocked
 // when the url changes

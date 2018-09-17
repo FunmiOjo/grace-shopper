@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import SingleProduct from './SingleProduct'
 import { fetchProduct } from '../store/product'
-
+import { addProductToCart } from '../store/cart'
 const mapStateToProps = state => {
   return {
     selectedProduct: state.product.selectedProduct
@@ -14,7 +14,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     loadSingleProduct: () => {
       const productId = ownProps.match.params.productId
       dispatch(fetchProduct(productId))
-    }
+    },
+    addProduct: (id, quantity) => dispatch(addProductToCart(id, quantity))
   }
 }
 

@@ -20,7 +20,8 @@ const styles = theme => ({
 })
 
 const OrderItem = (props) => {
-  const { image, name, description, quantity, id } = props.product
+  const { image, name, description, id } = props.product
+  const { quantity } = props.product.orderProduct
   const price = formatPrice(props.product.price)
   const { classes } = props
   return (
