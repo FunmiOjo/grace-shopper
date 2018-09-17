@@ -2,6 +2,12 @@ import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {logInUser} from '../store/user'
+import Button from '@material-ui/core/Button';
+import FormControl from '@material-ui/core/FormControl';
+import FormGroup from '@material-ui/core/FormGroup';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import Card from '@material-ui/core/Card';
 
 /**
  * COMPONENT
@@ -10,27 +16,24 @@ const AuthForm = props => {
   const {handleSubmit, error} = props
 
   return (
-    <div>
+    <Card style={{width: "40%"}}>
       <form onSubmit={handleSubmit} >
-        <div>
-          <label htmlFor="email">
-            <small>Email</small>
-          </label>
-          <input name="email" type="text" />
-        </div>
-        <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input name="password" type="password" />
-        </div>
-        <div>
-          <button type="submit">Login</button>
-        </div>
+      <FormGroup style={{margin: "1em"}}>
+        <FormControl>
+          <InputLabel>Email</InputLabel>
+          <Input name="email" type="text" />
+        </FormControl>
+        <FormControl>
+          <InputLabel>Password</InputLabel>
+          <Input name="password" type="password" />
+        </FormControl>
+        <br />
+        <Button type="submit" onSubmit={handleSubmit}>LOGIN</Button>
+        <Button component="a" href="/auth/google">Login with Google</Button>
         {error && error.response && <div> {error.response.data} </div>}
+        </FormGroup>
       </form>
-      <a href="/auth/google">Login with Google</a>
-    </div>
+    </Card>
   )
 }
 

@@ -14,7 +14,7 @@ const UPDATE_USER = 'UPDATE_USER'
 /**
  * INITIAL STATE
  */
-const initialState= {
+const initialState = {
   currentUser: {},
   allUsers: [],
   selectedUser: {}
@@ -23,27 +23,27 @@ const initialState= {
 /**
  * ACTION CREATORS
  */
-const getUser = currentUser => ({type: GET_USER, currentUser})
-const logoutUser = () => ({type: LOGOUT_USER})
-const setAllUsers = (allUsers) => {
+const getUser = currentUser => ({ type: GET_USER, currentUser })
+const logoutUser = () => ({ type: LOGOUT_USER })
+const setAllUsers = allUsers => {
   return {
     type: ALL_USERS,
     allUsers
   }
 }
-const setSingleUser = (selectedUser) =>{
+const setSingleUser = selectedUser => {
   return {
     type: SELECTED_USER,
     selectedUser
   }
 }
-const setAfterDeleting = (selectedUser) => {
+const setAfterDeleting = selectedUser => {
   return {
     type: DELETE_USER,
     selectedUser
   }
 }
-const setUpdatedUser = (selectedUser) => {
+const setUpdatedUser = selectedUser => {
   return {
     type: UPDATE_USER,
     selectedUser
@@ -65,26 +65,45 @@ export const me = () => async dispatch => {
 export const logInUser = (email, password) => async dispatch => {
   let res
   try {
-    res = await axios.post('/auth/login', {email, password})
+    res = await axios.post('/auth/login', { email, password })
   } catch (authError) {
-    return dispatch(getUser({error: authError}))
+    return dispatch(getUser({ error: authError }))
   }
 
   try {
     const user = res.data
     dispatch(getUser(user))
-    history.push('/home')
+    if (user.resetPassword) {
+      history.push('/reset')
+    }
+    else {
+      history.push('/home')
+    }
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)
   }
 }
 
-export const signUpUser = (firstName, lastName, email, password, billingAddress, shippingAddress) => async dispatch => {
+export const signUpUser = (
+  firstName,
+  lastName,
+  email,
+  password,
+  billingAddress,
+  shippingAddress
+) => async dispatch => {
   let res
   try {
-    res = await axios.post('/auth/signup', {firstName, lastName, email, password, billingAddress, shippingAddress})
+    res = await axios.post('/auth/signup', {
+      firstName,
+      lastName,
+      email,
+      password,
+      billingAddress,
+      shippingAddress
+    })
   } catch (authError) {
-    return dispatch(getUser({error: authError}))
+    return dispatch(getUser({ error: authError }))
   }
 
   try {
@@ -108,19 +127,18 @@ export const logout = () => async dispatch => {
 export const fetchAllUsers = () => {
   return async dispatch => {
     try {
-      const {data} = await axios.get('/api/users')
+      const { data } = await axios.get('/api/users')
       dispatch(setAllUsers(data))
-    }
-    catch (err) {
+    } catch (err) {
       console.error(err)
     }
   }
 }
 
-export const fetchSingleUser = (id) => {
+export const fetchSingleUser = id => {
   return async dispatch => {
     try {
-      const {data} = await axios.get(`/api/users/${id}`)
+      const { data } = await axios.get(`/api/users/${id}`)
       dispatch(setSingleUser(data))
     } catch (err) {
       console.error(err)
@@ -128,10 +146,10 @@ export const fetchSingleUser = (id) => {
   }
 }
 
-export const deleteUserOnServer = (id) => {
+export const deleteUserOnServer = id => {
   return async dispatch => {
     try {
-      const {data} = await axios.delete(`/api/users/${id}`)
+      const { data } = await axios.delete(`/api/users/${id}`)
       dispatch(setAfterDeleting(data))
     } catch (err) {
       console.error(err)
@@ -142,7 +160,7 @@ export const deleteUserOnServer = (id) => {
 export const updateUserOnServer = (id, userData) => {
   return async dispatch => {
     try {
-      const {data} = await axios.put(`/api/users/${id}`, userData)
+      const { data } = await axios.put(`/api/users/${id}`, userData)
       dispatch(setUpdatedUser(data))
     } catch (err) {
       console.error(err)
@@ -159,18 +177,20 @@ export default function(state = initialState, action) {
   const currentUser = action.currentUser
   switch (action.type) {
     case GET_USER:
-      return {...state, currentUser}
+      return { ...state, currentUser }
     case LOGOUT_USER:
-      return {...state, currentUser: {}}
+      return { ...state, currentUser: {} }
     case ALL_USERS:
-      return {...state, allUsers}
+      return { ...state, allUsers }
     case SELECTED_USER:
-      return {...state, selectedUser}
+      return { ...state, selectedUser }
     case DELETE_USER:
-      const newUserList = state.allUsers.filter(user => user.id !== action.selectedUser.id)
-      return {...state, allUsers: newUserList, selectedUser: null}
+      const newUserList = state.allUsers.filter(
+        user => user.id !== action.selectedUser.id
+      )
+      return { ...state, allUsers: newUserList, selectedUser: null }
     case UPDATE_USER:
-      return {...state, selectedUser}
+      return { ...state, selectedUser }
     default:
       return state
   }

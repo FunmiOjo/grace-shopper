@@ -1,10 +1,15 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import store from '../../store'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
+import TextField from '@material-ui/core/TextField'
+import ProductForm from './ProductForm'
+import { editProduct, removeProduct } from '../../store/product'
+import { connect } from 'react-redux'
 import Input from '@material-ui/core/Input'
 
-export default class SingleProduct extends Component {
+class SingleProduct extends Component {
   constructor() {
     super()
     this.state = {
@@ -54,9 +59,7 @@ export default class SingleProduct extends Component {
               <Input defaultValue={1} onChange={this.handleChange} />
             </Grid>
             <Grid item>
-              <Button onClick={this.handleClick}>
-                Add to cart
-              </Button>
+              <Button onClick={this.handleClick}>Add to cart</Button>
             </Grid>
           </Grid>
         )}
@@ -64,3 +67,5 @@ export default class SingleProduct extends Component {
     )
   }
 }
+
+export default SingleProduct

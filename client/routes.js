@@ -5,18 +5,28 @@ import PropTypes from 'prop-types'
 import { Login, SignUp, UserHome, Cart } from './components'
 import { me } from './store'
 import allUsers from './components/AllUsers'
+import Home from './components/Home'
 import SingleUser from './components/SingleUser'
-import AllProductsContainer from './components/AllProductsContainer'
-import SingleProductContainer from './components/SingleProductContainer'
+import PasswordReset from '../client/components/PasswordReset'
+import ManageProducts from './components/Products/ManageProducts'
+import AllProductsContainer from './components/Products/AllProductsContainer'
+import SingleProductContainer from './components/Products/SingleProductContainer'
+import EditProductContainer from './components/Products/EditProductContainer'
+import AddProduct from './components/Products/AddProduct'
+import { fetchAllProducts } from './store/product'
+import { fetchAllCategories } from './store/category'
 import ErrorView from './components/ErrorView'
 import Checkout from './components/Checkout'
 import { fetchCart } from './store/cart'
+
 /**
  * COMPONENT
  */
 class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData()
+    this.props.loadAllProducts()
+    this.props.loadAllCategories()
     this.props.fetchCart()
   }
 
@@ -25,6 +35,7 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
+        <Route path="/welcome" component={Home} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={SignUp} />
         <Route exact path="/products" component={AllProductsContainer} />
@@ -38,6 +49,13 @@ class Routes extends Component {
             <Route path="/home" component={UserHome} />
             <Route exact path="/users" component={allUsers} />
             <Route path="/users/:id" component={SingleUser} />
+            <Route path='/reset' component={PasswordReset} />
+            <Route exact path="/manageproducts" component={ManageProducts} />
+            <Route path="/manageproducts/product/add" component={AddProduct} />
+            <Route
+              path="/manageproducts/edit/product/:productId"
+              component={EditProductContainer}
+            />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
@@ -60,11 +78,14 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    loadInitialData: () => dispatch(me()),
+    loadInitialData() {
+      dispatch(me())
+    },
+    loadAllProducts: () => dispatch(fetchAllProducts()),
+    loadAllCategories: () => dispatch(fetchAllCategories()),
     fetchCart: () => dispatch(fetchCart())
   }
 }
-
 
 // The `withRouter` wrapper makes sure that updates are not blocked
 // when the url changes
