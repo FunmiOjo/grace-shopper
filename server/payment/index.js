@@ -1,14 +1,18 @@
+const router = require('express').Router()
+
 const stripe = require('stripe')(process.env.STRIPE_SECRET_TEST_KEY || require('../../secrets').STRIPE_SECRET_TEST_KEY)
 
-const main = async () => {
+router.post('/', async (req, res, next) => {
+  const { amount, currency, source, userId } = req.body
   const charge = await stripe.charges.create({
-    amount: 999,
-    currency: 'usd',
-    source: 'tok_visa',
-    receipt_email: 'jenny.rosen@example.com'
+    amount,
+    currency,
+    source
   })
   console.log(charge)
-}
+  res.json(charge)
+})
 
-main()
+module.exports = router
+
 
