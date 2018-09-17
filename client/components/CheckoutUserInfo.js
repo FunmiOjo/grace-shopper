@@ -36,13 +36,12 @@ class CheckoutUserInfo extends Component {
   handleClose(event) {
     this.setState({ open: false })
     if (event.target.innerText === "UPDATE") {
-      console.log('update addresses')
+      console.log(this.state)
     }
   }
 
   handleClickOpen() {
     this.setState({ open: true })
-    console.log('I was clicked')
   }
 
   render() {
@@ -93,6 +92,7 @@ class CheckoutUserInfo extends Component {
               label="Shipping Address"
               type="text"
               margin="normal"
+              onChange={this.handleChange}
             />
             </FormControl>
             </FormGroup>
