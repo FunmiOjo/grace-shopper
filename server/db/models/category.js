@@ -12,8 +12,11 @@ const Category = db.define('category', {
   image: {
     type: Sequelize.STRING,
     defaultValue: 'cat.jpg'
+  },
+  isActive: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
   }
-  // add an active property?
 })
 
 Category.findByCategory = name => {
