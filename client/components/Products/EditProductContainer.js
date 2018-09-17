@@ -16,7 +16,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(fetchProduct(productId))
     },
 
-    updateProduct: (id, data) => {
+    updateProduct: data => {
       dispatch(editProduct(productId, data))
     }
   }

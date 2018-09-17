@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import ProductGridList from './ProductGridList'
+import CategoryGridList from './CategoryGridList'
 import { withStyles } from '@material-ui/core/styles'
 
 const styles = theme => ({
@@ -15,18 +15,18 @@ const styles = theme => ({
   }
 })
 
-class AllProducts extends Component {
+class AllCategories extends Component {
   componentDidMount() {
-    this.props.loadAllProducts()
+    this.props.loadAllCategories()
   }
 
   render() {
-    const products = this.props.products
+    const categories = this.props.categories
     return (
       <div className="container">
-        {products && (
+        {categories && (
           <div>
-            <ProductGridList products={products} />
+            <CategoryGridList categories={categories} />
           </div>
         )}
       </div>
@@ -34,4 +34,4 @@ class AllProducts extends Component {
   }
 }
 
-export default withStyles(styles)(AllProducts)
+export default withStyles(styles)(AllCategories)

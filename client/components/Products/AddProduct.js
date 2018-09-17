@@ -19,6 +19,7 @@ class AddProduct extends Component {
   }
 
   handleChange = prop => event => {
+    console.log('selecttarget', event.target.value)
     this.setState({ [prop]: event.target.value })
   }
 
@@ -42,7 +43,7 @@ class AddProduct extends Component {
           handleChange={this.handleChange}
           handleSelect={this.handleSelect}
           productAction={this.props.addProduct}
-          buttonName="ADD PRODUCT"
+          buttonName="ADD"
         />
       </div>
     )

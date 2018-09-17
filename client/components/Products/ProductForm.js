@@ -94,7 +94,7 @@ class AddProduct extends Component {
                 label="Quantity"
                 name="quantity"
                 className={classNames(classes.margin, classes.textField)}
-                value={product.quantity}
+                value={product.quantity || 0}
                 onChange={handleChange('quantity')}
                 type="number"
                 InputLabelProps={{ shrink: true }}
@@ -125,7 +125,7 @@ class AddProduct extends Component {
                       key={category.id}
                       control={
                         <Checkbox
-                          onChange={handleChange(category.name)}
+                          onChange={() => handleChange(category.name)}
                           value={`${category.id}`}
                         />
                       }
@@ -144,13 +144,23 @@ class AddProduct extends Component {
               </div>
             </Grid>
           </Grid>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={() => productAction(product)}
-          >
-            {buttonName}
-          </Button>
+          {this.props.buttonName === 'UPDATE' ? (
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => productAction(product.id, product)}
+            >
+              {buttonName}
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => productAction(product)}
+            >
+              {buttonName}
+            </Button>
+          )}
         </div>
       )
     )

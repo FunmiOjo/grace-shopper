@@ -1,32 +1,24 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withStyles } from '@material-ui/core/styles'
 import { fetchProduct, editProduct, removeProduct } from '../../store/product'
 import ProductForm from './ProductForm'
-import TextField from '@material-ui/core/TextField'
-import MenuItem from '@material-ui/core/MenuItem'
-import FormControl from '@material-ui/core/FormControl'
-import Input from '@material-ui/core/Input'
-import InputLabel from '@material-ui/core/InputLabel'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
-import SwipeableViews from 'react-swipeable-views'
-import AppBar from '@material-ui/core/AppBar'
 
 class EditProduct extends Component {
   constructor(props) {
     super(props)
-    this.state = this.props.selectedProduct
+    this.state = this.props.product
   }
 
   componentDidMount() {
-    this.props.loadSingleProduct()
+    // set state with the product
+    this.props.loadSingleProduct(this.props.match.params.id)
   }
 
   handleChange = prop => event => {
-    this.setState({ [prop]: event.target.value })
+    const currentState = this.state
+    this.setState({ ...currentState, [prop]: event.target.value })
   }
 
   handleSelect = event => {
@@ -54,7 +46,7 @@ class EditProduct extends Component {
             handleChange={this.handleChange}
             handleSelect={this.handleSelect}
             productAction={this.props.updateProduct}
-            buttonName="UPDATE PRODUCT"
+            buttonName="UPDATE"
           />
           <Button
             variant="contained"
@@ -81,8 +73,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     loadSingleProduct: () => {
       dispatch(fetchProduct(productId))
     },
-    updateProduct: data => {
-      dispatch(editProduct(productId, data))
+    updateProduct: (id, data) => {
+      dispatch(editProduct(id, data))
     },
     deleteProduct: id => dispatch(removeProduct(id))
   }
