@@ -56,7 +56,6 @@ class SingleOrder extends Component {
           </TableRow>
           }
         </TableBody>
-        <br /><br />
         <TableHead>
           <TableRow>
             <TableCell>Order #</TableCell>
