@@ -98,8 +98,14 @@ class SingleProduct extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    product: state.product
+  }
+}
+
 const mapDispatchToProps = dispatch => ({
   postReview: data => dispatch(postReview(data))
 })
 
-export default connect(null, mapDispatchToProps)(SingleProduct)
+export default connect(mapStateToProps, mapDispatchToProps)(SingleProduct)
