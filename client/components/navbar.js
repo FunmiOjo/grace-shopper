@@ -38,7 +38,7 @@ class Navbar extends Component {
         <Toolbar>
           <Typography variant="title" color="inherit">
             <Link to="/home">
-              <img src="/images/logo.png" width={50} />
+              <img src="/images/logo.png" width={55} />
             </Link>
           </Typography>
           {this.props.isLoggedIn ? (
@@ -48,11 +48,7 @@ class Navbar extends Component {
               justify="flex-end"
               alignItems="center"
             >
-              <Button
-                className={classes.buttonPadding}
-                color="inherit"
-                disableTouchRipple={true}
-              >
+              <Button className={classes.buttonPadding} color="inherit">
                 <Link to="/rooms">Rooms</Link>
               </Button>
               <Button className={classes.buttonPadding} color="inherit">

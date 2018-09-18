@@ -19,12 +19,22 @@ import AppBar from '@material-ui/core/AppBar'
 class EditProduct extends Component {
   constructor(props) {
     super(props)
-    this.state = this.props.location.state.product
+    const productProps = props.location.state.product
+    this.state = {
+      name: productProps.name,
+      price: productProps.price,
+      image: productProps.image,
+      description: productProps.description,
+      quantity: productProps.quantity,
+      categories: productProps.categories
+    }
+    this.handleUpdate = this.handleUpdate.bind(this)
+    this.handleDelete = this.handleDelete.bind(this)
   }
 
   componentDidMount() {
     // set state with the product
-    this.props.loadSingleProduct(this.props.match.params.id)
+    this.props.loadSingleProduct()
   }
 
   handleChange = prop => event => {
@@ -32,12 +42,19 @@ class EditProduct extends Component {
     this.setState({ ...currentState, [prop]: event.target.value })
   }
 
+  handleUpdate(productData) {
+    this.props.updateProduct(productData)
+    this.props.history.push('/manageproducts')
+  }
+
+  handleDelete(productId) {
+    this.props.deleteProduct(productId)
+    this.props.history.push('/manageproducts')
+  }
+
   render() {
     const { classes, theme } = this.props
-    console.log('passed prop trough link', this.props.location.state)
-    console.log('thisis the state', this.state)
-    const product = this.state.product
-    const deleteProduct = this.props.deleteProduct
+    const product = this.state
     console.log('state', this.state)
     return (
       product && (
@@ -47,14 +64,12 @@ class EditProduct extends Component {
             product={product}
             categories={this.props.categories}
             handleChange={this.handleChange}
-            handleSelect={this.handleSelect}
-            productAction={this.props.updateProduct}
+            productAction={this.handleUpdate}
             buttonName="UPDATE"
           />
           <Button
             variant="contained"
-            color="red"
-            onClick={() => deleteProduct(product.id)}
+            onClick={() => this.handleDelete(product.id)}
           >
             DELETE PRODUCT
           </Button>
@@ -66,6 +81,7 @@ class EditProduct extends Component {
 
 const mapStateToProps = state => {
   return {
+    selectedProduct: state.product.selectedProduct,
     categories: state.category.allCategories
   }
 }
@@ -76,8 +92,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     loadSingleProduct: () => {
       dispatch(fetchProduct(productId))
     },
-    updateProduct: (id, data) => {
-      dispatch(editProduct(id, data))
+    updateProduct: data => {
+      dispatch(editProduct(productId, data))
     },
     deleteProduct: id => dispatch(removeProduct(id))
   }

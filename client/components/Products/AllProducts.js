@@ -31,6 +31,10 @@ const styles = theme => ({
     marginTop: 30,
     borderWidth: 1,
     borderStyle: 'solid'
+  },
+  titleText: {
+    color: '#000',
+    fontWeight: 'bolder'
   }
 })
 
@@ -48,7 +52,9 @@ class AllProducts extends Component {
           <div>
             <Grid container spacing={24}>
               <Grid className={classes.heading} item xs={12}>
-                <Typography variant="display2">Products</Typography>
+                <Typography className={classes.titleText} variant="display2">
+                  Products
+                </Typography>
                 <div className={classes.caption}>
                   <Typography variant="body2">
                     Get inspired and find products for your home. We have a huge

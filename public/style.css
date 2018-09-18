@@ -24,6 +24,10 @@ form div {
   height: 55px;
 }
 
+.MuiGridListTileBar-title {
+  font-size: 72px;
+}
+
 .hvr-underline-from-center {
   display: inline-block;
   vertical-align: middle;

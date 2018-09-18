@@ -15,10 +15,11 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import Grid from '@material-ui/core/Grid'
 import Dropzone from 'react-dropzone'
+import ImageUploader from './ImageUploader'
 
 const styles = theme => ({
   root: {
-    width: '100%',
+    width: '50%',
     overflowX: 'auto',
     textAlign: 'left'
   },
@@ -37,7 +38,6 @@ const styles = theme => ({
     margin: theme.spacing.unit
   },
   textField: {
-    flexBasis: 50,
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit
   },
@@ -46,14 +46,25 @@ const styles = theme => ({
     minHeight: 30,
     marginTop: theme.spacing.unit * 2,
     marginBottom: theme.spacing.unit * 2
+  },
+  quantityPicker: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 100
+  },
+  descriptionField: {
+    height: 300,
+    border: 1,
+    borderStyle: 'solid'
   }
 })
 
-class AddProduct extends Component {
+class ProductForm extends Component {
   render() {
     const { classes } = this.props
     const product = this.props.product
     const handleChange = this.props.handleChange
+    const handleClick = this.props.handleClick
     const categories = this.props.categories
     const productAction = this.props.productAction
     const buttonName = this.props.buttonName
@@ -91,25 +102,29 @@ class AddProduct extends Component {
               />
               <TextField
                 id="quantity"
+                className={classes.quantityPicker}
                 label="Quantity"
                 name="quantity"
-                className={classNames(classes.margin, classes.textField)}
-                value={product.quantity || 0}
+                required={true}
+                value={product.quantity ? product.quantity : ''}
                 onChange={handleChange('quantity')}
                 type="number"
-                InputLabelProps={{ shrink: true }}
+                inputProps={{ min: 0, max: 1000 }}
                 margin="normal"
               />
-              <FormControl fullWidth className={classes.margin}>
-                <InputLabel htmlFor="description">Description</InputLabel>
-                <Input
-                  multiline={true}
-                  id="description"
-                  className={classNames(classes.margin, classes.textField)}
-                  value={product.description}
-                  onChange={handleChange(product.description)}
-                />
-              </FormControl>
+              <TextField
+                id="description"
+                className={classNames(classes.margin, classes.textField)}
+                label="Product Description"
+                name="description"
+                required={true}
+                value={product.description}
+                onChange={handleChange('description')}
+                multiline={true}
+                variant="filled"
+                helperText="Enter a short description of the product or product details"
+                rows="4"
+              />
             </Grid>
             <Grid
               container
@@ -136,11 +151,13 @@ class AddProduct extends Component {
               </FormControl>
               <div>
                 <InputLabel htmlFor="images">Product Images</InputLabel>
-                <Dropzone className={classes.imageUploader}>
-                  <Typography variant="body2">
-                    Drop files or click here to upload
-                  </Typography>
-                </Dropzone>
+                <TextField
+                  label="Image URL"
+                  id="image-url"
+                  className={classNames(classes.margin, classes.textField)}
+                  value={product.image}
+                  onChange={handleChange('image')}
+                />
               </div>
             </Grid>
           </Grid>
@@ -148,7 +165,7 @@ class AddProduct extends Component {
             <Button
               variant="contained"
               color="secondary"
-              onClick={() => productAction(product.id, product)}
+              onClick={() => productAction(product)}
             >
               {buttonName}
             </Button>
@@ -156,7 +173,7 @@ class AddProduct extends Component {
             <Button
               variant="contained"
               color="secondary"
-              onClick={() => productAction(product)}
+              onClick={() => handleClick()}
             >
               {buttonName}
             </Button>
@@ -167,4 +184,4 @@ class AddProduct extends Component {
   }
 }
 
-export default withStyles(styles, { withTheme: true })(AddProduct)
+export default withStyles(styles, { withTheme: true })(ProductForm)

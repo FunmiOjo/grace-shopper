@@ -31,6 +31,10 @@ const styles = theme => ({
     marginTop: 30,
     borderWidth: 1,
     borderStyle: 'solid'
+  },
+  titleText: {
+    color: '#000',
+    fontWeight: 'bolder'
   }
 })
 
@@ -50,7 +54,9 @@ class AllCategories extends Component {
           <div>
             <Grid container spacing={24}>
               <Grid className={classes.heading} item xs={12}>
-                <Typography variant="display2">Rooms</Typography>
+                <Typography className={classes.titleText} variant="display2">
+                  Rooms
+                </Typography>
                 <div className={classes.caption}>
                   <Typography variant="body2">
                     Looking for some furniture inspiration? Find everything for

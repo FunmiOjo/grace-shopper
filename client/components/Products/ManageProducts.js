@@ -55,7 +55,7 @@ class ManageProducts extends Component {
     const { classes } = this.props
     const products = this.props.products
     return (
-      <Paper className={classes.root}>
+      <div className={classes.root}>
         <Button
           className={classes.buttons}
           component={Link}
@@ -134,7 +134,7 @@ class ManageProducts extends Component {
             })}
           </TableBody>
         </Table>
-      </Paper>
+      </div>
     )
   }
 }

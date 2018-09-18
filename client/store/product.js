@@ -115,6 +115,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         allProducts: [
+          ...state.allProducts,
           ...state.allProducts.filter(
             product => product.id !== action.productId
           )
