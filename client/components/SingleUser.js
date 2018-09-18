@@ -103,12 +103,12 @@ class SingleUser extends Component {
           <Button variant="outlined">BACK TO LIST</Button>
         </Link>
         { isAdmin ?
-        <div>
+        <span>
           <span style={padding} />
           <Button variant="outlined" onClick={() => this.update(id)}>UPDATE</Button>
           <span style={padding} />
           <Button variant="contained" color="secondary" onClick={() => this.delete(id)}>DELETE</Button>
-        </div> : null }
+        </span> : null }
       </div>
       :
       <div>
