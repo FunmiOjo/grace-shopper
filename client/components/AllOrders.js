@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import store from '../store'
 import { fetchAllOrders } from '../store/orders'
+import { Link } from 'react-router-dom'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
@@ -41,21 +42,21 @@ class AllOrders extends Component {
           { allOrders && allOrders.length > 0 ?
           allOrders.map(order => (
             <TableRow key={order.id}>
-              <TableCell>{order.id}</TableCell>
+              <TableCell><Link to={'/orders/' + order.id} >{order.id}</Link></TableCell>
               <TableCell>{order.user.firstName} {order.user.lastName}</TableCell>
               <TableCell>{order.createdAt.split('T')[0]}</TableCell>
-              <TableCell><img src={order.products[0].image} width="300" /></TableCell>
+              <TableCell><img src={order.products[0].image} width="100" /></TableCell>
               <TableCell>{order.user.shippingAddress}</TableCell>
               <TableCell>{order.orderStatus}</TableCell>
             </TableRow>
           )) :
           <TableRow>
-            <TableCell> </TableCell>
-            <TableCell> </TableCell>
-            <TableCell> </TableCell>
-            <TableCell> </TableCell>
-            <TableCell> </TableCell>
-            <TableCell> </TableCell>
+            <TableCell>...</TableCell>
+            <TableCell>...</TableCell>
+            <TableCell>...</TableCell>
+            <TableCell>...</TableCell>
+            <TableCell>...</TableCell>
+            <TableCell>...</TableCell>
           </TableRow>}
         </TableBody>
       </Table>
