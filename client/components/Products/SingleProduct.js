@@ -33,7 +33,6 @@ class SingleProduct extends Component {
   }
 
   componentDidMount() {
-    window.scrollTo(0, 0)
     this.props.fetchReview(this.props.match.params.productId)
     this.props.loadSingleProduct()
   }
