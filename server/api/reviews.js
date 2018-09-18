@@ -26,7 +26,7 @@ router.get('/:id', async (req, res, next) => {
 router.get('/product/:id', async (req, res, next) => {
   try {
     const reviews = await Review.findAll({
-      include: [{model: Product}],
+      include: [{model: Product}, {model: User}],
       where: {productId: req.params.id}
     })
     res.json(reviews)
@@ -35,9 +35,9 @@ router.get('/product/:id', async (req, res, next) => {
   }
 })
 
-router.post('/', (req, res, next) => {
+router.post('/', async (req, res, next) => {
   try {
-    const review = Review.create(req.body)
+    const review = await Review.create(req.body)
     res.json(review)
   } catch (err) {
     next(err)
