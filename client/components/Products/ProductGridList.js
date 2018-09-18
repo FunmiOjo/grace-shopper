@@ -50,7 +50,7 @@ export default class ProductGridList extends Component {
                   <Link to={`products/${product.id}`}>
                     <GridListTileBar
                       title={product.name}
-                      subtitle={<span>{product.price}</span>}
+                      subtitle={<span>${product.price/100}</span>}
                     />
                   </Link>
                 </GridListTile>
@@ -61,7 +61,7 @@ export default class ProductGridList extends Component {
                   <Link to={`products/${product.id}`}>
                     <GridListTileBar
                       title={product.name}
-                      subtitle={<span>{product.price}</span>}
+                      subtitle={<span>${product.price/100}</span>}
                     />
                   </Link>
                 </GridListTile>
