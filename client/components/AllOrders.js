@@ -41,6 +41,7 @@ class AllOrders extends Component {
         <TableBody>
           { allOrders && allOrders.length > 0 ?
           allOrders.map(order => (
+            order.isActive ? null :
             <TableRow key={order.id}>
               <TableCell><Link to={'/orders/' + order.id} >{order.id}</Link></TableCell>
               <TableCell>{order.user.firstName} {order.user.lastName}</TableCell>
