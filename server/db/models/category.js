@@ -13,6 +13,13 @@ const Category = db.define('category', {
     type: Sequelize.STRING,
     defaultValue: 'cat.jpg'
   },
+  kind: {
+    type: Sequelize.ENUM('room', 'product'),
+    defaultValue: 'room',
+    validate: {
+      notEmpty: true
+    }
+  },
   isActive: {
     type: Sequelize.BOOLEAN,
     defaultValue: false

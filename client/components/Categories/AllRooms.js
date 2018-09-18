@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import ProductGridList from './ProductGridList'
+import CategoryGridList from './CategoryGridList'
 import Grid from '@material-ui/core/Grid'
 import GridList from '@material-ui/core/GridList'
 import GridListTile from '@material-ui/core/GridListTile'
@@ -34,35 +34,37 @@ const styles = theme => ({
   }
 })
 
-class AllProducts extends Component {
+class AllCategories extends Component {
   componentDidMount() {
-    this.props.loadAllProducts()
+    this.props.loadAllCategories()
   }
 
   render() {
     const { classes } = this.props
-    const products = this.props.products
+    const roomCategories = this.props.categories.filter(
+      category => category.kind === 'room'
+    )
     return (
       <div className="container">
-        {products && (
+        {roomCategories && (
           <div>
             <Grid container spacing={24}>
               <Grid className={classes.heading} item xs={12}>
-                <Typography variant="display2">Products</Typography>
+                <Typography variant="display2">Rooms</Typography>
                 <div className={classes.caption}>
                   <Typography variant="body2">
-                    Get inspired and find products for your home. We have a huge
-                    range of products in different styles, from vintage dressing
-                    tables to modern kitchens. We also take care of those little
-                    details that make all the difference - that’s why our home
-                    accessories range includes rugs, candles and photo frames to
-                    give the final touch to your décor.
+                    Looking for some furniture inspiration? Find everything for
+                    your home under one roof at IKEA, including bedroom, living
+                    room, kitchen, dining room furniture and much more. From
+                    bedroom ideas to living room solutions, we have functional,
+                    well-designed furniture to transform any space into the room
+                    you’ve always dreamed of.
                   </Typography>
                   <hr className={classes.divider} />
                 </div>
               </Grid>
               <Grid item xs={12}>
-                <ProductGridList products={products} />
+                <CategoryGridList categories={roomCategories} />
               </Grid>
             </Grid>
           </div>
@@ -72,4 +74,4 @@ class AllProducts extends Component {
   }
 }
 
-export default withStyles(styles)(AllProducts)
+export default withStyles(styles)(AllCategories)

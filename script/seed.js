@@ -1,10 +1,17 @@
 'use strict'
 
 const db = require('../server/db')
-const {User, Product, Order, Review, Category, OrderProduct} = require('../server/db/models')
+const {
+  User,
+  Product,
+  Order,
+  Review,
+  Category,
+  OrderProduct
+} = require('../server/db/models')
 
 async function seed() {
-  await db.sync({force: true})
+  await db.sync({ force: true })
   console.log('db synced!')
 
   // Seeding Users
@@ -42,67 +49,101 @@ async function seed() {
   ])
 
   // Seeding Categories
-  const desk = await Category.create({
-    name: 'Desk',
-    image: 'https://d30y9cdsu7xlg0.cloudfront.net/png/1122142-200.png'
+  const living = await Category.create({
+    name: 'Living',
+    image: '/images/living-thumbnail.jpg',
+    kind: 'room'
   })
-  const chair = await Category.create({
-    name: 'Chair',
-    image: 'https://static.thenounproject.com/png/197050-200.png'
-  })
-  const bed = await Category.create({
-    name: 'Bed',
-    image: 'https://static.thenounproject.com/png/50448-200.png'
+  const kitchen = await Category.create({
+    name: 'Kitchen',
+    image: '/images/kitchen-thumbnail.jpg',
+    kind: 'room'
   })
   const bedroom = await Category.create({
-    name: 'Bed room',
-    image: 'bedroom.jpg'
+    name: 'Bedroom',
+    image: '/images/bedroom-thumbnail.jpg',
+    kind: 'room'
   })
-  const studyroom = await Category.create({
-    name: 'Study room',
-    image: 'study.jpg'
+  const office = await Category.create({
+    name: 'Office',
+    image: '/images/office-thumbnail.jpg',
+    kind: 'room'
+  })
+  const outdoors = await Category.create({
+    name: 'Outdoor',
+    image: '/images/outdoors-thumbnail.jpg',
+    kind: 'room'
+  })
+  const bathroom = await Category.create({
+    name: 'Bathroom',
+    image: '/images/bathroom-thumbnail.jpg',
+    kind: 'room'
+  })
+  const surfaces = await Category.create({
+    name: 'Surfaces',
+    image: '/images/no-image.png',
+    kind: 'product'
+  })
+  const comfort = await Category.create({
+    name: 'Comfort',
+    image: '/images/no-image.png',
+    kind: 'product'
+  })
+  const plumbing = await Category.create({
+    name: 'Plumbing',
+    image: '/images/no-image.png',
+    kind: 'product'
+  })
+  const decorative = await Category.create({
+    name: 'Decorative',
+    image: '/images/no-image.png',
+    kind: 'product'
   })
 
   // Seeding products
   const malmdesk = await Product.create({
     name: 'MALM Desk',
     price: 17900,
-    image: 'https://www.ikea.com/us/en/images/products/malm-desk-brown__0133380_PE288797_S4.JPG',
+    image:
+      'https://www.ikea.com/us/en/images/products/malm-desk-brown__0133380_PE288797_S4.JPG',
     description: `A clean design that’s just as beautiful on all sides – place it free-standing in the room or against a wall with cables neatly hidden inside. Use with other MALM products in the series for a unified look.`,
     quantity: 10
   })
-  malmdesk.addCategory(desk)
-  malmdesk.addCategory(studyroom)
+  malmdesk.addCategory(office)
+  malmdesk.addCategory(surfaces)
 
   const martinchair = await Product.create({
     name: 'MARTIN Chair',
     price: 1900,
-    image: 'https://www.ikea.com/us/en/images/products/martin-chair-black__0518606_PE641097_S4.JPG',
+    image:
+      'https://www.ikea.com/us/en/images/products/martin-chair-black__0518606_PE641097_S4.JPG',
     description: `You can stack the chairs, so they take less space when you're not using them.
     The self-adjusting plastic feet adds stability to the chair.`,
     quantity: 5
   })
-  martinchair.addCategory(chair)
-  martinchair.addCategory(studyroom)
+  martinchair.addCategory(comfort)
+  martinchair.addCategory(office)
 
   const teochair = await Product.create({
     name: 'TEODORES Chair',
     price: 2500,
-    image: 'https://www.ikea.com/us/en/images/products/teodores-chair-white__0517051_PE640574_S4.JPG',
+    image:
+      'https://www.ikea.com/us/en/images/products/teodores-chair-white__0517051_PE640574_S4.JPG',
     description: `The chair is easy to store when not in use, since you can stack up to 6 chairs on top of each other. May be completed with FIXA self-adhesive floor protectors to protect the underlying surface against wear.`,
     quantity: 3
   })
-  teochair.addCategory(chair)
-  teochair.addCategory(studyroom)
+  teochair.addCategory(comfort)
+  teochair.addCategory(office)
 
   const neidenbed = await Product.create({
     name: 'NEIDEN Bed',
     price: 30000,
-    image: 'https://www.ikea.com/us/en/images/products/neiden-bed-frame__0566814_PE664782_S4.JPG',
+    image:
+      'https://www.ikea.com/us/en/images/products/neiden-bed-frame__0566814_PE664782_S4.JPG',
     description: `The natural solid wood is beautiful as it is or you can make it more personal by staining, painting or waxing it. Also, the bed frame is high enough so you can place storage boxes underneath.`,
     quantity: 1
   })
-  neidenbed.addCategory(bed)
+  neidenbed.addCategory(comfort)
   neidenbed.addCategory(bedroom)
 
   // Seeding Reviews

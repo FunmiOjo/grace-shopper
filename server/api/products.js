@@ -40,24 +40,25 @@ router.post('/', (req, res, next) => {
 
 // PUT
 
-router.put(':/productId', (req, res, next) => {
+router.put('/:productId', (req, res, next) => {
   Product.findById(req.params.productId)
     .then(product => {
       if (product) {
         product.update(req.body).then(updatedProduct => {
-          return res.send(updatedProduct)
+          return res.json(updatedProduct)
         })
+      } else {
+        const err = new Error('Product not found.')
+        err.status = 404
+        next(err)
       }
-      const err = new Error('Product not found.')
-      err.status = 404
-      next(err)
     })
     .catch(next)
 })
 
 // DELETE
 
-router.delete(':/productId', (req, res, next) => {
+router.delete('/:productId', (req, res, next) => {
   Product.findById(req.params.productId)
     .then(product => {
       if (!product) {

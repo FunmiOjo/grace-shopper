@@ -10,15 +10,21 @@ import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
-import HomeIcon from '@material-ui/icons/Home'
+import CartIcon from '@material-ui/icons/ShoppingCartOutlined'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 
 const styles = theme => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
+    backgroundColor: 'white',
+    boxShadow: 'none',
+    marginBottom: 35
   },
   grow: {
     flexGrow: 1
+  },
+  buttonPadding: {
+    bottomPadding: 3
   }
 })
 
@@ -28,10 +34,12 @@ class Navbar extends Component {
   render() {
     const { classes } = this.props
     return (
-      <AppBar position="static">
+      <AppBar className={classes.root} position="static">
         <Toolbar>
           <Typography variant="title" color="inherit">
-            Grace Shopper
+            <Link to="/home">
+              <img src="/images/logo.png" width={50} />
+            </Link>
           </Typography>
           {this.props.isLoggedIn ? (
             <Grid
@@ -40,16 +48,26 @@ class Navbar extends Component {
               justify="flex-end"
               alignItems="center"
             >
-              <Button className={classes.productsButton} color="inherit">
+              <Button
+                className={classes.buttonPadding}
+                color="inherit"
+                disableTouchRipple={true}
+              >
+                <Link to="/rooms">Rooms</Link>
+              </Button>
+              <Button className={classes.buttonPadding} color="inherit">
                 <Link to="/products">Products</Link>
               </Button>
-              <Button color="inherit">
+              <Button className={classes.buttonPadding} color="inherit">
                 <a href="#" onClick={this.props.handleClick}>
                   Logout
                 </a>
               </Button>
               <IconButton color="inherit" component={Link} to="/home">
                 <AccountCircle />
+              </IconButton>
+              <IconButton color="inherit" component={Link} to="/cart">
+                <CartIcon />
               </IconButton>
             </Grid>
           ) : (
