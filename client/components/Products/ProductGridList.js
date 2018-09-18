@@ -42,10 +42,7 @@ export default class ProductGridList extends Component {
             margin="normal"
           />
         </form>
-        <GridList cellHeight={500}>
-          <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
-            <ListSubheader component="div">All Products</ListSubheader>
-          </GridListTile>
+        <GridList cellHeight={500} spacing={4} cols={3}>
           {this.state.searchInput === ''
             ? products.map(product => (
                 <GridListTile key={product.id}>

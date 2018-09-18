@@ -13,11 +13,14 @@ import AllProductsContainer from './components/Products/AllProductsContainer'
 import SingleProductContainer from './components/Products/SingleProductContainer'
 import EditProductContainer from './components/Products/EditProductContainer'
 import AddProduct from './components/Products/AddProduct'
+import AllRoomsContainer from './components/Categories/AllRoomsContainer'
 import { fetchAllProducts } from './store/product'
 import { fetchAllCategories } from './store/category'
 import ErrorView from './components/ErrorView'
 import Checkout from './components/Checkout'
 import { fetchCart } from './store/cart'
+import AllOrders from './components/AllOrders'
+import SingleOrder from './components/SingleOrder'
 
 /**
  * COMPONENT
@@ -41,21 +44,25 @@ class Routes extends Component {
         <Route exact path="/products" component={AllProductsContainer} />
         <Route path="/products/:productId" component={SingleProductContainer} />
         <Route path="/error" component={ErrorView} />
+        <Route exact path="/rooms" component={AllRoomsContainer} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
             <Route exact path="/users" component={allUsers} />
             <Route path="/users/:id" component={SingleUser} />
-            <Route path='/reset' component={PasswordReset} />
+            <Route path="/reset" component={PasswordReset} />
             <Route exact path="/manageproducts" component={ManageProducts} />
-            <Route path="/manageproducts/product/add" component={AddProduct} />
+            <Route path="/manageproducts/products/add" component={AddProduct} />
             <Route
               path="/manageproducts/edit/product/:productId"
               component={EditProductContainer}
             />
             <Route path="/cart" component={Cart} />
             <Route path="/checkout" component={Checkout} />
+
+            <Route exact path='/orders' component={AllOrders} />
+            <Route path='/orders/:id' component={SingleOrder} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

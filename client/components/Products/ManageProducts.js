@@ -59,7 +59,7 @@ class ManageProducts extends Component {
         <Button
           className={classes.buttons}
           component={Link}
-          to="/manageproducts/product/add"
+          to="/manageproducts/products/add"
         >
           Add new product
         </Button>
@@ -95,11 +95,13 @@ class ManageProducts extends Component {
                     <img className={classes.productImage} src={product.image} />
                   </TableCell>
                   <TableCell className={classes.tableCells} numeric>
-                    <ul>
-                      {product.categories.map(category => (
-                        <li key={category.id}>{category.name}</li>
-                      ))}
-                    </ul>
+                    {product.categories && (
+                      <ul>
+                        {product.categories.map(category => (
+                          <li key={category.id}>{category.name}</li>
+                        ))}
+                      </ul>
+                    )}
                   </TableCell>
                   <TableCell className={classes.tableCells} numeric>
                     {product.name}
@@ -117,7 +119,12 @@ class ManageProducts extends Component {
                     <Button
                       variant="contained"
                       component={Link}
-                      to={`/manageproducts/edit/product/${product.id}`}
+                      to={{
+                        pathname: `/manageproducts/edit/product/${product.id}`,
+                        state: {
+                          product: product
+                        }
+                      }}
                     >
                       edit<EditIcon />
                     </Button>

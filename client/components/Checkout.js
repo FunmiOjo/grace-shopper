@@ -3,7 +3,7 @@ import StripeCheckout from 'react-stripe-checkout'
 import { connect } from 'react-redux'
 import { makePayment, fetchCart } from '../store/cart'
 import Cart from './Cart'
-import CheckoutUserInfo from './CheckoutUserInfo'
+import { FUNMI_EMAIL } from '../../secrets'
 
 class Checkout extends Component {
   constructor() {
@@ -17,7 +17,8 @@ class Checkout extends Component {
       userId: this.props.user.id,
       amount: this.props.subtotal,
       currency: 'usd',
-      cartId: this.props.cartId
+      cartId: this.props.cartId,
+      receipt_email: 'oluwafunmi.ojo@gmail.com'
     })
   }
 
@@ -29,12 +30,12 @@ class Checkout extends Component {
     const { user, subtotal } = this.props
     return <div>
       <Cart checkout={1}/>
-      <CheckoutUserInfo />
       <StripeCheckout
         token={this.onToken}
         stripeKey="pk_test_eRGqXtCXghlozssQP3iTYo6E"
         name={`${user.firstName} ${user.lastName}`}
-        amount={subtotal}/>
+        amount={subtotal}
+      />
     </div>
   }
 }

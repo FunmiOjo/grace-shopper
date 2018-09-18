@@ -57,7 +57,7 @@ class AddProduct extends Component {
     const categories = this.props.categories
     const productAction = this.props.productAction
     const buttonName = this.props.buttonName
-    console.log(product)
+    console.log('prodcut form prop', product)
     return (
       product && (
         <div className={classes.root}>
@@ -94,7 +94,7 @@ class AddProduct extends Component {
                 label="Quantity"
                 name="quantity"
                 className={classNames(classes.margin, classes.textField)}
-                value={product.quantity}
+                value={product.quantity || 0}
                 onChange={handleChange('quantity')}
                 type="number"
                 InputLabelProps={{ shrink: true }}
@@ -107,7 +107,7 @@ class AddProduct extends Component {
                   id="description"
                   className={classNames(classes.margin, classes.textField)}
                   value={product.description}
-                  onChange={handleChange('description')}
+                  onChange={handleChange(product.description)}
                 />
               </FormControl>
             </Grid>
@@ -125,7 +125,7 @@ class AddProduct extends Component {
                       key={category.id}
                       control={
                         <Checkbox
-                          onChange={handleChange(category.name)}
+                          onChange={() => handleChange(category.name)}
                           value={`${category.id}`}
                         />
                       }
@@ -144,13 +144,23 @@ class AddProduct extends Component {
               </div>
             </Grid>
           </Grid>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={() => productAction(product)}
-          >
-            {buttonName}
-          </Button>
+          {this.props.buttonName === 'UPDATE' ? (
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => productAction(product.id, product)}
+            >
+              {buttonName}
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => productAction(product)}
+            >
+              {buttonName}
+            </Button>
+          )}
         </div>
       )
     )

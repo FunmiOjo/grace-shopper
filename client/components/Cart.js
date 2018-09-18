@@ -11,7 +11,6 @@ import {
   updateCartItemQuantity,
   removeItemFromCart
 } from '../store/cart'
-import { differentNumberProducts, differentItemQuantities } from '../helpers'
 
 class Cart extends Component {
   constructor() {
@@ -38,16 +37,6 @@ class Cart extends Component {
     })
   }
 
-  // componentDidUpdate(prevProps) {
-  //   const { products: prevProducts } = prevProps.cart
-  //   const { products: currProducts } = this.props.cart
-  //   if (this.props.cart.id) {
-  //     if (differentNumberProducts(currProducts, prevProducts) || differentItemQuantities(currProducts, prevProducts)) {
-  //       this.props.fetchCart()
-  //     }
-  //   }
-  // }
-
   render() {
     console.log('props', this.props)
     if (this.props.errorHappened) {
@@ -66,7 +55,7 @@ class Cart extends Component {
 
     return (
       <div>
-        {this.props.isLoading ? (
+        {this.props.isLoading || !products ? (
           <CircularProgress size={200} />
         ) : (
           <div>
@@ -87,7 +76,7 @@ class Cart extends Component {
                   )
                   .toLocaleString()}`}
               </Typography>
-            {!this.props.heckout &&
+            {!this.props.checkout &&
             <Button size="large" variant="outlined" onClick={this.handleCheckout}>
               <Typography variant="headline">
                 Checkout

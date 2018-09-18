@@ -5,7 +5,8 @@ import { fetchProduct } from '../../store/product'
 import { addProductToCart } from '../../store/cart'
 const mapStateToProps = state => {
   return {
-    selectedProduct: state.product.selectedProduct
+    selectedProduct: state.product.selectedProduct,
+    currentUser: state.user.currentUser
   }
 }
 
