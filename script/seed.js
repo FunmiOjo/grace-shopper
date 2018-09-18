@@ -199,7 +199,7 @@ async function seed() {
       userId: 1
     }),
     Order.create({
-      isActive: true,
+      isActive: false,
       orderStatus: 'processing',
       userId: 2
     })

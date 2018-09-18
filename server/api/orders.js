@@ -4,18 +4,20 @@ const { userLoggedIn, getCart, getOrderProduct } = require('./helpers')
 
 //GET routes
 //retrieves a user's cart
-router.get('/cart', (req, res, next) => {
-  Order.findOne({
-    where: {
-      userId: req.session.passport.user,
-      isActive: true
-    },
-    include: [{model: Product}]
-  })
-    .then(cart => {
-      res.status(200).json(cart)
+router.get('/cart', async (req, res, next) => {
+  try {
+    const response = await Order.findOrCreate({
+      where: {
+        userId: req.session.passport.user,
+        isActive: true
+      },
+      include: [{model: Product}]
     })
-    .catch(next)
+    const cart = response[0]
+    res.status(200).json(cart)
+  } catch (error) {
+    res.send(error)
+  }
 })
 
 //retrieves all of a user's orders
@@ -57,13 +59,19 @@ router.post('/cart', async (req, res, next) => {
       const cart = await getCart(userId)
       if (cart) {
         const orderProduct = await getOrderProduct(productId, cart.id)
-        const updatedOrder = await orderProduct.update({
+        await orderProduct.update({
           quantity: orderProduct.quantity + quantity
         })
-        res.json(updatedOrder)
+        const updatedProduct = await Order.findById(cart.id, {
+          include: [{model: Product, where: {
+            id: productId
+          }}]
+        })
+        res.json(updatedProduct.products[0])
       }
     }
   } catch (error) {
+    console.error(error)
     res.send(error)
   }
 })
@@ -91,7 +99,6 @@ router.delete('/cart', async (req, res, next) => {
       const orderProduct = await getOrderProduct(productId, cartId)
       const emptyArray = await orderProduct.destroy()
       if (emptyArray.length === 0) {
-        console.log('productId', productId)
         res.send(productId)
       } else {
         const err = new Error('Database error')
@@ -100,7 +107,7 @@ router.delete('/cart', async (req, res, next) => {
       }
     }
   } catch (error) {
-    //console.error(error)
+    console.error(error)
     res.send(error)
   }
 })

@@ -17,6 +17,7 @@ import AllRoomsContainer from './components/Categories/AllRoomsContainer'
 import { fetchAllProducts } from './store/product'
 import { fetchAllCategories } from './store/category'
 import ErrorView from './components/ErrorView'
+import Checkout from './components/Checkout'
 import { fetchCart } from './store/cart'
 
 /**
@@ -41,6 +42,7 @@ class Routes extends Component {
         <Route exact path="/products" component={AllProductsContainer} />
         <Route path="/products/:productId" component={SingleProductContainer} />
         <Route path="/cart" component={Cart} />
+        <Route path="/checkout" component={Checkout} />
         <Route path="/error" component={ErrorView} />
         <Route exact path="/rooms" component={AllRoomsContainer} />
         {isLoggedIn && (
