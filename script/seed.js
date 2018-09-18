@@ -51,43 +51,53 @@ async function seed() {
   // Seeding Categories
   const living = await Category.create({
     name: 'Living',
-    image: '/images/living-thumbnail.jpg'
+    image: '/images/living-thumbnail.jpg',
+    kind: 'room'
   })
   const kitchen = await Category.create({
     name: 'Kitchen',
-    image: '/images/kitchen-thumbnail.jpg'
+    image: '/images/kitchen-thumbnail.jpg',
+    kind: 'room'
   })
   const bedroom = await Category.create({
     name: 'Bedroom',
-    image: '/images/bedroom-thumbnail.jpg'
+    image: '/images/bedroom-thumbnail.jpg',
+    kind: 'room'
   })
   const office = await Category.create({
     name: 'Office',
-    image: '/images/office-thumbnail.jpg'
+    image: '/images/office-thumbnail.jpg',
+    kind: 'room'
   })
   const outdoors = await Category.create({
-    name: 'Outdoors',
-    image: '/images/outdoors-thumbnail'
+    name: 'Outdoor',
+    image: '/images/outdoors-thumbnail.jpg',
+    kind: 'room'
   })
   const bathroom = await Category.create({
     name: 'Bathroom',
-    image: '/images/bathroom-thumbnail.jpg'
+    image: '/images/bathroom-thumbnail.jpg',
+    kind: 'room'
   })
   const surfaces = await Category.create({
     name: 'Surfaces',
-    image: '/images/no-image.png'
+    image: '/images/no-image.png',
+    kind: 'product'
   })
   const comfort = await Category.create({
     name: 'Comfort',
-    image: '/images/no-image.png'
+    image: '/images/no-image.png',
+    kind: 'product'
   })
   const plumbing = await Category.create({
     name: 'Plumbing',
-    image: '/images/no-image.png'
+    image: '/images/no-image.png',
+    kind: 'product'
   })
   const decorative = await Category.create({
     name: 'Decorative',
-    image: '/images/no-image.png'
+    image: '/images/no-image.png',
+    kind: 'product'
   })
 
   // Seeding products

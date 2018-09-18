@@ -119,7 +119,12 @@ class ManageProducts extends Component {
                     <Button
                       variant="contained"
                       component={Link}
-                      to={`/manageproducts/edit/product/${product.id}`}
+                      to={{
+                        pathname: `/manageproducts/edit/product/${product.id}`,
+                        state: {
+                          product: product
+                        }
+                      }}
                     >
                       edit<EditIcon />
                     </Button>

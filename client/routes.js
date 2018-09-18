@@ -13,7 +13,7 @@ import AllProductsContainer from './components/Products/AllProductsContainer'
 import SingleProductContainer from './components/Products/SingleProductContainer'
 import EditProductContainer from './components/Products/EditProductContainer'
 import AddProduct from './components/Products/AddProduct'
-import AllCategoriesContainer from './components/Categories/AllCategoriesContainer'
+import AllRoomsContainer from './components/Categories/AllRoomsContainer'
 import { fetchAllProducts } from './store/product'
 import { fetchAllCategories } from './store/category'
 import ErrorView from './components/ErrorView'
@@ -42,14 +42,14 @@ class Routes extends Component {
         <Route path="/products/:productId" component={SingleProductContainer} />
         <Route path="/cart" component={Cart} />
         <Route path="/error" component={ErrorView} />
-        <Route exact path="/categories" component={AllCategoriesContainer} />
+        <Route exact path="/rooms" component={AllRoomsContainer} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
             <Route exact path="/users" component={allUsers} />
             <Route path="/users/:id" component={SingleUser} />
-            <Route path='/reset' component={PasswordReset} />
+            <Route path="/reset" component={PasswordReset} />
             <Route exact path="/manageproducts" component={ManageProducts} />
             <Route path="/manageproducts/products/add" component={AddProduct} />
             <Route

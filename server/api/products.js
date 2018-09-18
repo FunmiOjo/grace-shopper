@@ -41,10 +41,8 @@ router.post('/', (req, res, next) => {
 // PUT
 
 router.put('/:productId', (req, res, next) => {
-  console.log('product id', req.params.productId)
   Product.findById(req.params.productId)
     .then(product => {
-      console.log('fetched product', product)
       if (product) {
         product.update(req.body).then(updatedProduct => {
           return res.json(updatedProduct)

@@ -57,7 +57,7 @@ class AddProduct extends Component {
     const categories = this.props.categories
     const productAction = this.props.productAction
     const buttonName = this.props.buttonName
-    console.log(product)
+    console.log('prodcut form prop', product)
     return (
       product && (
         <div className={classes.root}>
@@ -107,7 +107,7 @@ class AddProduct extends Component {
                   id="description"
                   className={classNames(classes.margin, classes.textField)}
                   value={product.description}
-                  onChange={handleChange('description')}
+                  onChange={handleChange(product.description)}
                 />
               </FormControl>
             </Grid>

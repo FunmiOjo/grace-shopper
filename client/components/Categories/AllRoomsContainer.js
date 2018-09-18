@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import AllCategories from './AllCategories'
+import AllCategories from './AllRooms'
 import { fetchAllCategories } from '../../store/category'
 
 const mapStateToProps = state => {
