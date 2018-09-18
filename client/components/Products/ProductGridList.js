@@ -14,7 +14,6 @@ export default class ProductGridList extends Component {
       searchInput: ''
     }
     this.handleChange = this.handleChange.bind(this)
-    console.log(this.state.products)
   }
 
   handleChange(event) {

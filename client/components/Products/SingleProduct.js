@@ -33,6 +33,7 @@ class SingleProduct extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props.match.params.productId)
     this.props.fetchReview(this.props.match.params.productId)
     this.props.loadSingleProduct()
   }
@@ -49,6 +50,7 @@ class SingleProduct extends Component {
   }
 
   render() {
+    const productId = this.props.match.params.productId
     const product = this.props.product
     const currentUser = this.props.currentUser
     return (
@@ -84,7 +86,7 @@ class SingleProduct extends Component {
         <div>
         <hr />
         <h2>Add review</h2>
-        <AddReview productId={product.id} userId={currentUser.id} postReview={this.postReview} />
+        <AddReview productId={productId} userId={currentUser.id} postReview={this.postReview} />
         </div>
         : null}
       </div>
