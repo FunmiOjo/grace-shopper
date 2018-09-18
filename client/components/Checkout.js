@@ -3,7 +3,7 @@ import StripeCheckout from 'react-stripe-checkout'
 import { connect } from 'react-redux'
 import { makePayment, fetchCart } from '../store/cart'
 import Cart from './Cart'
-import { FUNMI_EMAIL } from '../../secrets'
+import Typography from '@material-ui/core/Typography'
 
 class Checkout extends Component {
   constructor() {
@@ -29,6 +29,8 @@ class Checkout extends Component {
   render() {
     const { user, subtotal } = this.props
     return <div>
+      { subtotal !== 0 ?
+      <div>
       <Cart checkout={1} cartEmpty={this.props.subtotal === 0}/>
       <StripeCheckout
         token={this.onToken}
@@ -36,7 +38,14 @@ class Checkout extends Component {
         name={`${user.firstName} ${user.lastName}`}
         amount={subtotal}
       />
-    </div>
+      </div>
+      :
+      <Typography variant="display3">
+        What are you doing here?  You don't have any items to check out.
+      </Typography>
+      }
+      </div>
+
   }
 }
 
