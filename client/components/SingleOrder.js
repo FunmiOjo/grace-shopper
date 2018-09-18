@@ -43,7 +43,7 @@ class SingleOrder extends Component {
               <TableCell>{product.name}</TableCell>
               <TableCell><img src={product.image} width="100" /></TableCell>
               <TableCell>{product.quantity}</TableCell>
-              <TableCell>{product.price}</TableCell>
+              <TableCell>${product.price / 100}</TableCell>
               <TableCell>${(product.price / 100) * product.quantity}</TableCell>
             </TableRow>
           ))
