@@ -11,6 +11,7 @@ import {
   updateCartItemQuantity,
   removeItemFromCart
 } from '../store/cart'
+import { differentNumberProducts, differentItemQuantities } from '../helpers'
 
 class Cart extends Component {
   constructor() {
@@ -37,11 +38,18 @@ class Cart extends Component {
     })
   }
 
-  // componentDidMount() {
-  //   this.props.fetchCart()
-  // }
+  componentDidUpdate(prevProps) {
+    const { products: prevProducts } = prevProps.cart
+    const { products: currProducts } = this.props.cart
+    if (this.props.cart.id) {
+      if (differentNumberProducts(currProducts, prevProducts) || differentItemQuantities(currProducts, prevProducts)) {
+        this.props.fetchCart()
+      }
+    }
+  }
 
   render() {
+
     if (this.props.errorHappened) {
       return (
         <div>
