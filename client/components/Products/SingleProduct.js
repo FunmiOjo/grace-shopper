@@ -33,7 +33,6 @@ class SingleProduct extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.match.params.productId)
     this.props.fetchReview(this.props.match.params.productId)
     this.props.loadSingleProduct()
   }
