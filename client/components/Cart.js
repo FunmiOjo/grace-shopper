@@ -38,7 +38,6 @@ class Cart extends Component {
   }
 
   render() {
-    console.log('props', this.props)
     if (this.props.errorHappened) {
       return (
         <div>
@@ -52,7 +51,7 @@ class Cart extends Component {
     }
 
     const { products } = this.props.cart
-
+    const checkoutShouldBeAvailable = !(this.props.subtotal === 0) && !this.props.checkout
     return (
       <div>
         {this.props.isLoading || !products ? (
@@ -76,7 +75,7 @@ class Cart extends Component {
                   )
                   .toLocaleString()}`}
               </Typography>
-            {!this.props.checkout &&
+            {checkoutShouldBeAvailable &&
             <Button size="large" variant="outlined" onClick={this.handleCheckout}>
               <Typography variant="headline">
                 Checkout
@@ -95,7 +94,8 @@ const mapState = state => {
     cart: state.cart.cartData,
     userId: state.user.currentUser.id,
     isLoading: state.cart.isLoading,
-    errorHappened: state.cart.errorHappened
+    errorHappened: state.cart.errorHappened,
+    subtotal: state.cart.subtotal
   }
 }
 

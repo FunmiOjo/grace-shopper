@@ -29,7 +29,7 @@ class Checkout extends Component {
   render() {
     const { user, subtotal } = this.props
     return <div>
-      <Cart checkout={1}/>
+      <Cart checkout={1} cartEmpty={this.props.subtotal === 0}/>
       <StripeCheckout
         token={this.onToken}
         stripeKey="pk_test_eRGqXtCXghlozssQP3iTYo6E"
