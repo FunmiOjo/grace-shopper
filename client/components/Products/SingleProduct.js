@@ -1,26 +1,21 @@
 import React, { Component } from 'react'
-import store from '../../store'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import { connect } from 'react-redux'
 import Input from '@material-ui/core/Input'
 import Review from '../Reviews'
 import AddReview from '../AddReview'
-import { postReview } from '../../store/reviews'
+import { postReview, fetchAllReviews } from '../../store/reviews'
 
 class SingleProduct extends Component {
   constructor() {
     super()
     this.state = {
-      quantityInput: 1,
-      product: {}
+      quantityInput: 1
     }
     this.handleClick = this.handleClick.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.postReview = this.postReview.bind(this)
-    store.subscribe(() => {
-      if (this._mounted) this.setState({product: store.getState().product.selectedProduct})
-    })
   }
 
   handleClick() {
@@ -38,12 +33,14 @@ class SingleProduct extends Component {
   }
 
   componentDidMount() {
+    this.props.fetchReview(this.props.match.params.productId)
     this.props.loadSingleProduct()
-    this._mounted = true
   }
 
-  componentWillUnmount() {
-    this._mounted = false
+  componentDidUpdate(prevProps) {
+    if (this.props.review.length !== prevProps.review.length) {
+      this.props.fetchReview(this.props.match.params.productId)
+    }
   }
 
   postReview(data){
@@ -52,8 +49,7 @@ class SingleProduct extends Component {
   }
 
   render() {
-    const product = this.state.product
-    const reviews = product.reviews
+    const product = this.props.product
     const currentUser = this.props.currentUser
     return (
       <div className="container">
@@ -82,9 +78,7 @@ class SingleProduct extends Component {
           </Grid>
         )}
         <br />
-        {reviews ? reviews.map(review => (
-          <Review key={review.id} review={review} />))
-        : null}
+        <Review reviews={this.props.review} />
         <br />
         {currentUser.id && product.id ?
         <div>
@@ -100,12 +94,14 @@ class SingleProduct extends Component {
 
 const mapStateToProps = state => {
   return {
-    product: state.product
+    product: state.product.selectedProduct,
+    review: state.review.allReviews
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-  postReview: data => dispatch(postReview(data))
+  postReview: data => dispatch(postReview(data)),
+  fetchReview: id => dispatch(fetchAllReviews(id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleProduct)
