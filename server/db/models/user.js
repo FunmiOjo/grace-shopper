@@ -3,10 +3,25 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const User = db.define('user', {
+  firstName: {
+    type: Sequelize.STRING,
+    validate: {
+      notEmpty: true
+    }
+  },
+  lastName: {
+    type: Sequelize.STRING,
+    validate: {
+      notEmpty: true
+    }
+  },
   email: {
     type: Sequelize.STRING,
     unique: true,
-    allowNull: false
+    validate: {
+      isEmail: true,
+      notEmpty: true
+    }
   },
   password: {
     type: Sequelize.STRING,
@@ -24,12 +39,37 @@ const User = db.define('user', {
       return () => this.getDataValue('salt')
     }
   },
+  billingAddress: {
+    type: Sequelize.STRING,
+    validate: {
+      notEmpty: true
+    }
+  },
+  shippingAddress: {
+    type: Sequelize.STRING,
+    validate: {
+      notEmpty: true
+    }
+  },
+  userType: {
+    type: Sequelize.ENUM('admin', 'user', 'guest'),
+    defaultValue: 'user',
+    validate: {
+      notEmpty: true
+    }
+  },
+  resetPassword: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
+    validate: {
+      notEmpty: true
+    }
+  },
   googleId: {
     type: Sequelize.STRING
   }
 })
 
-module.exports = User
 
 /**
  * instanceMethods
@@ -65,3 +105,6 @@ const setSaltAndPassword = user => {
 
 User.beforeCreate(setSaltAndPassword)
 User.beforeUpdate(setSaltAndPassword)
+
+
+module.exports = User
