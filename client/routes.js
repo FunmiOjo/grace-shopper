@@ -18,6 +18,7 @@ import { fetchAllProducts } from './store/product'
 import { fetchAllCategories } from './store/category'
 import ErrorView from './components/ErrorView'
 import { fetchCart } from './store/cart'
+import AllOrders from './components/AllOrders'
 
 /**
  * COMPONENT
@@ -56,6 +57,7 @@ class Routes extends Component {
               path="/manageproducts/edit/product/:productId"
               component={EditProductContainer}
             />
+            <Route path='/orders' component={AllOrders} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
