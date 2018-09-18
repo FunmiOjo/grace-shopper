@@ -28,7 +28,9 @@ class AllOrders extends Component {
     const currentUser = this.props.currentUser
     let allOrders = this.state.allOrders
     if ( allOrders && currentUser.userType !== 'admin') {
-      allOrders = allOrders.filter(order => (order.user.id === currentUser.id))
+      if (allOrders.length > 0) {
+        allOrders = allOrders.filter(order => (order.userId === currentUser.id))
+      }
     }
     return (
       <Table>

@@ -111,10 +111,7 @@ class SingleUser extends Component {
         </span> : null }
       </div>
       :
-      <div>
-        <p>NOT AVAILABLE</p>
-        <Link to="/users"><Button variant="outlined">BACK TO LIST</Button></Link>
-      </div>
+      <Link to="/users"><Button variant="outlined">BACK TO LIST</Button></Link>
     )
   }
 }
