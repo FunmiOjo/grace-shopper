@@ -37,9 +37,9 @@ class Cart extends Component {
     })
   }
 
-  componentDidMount() {
-    this.props.fetchCart()
-  }
+  // componentDidMount() {
+  //   this.props.fetchCart()
+  // }
 
   render() {
     if (this.props.errorHappened) {
@@ -58,7 +58,7 @@ class Cart extends Component {
 
     return (
       <div>
-        {this.props.isLoading || (!this.props.cart.products) ? (
+        {this.props.isLoading ? (
           <CircularProgress size={200} />
         ) : (
           <div>
