@@ -20,6 +20,8 @@ class Checkout extends Component {
       cartId: this.props.cartId,
       receipt_email: 'oluwafunmi.ojo@gmail.com'
     })
+
+    this.props.history.push(`/orders/${this.props.cartId}`)
   }
 
   componentDidMount() {

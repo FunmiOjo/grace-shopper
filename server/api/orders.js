@@ -99,6 +99,7 @@ router.put('/cart/deactivate', async (req, res, next) => {
     const deactivatedOrder =  await cart.update({
       isActive: false
     })
+    console.log('deactivatedOrder', deactivatedOrder)
     res.json(deactivatedOrder)
   } catch (error) {
     console.error(error)
