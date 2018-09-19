@@ -4,10 +4,12 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
 const Review = props => {
-  const review = props.review
+  const reviews = props.reviews
   return (
-    review.user ?
-      <Card>
+    reviews ?
+    reviews.map(review => (
+      review.user ?
+      <Card key={review.id}>
         <CardContent>
           <Typography variant="headline" component="h3">
             {'★'.repeat(review.rating)}
@@ -20,6 +22,8 @@ const Review = props => {
           </Typography>
         </CardContent>
       </Card> : null
+    ))
+    : null
   )
 }
 
