@@ -1,12 +1,23 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import { withStyles } from '@material-ui/core/styles'
 import GridList from '@material-ui/core/GridList'
 import GridListTile from '@material-ui/core/GridListTile'
 import GridListTileBar from '@material-ui/core/GridListTileBar'
 import ListSubheader from '@material-ui/core/ListSubheader'
 import TextField from '@material-ui/core/TextField'
 
-export default class ProductGridList extends Component {
+const styles = theme => ({
+  productTile: {
+    background: 'rgba(0, 0, 0, 0)',
+    fontWeight: 'bolder',
+    fontSize: '4em',
+    textAlign: 'left',
+    color: '#000'
+  }
+})
+
+class ProductGridList extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -14,7 +25,6 @@ export default class ProductGridList extends Component {
       searchInput: ''
     }
     this.handleChange = this.handleChange.bind(this)
-    console.log(this.state.products)
   }
 
   handleChange(event) {
@@ -28,11 +38,13 @@ export default class ProductGridList extends Component {
   }
 
   render() {
+    const { classes } = this.props
     const products = this.props.products
     return (
       <div>
         <form autoComplete="off">
           <TextField
+            className={classes.searchBar}
             id="searchInput"
             name="searchInput"
             label="search for a product"
@@ -45,12 +57,12 @@ export default class ProductGridList extends Component {
         <GridList cellHeight={500} spacing={4} cols={3}>
           {this.state.searchInput === ''
             ? products.map(product => (
-                <GridListTile key={product.id}>
+                <GridListTile className={classes.productTile} key={product.id}>
                   <img src={product.image} alt={product.name} />
                   <Link to={`products/${product.id}`}>
                     <GridListTileBar
                       title={product.name}
-                      subtitle={<span>{product.price}</span>}
+                      subtitle={<span>${product.price/100}</span>}
                     />
                   </Link>
                 </GridListTile>
@@ -61,7 +73,7 @@ export default class ProductGridList extends Component {
                   <Link to={`products/${product.id}`}>
                     <GridListTileBar
                       title={product.name}
-                      subtitle={<span>{product.price}</span>}
+                      subtitle={<span>${product.price/100}</span>}
                     />
                   </Link>
                 </GridListTile>
@@ -71,3 +83,5 @@ export default class ProductGridList extends Component {
     )
   }
 }
+
+export default withStyles(styles)(ProductGridList)

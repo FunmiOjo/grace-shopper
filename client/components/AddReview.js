@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import FormControl from '@material-ui/core/FormControl';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
+import FormGroup from '@material-ui/core/FormGroup';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid'
 
 export default class AddReview extends Component {
   constructor(props){
@@ -27,18 +27,35 @@ export default class AddReview extends Component {
   }
   render(){
     return (
-      <form onSubmit={this.handleSubmit} onChange={this.handleChange}>
-        <FormControl>
-          <InputLabel>Review</InputLabel>
-          <Input name="comment" type="text" multiline />
-        </FormControl>
-        <FormControl>
-          <InputLabel>★</InputLabel>
-          <Input name="rating" type="number" inputProps={{ min: 1, max: 5 }} />
-        </FormControl>
-        <Button type="submit" style={{padding: '1em'}}>POST</Button>
-      </form>
-
+      <Grid container direction="column"
+      alignItems="center" justify="center">
+        <form onSubmit={this.handleSubmit} onChange={this.handleChange}>
+          <FormGroup style={{margin: '1em'}}>
+            <TextField
+              type="text"
+              name="comment"
+              label="Write a review."
+              InputLabelProps={{
+                shrink: true
+              }}
+              margin="normal"
+              fullWidth multiline required
+            />
+            <TextField
+              type="number"
+              label="★"
+              name="rating"
+              inputProps={{min: 1, max: 5}}
+              InputLabelProps={{
+                shrink: true
+              }}
+              margin="normal"
+            />
+            <br />
+            <Button type="submit" style={{padding: '1em'}}>SUBMIT REVIEW</Button>
+          </FormGroup>
+        </form>
+      </Grid>
     )
   }
 }

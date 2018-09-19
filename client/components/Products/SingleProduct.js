@@ -1,33 +1,28 @@
 import React, { Component } from 'react'
-import store from '../../store'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import { connect } from 'react-redux'
 import Input from '@material-ui/core/Input'
 import Review from '../Reviews'
 import AddReview from '../AddReview'
-import { postReview } from '../../store/reviews'
+import { postReview, fetchAllReviews } from '../../store/reviews'
+import Typography from '@material-ui/core/Typography';
 
 class SingleProduct extends Component {
   constructor() {
     super()
     this.state = {
-      quantityInput: 1,
-      product: {}
+      quantityInput: 1
     }
     this.handleClick = this.handleClick.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.postReview = this.postReview.bind(this)
-    store.subscribe(() => {
-      if (this._mounted) this.setState({product: store.getState().product.selectedProduct})
-    })
   }
 
   handleClick() {
     const { id } = this.props.selectedProduct
     let { quantityInput } = this.state
     quantityInput = Number(quantityInput)
-    console.log('type', typeof quantityInput)
     this.props.addProduct(id, quantityInput)
   }
 
@@ -38,68 +33,72 @@ class SingleProduct extends Component {
   }
 
   componentDidMount() {
+    this.props.fetchReview(this.props.match.params.productId)
     this.props.loadSingleProduct()
-    this._mounted = true
   }
 
-  componentWillUnmount() {
-    this._mounted = false
+  componentDidUpdate(prevProps) {
+    if (this.props.review.length !== prevProps.review.length) {
+      this.props.fetchReview(this.props.match.params.productId)
+    }
   }
 
   postReview(data){
     this.props.postReview(data)
-    this.props.loadSingleProduct()
   }
 
   render() {
-    const product = this.state.product
-    const reviews = product.reviews
+    const productId = this.props.match.params.productId
+    const product = this.props.product
     const currentUser = this.props.currentUser
     return (
       <div className="container">
         {product && (
-          <Grid container direction="row">
-            <Grid item>
-              <img src={product.image} />
-            </Grid>
-            <Grid container direction="column">
-              <Grid item xs>
-                {product.name}
+          <div style={{margin: 'auto', width: '60%'}}>
+            <Grid container direction="row" spacing={24} alignContent="center">
+              <Grid item xs={12}>
+                <Typography variant="display2">{product.name}</Typography>
               </Grid>
-              <Grid item xs>
-                ${product.price / 100}
+              <div style={{margin: 'auto'}}>
+                <Grid item xs={12}><img src={product.image} /></Grid>
+              </div>
+              <Grid item xs={12}>
+                <Typography variant="body1">{product.description}</Typography>
               </Grid>
-              <Grid item xs>
-                {product.description}
+              <Grid item xs={6}>
+              <Typography variant="body1">${product.price / 100}</Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Input defaultValue={1} onChange={this.handleChange} />
+                <Button onClick={this.handleClick}>Add to cart</Button>
               </Grid>
             </Grid>
-            <Grid item>
-              <Input defaultValue={1} onChange={this.handleChange} />
-            </Grid>
-            <Grid item>
-              <Button onClick={this.handleClick}>Add to cart</Button>
-            </Grid>
-          </Grid>
+          </div>
         )}
-        <br />
-        {reviews ? reviews.map(review => (
-          <Review key={review.id} review={review} />))
-        : null}
-        <br />
+        <br /><hr style={{"borderTop": "1px dotted lightgrey"}} />
         {currentUser.id && product.id ?
-        <div>
-        <hr />
-        <h2>Add review</h2>
-        <AddReview productId={product.id} userId={currentUser.id} postReview={this.postReview} />
+        <div style={{alignContent: 'center'}}>
+        <AddReview productId={productId} userId={currentUser.id} postReview={this.postReview} />
         </div>
         : null}
+        <br />
+        <Review reviews={this.props.review} />
+        <br />
       </div>
     )
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    product: state.product.selectedProduct,
+    review: state.review.allReviews
+  }
+}
+
 const mapDispatchToProps = dispatch => ({
-  postReview: data => dispatch(postReview(data))
+  postReview: data => dispatch(postReview(data)),
+  fetchReview: id => dispatch(fetchAllReviews(id))
 })
 
-export default connect(null, mapDispatchToProps)(SingleProduct)
+export default connect(mapStateToProps, mapDispatchToProps)(SingleProduct)
