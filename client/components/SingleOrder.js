@@ -42,9 +42,9 @@ class SingleOrder extends Component {
             <TableRow key={product.id}>
               <TableCell>{product.name}</TableCell>
               <TableCell><img src={product.image} width="100" /></TableCell>
-              <TableCell>{product.quantity}</TableCell>
+              <TableCell>{product.orderProduct.quantity}</TableCell>
               <TableCell>${product.price / 100}</TableCell>
-              <TableCell>${(product.price / 100) * product.quantity}</TableCell>
+              <TableCell>${(product.price / 100) * product.orderProduct.quantity}</TableCell>
             </TableRow>
           ))
           :
@@ -81,8 +81,14 @@ class SingleOrder extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    cart: state.cart
+  }
+}
+
 const mapDispathToProps = dispatch => ({
   fetchData: (id) => dispatch(fetchSingleOrder(id))
 })
 
-export default connect(null, mapDispathToProps)(SingleOrder)
+export default connect(mapStateToProps, mapDispathToProps)(SingleOrder)
