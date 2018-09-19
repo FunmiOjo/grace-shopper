@@ -1,6 +1,12 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import CategoryView from './CategoryView'
+import Grid from '@material-ui/core/Grid'
+import GridList from '@material-ui/core/GridList'
+import GridListTile from '@material-ui/core/GridListTile'
+import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
+import { fetchAllCategories } from '../../store/category'
 
 const styles = theme => ({
   container: {
@@ -33,21 +39,21 @@ const styles = theme => ({
   }
 })
 
-class AllCategories extends Component {
+class AllProductCategories extends Component {
   componentDidMount() {
     this.props.loadAllCategories()
   }
 
   render() {
     const { classes } = this.props
-    const roomCategories = this.props.categories.filter(
-      category => category.kind === 'room'
+    const productCategories = this.props.categories.filter(
+      category => category.kind === 'product'
     )
     return (
       <div className="container">
-        {roomCategories && (
+        {productCategories && (
           <CategoryView
-            categoryData={roomCategories}
+            categoryData={productCategories}
             pageTitle="Products"
             pageDescription="  Looking for some furniture inspiration? Find everything for
                     your home under one roof at IKEA, including bedroom, living
@@ -56,33 +62,10 @@ class AllCategories extends Component {
                     well-designed furniture to transform any space into the room
                     you’ve always dreamed of."
           />
-          // <div>
-          //   <Grid container spacing={24}>
-          //     <Grid className={classes.heading} item xs={12}>
-          //       <Typography className={classes.titleText} variant="display2">
-          //         Rooms
-          //       </Typography>
-          //       <div className={classes.caption}>
-          //         <Typography variant="body2">
-          // Looking for some furniture inspiration? Find everything for
-          // your home under one roof at IKEA, including bedroom, living
-          // room, kitchen, dining room furniture and much more. From
-          // bedroom ideas to living room solutions, we have functional,
-          // well-designed furniture to transform any space into the room
-          // you’ve always dreamed of.
-          //         </Typography>
-          //         <hr className={classes.divider} />
-          //       </div>
-          //     </Grid>
-          //     <Grid item xs={12}>
-          //       <CategoryGridList categories={roomCategories} />
-          //     </Grid>
-          //   </Grid>
-          // </div>
         )}
       </div>
     )
   }
 }
 
-export default withStyles(styles)(AllCategories)
+export default withStyles(styles)(AllProductCategories)

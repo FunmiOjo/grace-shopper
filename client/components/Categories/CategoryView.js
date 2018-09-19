@@ -4,13 +4,18 @@ import CategoryGridList from './CategoryGridList'
 import Grid from '@material-ui/core/Grid'
 import GridList from '@material-ui/core/GridList'
 import GridListTile from '@material-ui/core/GridListTile'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemText from '@material-ui/core/ListItemText'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 
 const styles = theme => ({
   container: {
     display: 'flex',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    justify: 'center'
   },
   textField: {
     marginLeft: theme.spacing.unit,
@@ -35,6 +40,12 @@ const styles = theme => ({
   titleText: {
     color: '#000',
     fontWeight: 'bolder'
+  },
+  productsList: {
+    margin: 'auto'
+  },
+  productsLinks: {
+    fontSize: '2rem'
   }
 })
 
@@ -55,8 +66,23 @@ const CategoryView = props => {
                 <hr className={classes.divider} />
               </div>
             </Grid>
-            <Grid item xs={12}>
-              <CategoryGridList categories={categoryData} />
+            <Grid item xs={12} className={classes.heading}>
+              {props.pageTitle === 'Rooms' ? (
+                <CategoryGridList categories={categoryData} />
+              ) : (
+                <GridList cols={2} spacing={6}>
+                  {categoryData.map(category => (
+                    <GridListTile key={category.id}>
+                      <Link
+                        className={classes.productsLinks}
+                        to={`/product/${category.id}`}
+                      >
+                        {category.name}
+                      </Link>
+                    </GridListTile>
+                  ))}
+                </GridList>
+              )}
             </Grid>
           </Grid>
         </div>
