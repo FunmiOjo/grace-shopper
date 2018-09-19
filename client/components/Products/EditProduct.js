@@ -10,17 +10,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 class EditProduct extends Component {
   constructor(props) {
     super(props)
-    const productProps = props.location.state.product
-    // const productProps = this.props.selectedProduct
-    console.log('these are product props inside edit product', productProps)
-    this.state = {
-      name: 'hello',
-      price: productProps.price,
-      image: productProps.image,
-      description: productProps.description,
-      quantity: productProps.quantity,
-      categories: this.props.selectedCategories
-    }
+    this.state = this.props.selectedProduct
     this.handleUpdate = this.handleUpdate.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
     this.handleCheckbox = this.handleCheckbox.bind(this)
@@ -28,6 +18,13 @@ class EditProduct extends Component {
 
   componentDidMount() {
     this.props.loadSingleProduct(this.props.location.state.product.id)
+    this.setState(this.props.selectedProduct)
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.selectedProduct.id !== prevProps.selectedProduct.id) {
+      this.setState(this.props.selectedProduct)
+    }
   }
 
   handleChange = prop => event => {
@@ -41,14 +38,16 @@ class EditProduct extends Component {
 
   handleUpdate(productData) {
     this.props.updateProduct(productData)
-    console.log('this is product data', productData)
-    this.props.location.state.product = productData
-    this.props.history.push('/manageproducts')
+    if (!this.props.isLoading) {
+      this.props.history.push('/manageproducts')
+    }
   }
 
   handleDelete(productId) {
     this.props.deleteProduct(productId)
-    this.props.history.push('/manageproducts')
+    if (!this.props.isLoading) {
+      this.props.history.push('/manageproducts')
+    }
   }
 
   showActiveCategories() {}
@@ -58,7 +57,8 @@ class EditProduct extends Component {
     const product = this.state
 
     console.log('THIS IS THE loading status', this.props.isLoading)
-    return this.props.isLoading || !this.props.selectedProduct ? (
+    console.log('edit product mapped state', this.props.selectedProduct)
+    return this.props.isLoading || this.state.id === 0 ? (
       <CircularProgress size={200} />
     ) : (
       <div>
