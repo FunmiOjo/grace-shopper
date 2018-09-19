@@ -11,13 +11,14 @@ class EditProduct extends Component {
   constructor(props) {
     super(props)
     this.state = this.props.selectedProduct
+
     this.handleUpdate = this.handleUpdate.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
-    this.handleCheckbox = this.handleCheckbox.bind(this)
+    this.handleCategories = this.handleCategories.bind(this)
   }
 
   componentDidMount() {
-    this.props.loadSingleProduct(this.props.location.state.product.id)
+    this.props.loadSingleProduct(this.props.match.params.productId)
     this.setState(this.props.selectedProduct)
   }
 
@@ -30,10 +31,6 @@ class EditProduct extends Component {
   handleChange = prop => event => {
     const currentState = this.state
     this.setState({ ...currentState, [prop]: event.target.value })
-  }
-
-  handleCheckbox(event) {
-    this.props.toggleCategory(event.target.value)
   }
 
   handleUpdate(productData) {
@@ -50,14 +47,24 @@ class EditProduct extends Component {
     }
   }
 
-  showActiveCategories() {}
+  handleCategories(event) {
+    const product = this.state.product
+    const categoryId = event.target.value
+    const filteredCategory = this.state.checkedCategories.filter(
+      category => category.id === categoryId
+    )[0]
+    const checked = !filteredCategory.checked
+    filteredCategory.checked = !filteredCategory.checked
+    if (checked) {
+      product.categories.push(filteredCategory)
+    } else {
+      product.categories.splice(product.categories.indexOf(filteredCategory))
+    }
+    this.setState({ product: product })
+  }
 
   render() {
-    const { classes, theme } = this.props
     const product = this.state
-
-    console.log('THIS IS THE loading status', this.props.isLoading)
-    console.log('edit product mapped state', this.props.selectedProduct)
     return this.props.isLoading || this.state.id === 0 ? (
       <CircularProgress size={200} />
     ) : (
@@ -67,7 +74,7 @@ class EditProduct extends Component {
           product={product}
           categories={this.props.selectedCategories}
           handleChange={this.handleChange}
-          handleCheckbox={this.handleCheckbox}
+          handleCategories={this.updateCategories}
           productAction={this.handleUpdate}
           buttonName="UPDATE"
         />

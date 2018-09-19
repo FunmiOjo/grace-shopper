@@ -18,7 +18,7 @@ const styles = theme => ({
     flexGrow: 1,
     backgroundColor: 'white',
     boxShadow: 'none',
-    marginBottom: 35
+    marginBottom: 60
   },
   grow: {
     flexGrow: 1
@@ -51,10 +51,10 @@ class Navbar extends Component {
               <Button className="hvr-underline-from-center" color="inherit">
                 <Link to="/rooms">Rooms</Link>
               </Button>
-              <Button className={classes.buttonPadding} color="inherit">
+              <Button className="hvr-underline-from-center" color="inherit">
                 <Link to="/products">Products</Link>
               </Button>
-              <Button className={classes.buttonPadding} color="inherit">
+              <Button className="hvr-underline-from-center" color="inherit">
                 <a href="#" onClick={this.props.handleClick}>
                   Logout
                 </a>

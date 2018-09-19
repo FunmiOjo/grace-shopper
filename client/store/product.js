@@ -7,7 +7,6 @@ const SET_PRODUCT = 'SET_PRODUCT'
 const ADD_PRODUCT = 'ADD_PRODUCT'
 const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
 const DELETE_PRODUCT = 'DELETE_PRODUCT'
-const TOGGLE_PRODUCT_CATEGORIES = 'TOGGLE_PRODUCT_CATEGORIES'
 const SET_LOADING_STATUS = 'SET_LOADING_STATUS'
 
 // ACTION CREATORS
@@ -22,13 +21,6 @@ const setProduct = product => {
   return {
     type: SET_PRODUCT,
     product
-  }
-}
-
-const toggleCategories = productCategories => {
-  return {
-    type: SET_PRODUCT_CATEGORIES,
-    productCategories
   }
 }
 
@@ -171,10 +163,6 @@ export default function(state = initialState, action) {
         selectedProduct: action.product,
         selectedCategories: action.product.categories
       }
-    // case TOGGLE_PRODUCT_CATEGORIES:
-    //   return {
-
-    //   }
     case ADD_PRODUCT:
       return {
         ...state,

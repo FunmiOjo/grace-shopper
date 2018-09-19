@@ -19,7 +19,7 @@ const styles = theme => ({
   }
 })
 
-class ProductGridList extends Component {
+class CategoryGridList extends Component {
   render() {
     const { classes } = this.props
     const categories = this.props.categories
@@ -30,7 +30,23 @@ class ProductGridList extends Component {
           {categories.map(category => (
             <GridListTile key={category.id}>
               <img src={category.image} alt={category.name} />
-              <Link to={`category/${category.id}`}>
+              {/* {category.kind === 'room' ? (
+                <Link to={`rooms/${category.id}`}>
+                  <StyledGridListTileBar
+                    className={classes.imageTile}
+                    title={category.name}
+                  />
+                </Link>
+              ) : (
+                <Link to={`product/${category.id}`}>
+                  <StyledGridListTileBar
+                    className={classes.imageTile}
+                    title={category.name}
+                  />
+                </Link>
+              )} */}
+
+              <Link to={`rooms/${category.id}`}>
                 <StyledGridListTileBar
                   className={classes.imageTile}
                   title={category.name}
@@ -51,4 +67,4 @@ const StyledGridListTileBar = withStyles({
   }
 })(GridListTileBar)
 
-export default withStyles(styles)(ProductGridList)
+export default withStyles(styles)(CategoryGridList)

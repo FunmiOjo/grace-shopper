@@ -14,8 +14,7 @@ import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import Grid from '@material-ui/core/Grid'
-import Dropzone from 'react-dropzone'
-import ImageUploader from './ImageUploader'
+import Chip from '@material-ui/core/Chip'
 
 const styles = theme => ({
   root: {
@@ -46,16 +45,26 @@ const styles = theme => ({
     height: 300,
     border: 1,
     borderStyle: 'solid'
+  },
+  chip: {
+    margin: theme.spacing.unit
   }
 })
 
 class ProductForm extends Component {
+  // constructor() {
+  //   super()
+  //   this.state = {}
+  // }
+
+  handleDelete() {
+    alert('You clicked the delete icon.') // eslint-disable-line no-alert
+  }
   render() {
     const { classes } = this.props
     const product = this.props.product
     const handleChange = this.props.handleChange
     const handleClick = this.props.handleClick
-    const handleCheckbox = this.props.handleCheckbox
     const categories = this.props.categories
     const productAction = this.props.productAction
     const buttonName = this.props.buttonName
@@ -123,23 +132,17 @@ class ProductForm extends Component {
               justify="flex-start"
               alignItems="stretch"
             >
-              <FormControl component="fieldset" className={classes.formControl}>
-                <FormLabel component="legend">Categories</FormLabel>
-                <FormGroup>
-                  {categories.map(category => (
-                    <FormControlLabel
-                      key={category.id}
-                      control={
-                        <Checkbox
-                          onChange={() => handleCheckbox(category.id)}
-                          checked={category.isActive}
-                        />
-                      }
-                      label={category.name}
-                    />
-                  ))}
-                </FormGroup>
-              </FormControl>
+              <div>
+                {categories.map(category => (
+                  <Chip
+                    key={category.id}
+                    label={category.name}
+                    onDelete={this.handleDelete}
+                    className={classes.chip}
+                    color="secondary"
+                  />
+                ))}
+              </div>
               <div>
                 <InputLabel htmlFor="images">Product Images</InputLabel>
                 <TextField
