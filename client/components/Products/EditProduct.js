@@ -47,6 +47,10 @@ class EditProduct extends Component {
     }
   }
 
+  handleCancel() {
+    this.props.history.push('/manageproducts')
+  }
+
   handleCategories(event) {
     const product = this.state.product
     const categoryId = event.target.value
@@ -75,6 +79,7 @@ class EditProduct extends Component {
           categories={this.props.selectedCategories}
           handleChange={this.handleChange}
           handleCategories={this.updateCategories}
+          handleCancel={this.handleCancel}
           productAction={this.handleUpdate}
           buttonName="UPDATE"
         />

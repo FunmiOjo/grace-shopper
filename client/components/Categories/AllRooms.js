@@ -1,10 +1,4 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import CategoryGridList from './CategoryGridList'
-import Grid from '@material-ui/core/Grid'
-import GridList from '@material-ui/core/GridList'
-import GridListTile from '@material-ui/core/GridListTile'
-import Typography from '@material-ui/core/Typography'
 import CategoryView from './CategoryView'
 import { withStyles } from '@material-ui/core/styles'
 

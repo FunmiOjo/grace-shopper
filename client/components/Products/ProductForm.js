@@ -10,10 +10,11 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Grid from '@material-ui/core/Grid'
 import Chip from '@material-ui/core/Chip'
+import AddIcon from '@material-ui/icons/Add'
 
 const styles = theme => ({
   root: {
-    width: '50%',
+    width: '100%',
     flexGrow: 1,
     textAlign: 'left'
   },
@@ -48,12 +49,21 @@ const styles = theme => ({
   },
   chip: {
     margin: theme.spacing.unit
+  },
+  chips: {
+    maxWidth: '30%'
   }
 })
 
 class ProductForm extends Component {
-  handleDelete() {
-    alert('You clicked the delete icon.') // eslint-disable-line no-alert
+  constructor(props) {
+    super(props)
+    this.state = props.categories
+  }
+  handleChipDelete = data => () => {
+    if (data.label === 'React') {
+      alert('Clicked') // eslint-disable-line no-alert
+    }
   }
 
   render() {
@@ -61,7 +71,7 @@ class ProductForm extends Component {
     const product = this.props.product
     const titleText = this.props.titleText
     const handleChange = this.props.handleChange
-    const handleClick = this.props.handleClick
+    const handleCancel = this.props.handleCancel
     const categories = this.props.categories
     const productAction = this.props.productAction
     const buttonName = this.props.buttonName
@@ -71,24 +81,22 @@ class ProductForm extends Component {
         <div className={classes.root}>
           <AppBar className={classes.bar} position="static" color="default">
             <Toolbar>
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={() => productAction(product)}
-              >
+              <Button onClick={() => productAction(product)}>
                 {buttonName}
               </Button>
+              <Button onClick={() => handleCancel()}>Cancel</Button>
             </Toolbar>
           </AppBar>
           <Typography variant="title">{titleText}</Typography>
           <Typography variant="subheading">Product Details</Typography>
-          <Grid container direction="row" justify="center" alignItems="center">
-            <Grid
-              container
-              direction="column"
-              justify="flex-start"
-              alignItems="flex-start"
-            >
+          <Grid
+            container
+            spacing={24}
+            direction="row"
+            justify="flex-start"
+            alignItems="center"
+          >
+            <Grid item xs={6}>
               <TextField
                 label="Product Name"
                 id="name"
@@ -137,21 +145,41 @@ class ProductForm extends Component {
             </Grid>
             <Grid
               container
-              direction="column"
+              direction="row"
               justify="flex-start"
               alignItems="stretch"
             >
-              <div>
-                {categories.map(category => (
-                  <Chip
-                    key={category.id}
-                    label={category.name}
-                    onDelete={this.handleDelete}
-                    className={classes.chip}
-                    color="secondary"
-                  />
-                ))}
-              </div>
+              {titleText === 'Add Product' ? (
+                <div className={classes.chips}>
+                  {categories.map(category => (
+                    <Chip
+                      key={category.id}
+                      label={category.name}
+                      clickable
+                      className={classes.chip}
+                      variant="outlined"
+                      color="secondary"
+                      onDelete={this.handleChipDelete(category)}
+                      deleteIcon={<AddIcon />}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div>
+                  {categories.map(category => (
+                    <Chip
+                      key={category.id}
+                      label={category.name}
+                      onDelete={this.handleChipDelete(category)}
+                      className={classes.chip}
+                      variant="outlined"
+                      color="secondary"
+                    />
+                  ))}
+                </div>
+              )}
+            </Grid>
+            <Grid item xs={6}>
               <div>
                 <InputLabel htmlFor="images">Product Images</InputLabel>
                 <TextField
