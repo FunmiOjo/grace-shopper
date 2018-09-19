@@ -6,6 +6,7 @@ import Input from '@material-ui/core/Input'
 import Review from '../Reviews'
 import AddReview from '../AddReview'
 import { postReview, fetchAllReviews } from '../../store/reviews'
+import Typography from '@material-ui/core/Typography';
 
 class SingleProduct extends Component {
   constructor() {
@@ -53,39 +54,36 @@ class SingleProduct extends Component {
     return (
       <div className="container">
         {product && (
-          <Grid container direction="row">
-            <Grid item>
-              <img src={product.image} />
-            </Grid>
-            <Grid container direction="column">
-              <Grid item xs>
-                {product.name}
+          <div style={{margin: 'auto', width: '60%'}}>
+            <Grid container direction="row" spacing={24} alignContent="center">
+              <Grid item xs={12}>
+                <Typography variant="display2">{product.name}</Typography>
               </Grid>
-              <Grid item xs>
-                ${product.price / 100}
+              <div style={{margin: 'auto'}}>
+                <Grid item xs={12}><img src={product.image} /></Grid>
+              </div>
+              <Grid item xs={12}>
+                <Typography variant="body1">{product.description}</Typography>
               </Grid>
-              <Grid item xs>
-                {product.description}
+              <Grid item xs={6}>
+              <Typography variant="body1">${product.price / 100}</Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Input defaultValue={1} onChange={this.handleChange} />
+                <Button onClick={this.handleClick}>Add to cart</Button>
               </Grid>
             </Grid>
-            <Grid item>
-              <Input defaultValue={1} onChange={this.handleChange} />
-            </Grid>
-            <Grid item>
-              <Button onClick={this.handleClick}>Add to cart</Button>
-            </Grid>
-          </Grid>
+          </div>
         )}
-        <br />
-        <Review reviews={this.props.review} />
-        <br />
+        <br /><hr style={{"borderTop": "1px dotted lightgrey"}} />
         {currentUser.id && product.id ?
-        <div>
-        <hr />
-        <h2>Add review</h2>
+        <div style={{alignContent: 'center'}}>
         <AddReview productId={productId} userId={currentUser.id} postReview={this.postReview} />
         </div>
         : null}
+        <br />
+        <Review reviews={this.props.review} />
+        <br />
       </div>
     )
   }
