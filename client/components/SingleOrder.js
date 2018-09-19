@@ -24,7 +24,6 @@ class SingleOrder extends Component {
     this._mounted = false
   }
   render(){
-    console.log(this.state)
     const order = this.state
     return (
       <Table>

@@ -34,7 +34,7 @@ async function seed() {
       salt: 'sugar',
       billingAddress: '19 W 25th street',
       shippingAddress: '19 W 25th street',
-      userType: 'guest'
+      userType: 'user'
     }),
     User.create({
       firstName: 'Funmi',
@@ -101,6 +101,49 @@ async function seed() {
   })
 
   // Seeding products
+  const malmdesk = await Product.create({
+    name: 'MALM Desk',
+    price: 17900,
+    image:
+      'https://www.ikea.com/us/en/images/products/malm-desk-brown__0133380_PE288797_S4.JPG',
+    description: `A clean design that’s just as beautiful on all sides – place it free-standing in the room or against a wall with cables neatly hidden inside. Use with other MALM products in the series for a unified look.`
+  })
+  malmdesk.addCategory(office)
+  malmdesk.addCategory(surfaces)
+
+  const martinchair = await Product.create({
+    name: 'MARTIN Chair',
+    price: 1900,
+    image:
+      'https://www.ikea.com/us/en/images/products/martin-chair-black__0518606_PE641097_S4.JPG',
+    description: `You can stack the chairs, so they take less space when you're not using them.
+    The self-adjusting plastic feet adds stability to the chair.`
+  })
+  martinchair.addCategory(comfort)
+  martinchair.addCategory(office)
+
+  const teochair = await Product.create({
+    name: 'TEODORES Chair',
+    price: 2500,
+    image:
+      'https://www.ikea.com/us/en/images/products/teodores-chair-white__0517051_PE640574_S4.JPG',
+    description: `The chair is easy to store when not in use, since you can stack up to 6 chairs on top of each other. May be completed with FIXA self-adhesive floor protectors to protect the underlying surface against wear.`,
+    quantity: 3
+  })
+  teochair.addCategory(comfort)
+  teochair.addCategory(office)
+
+  const neidenbed = await Product.create({
+    name: 'NEIDEN Bed',
+    price: 30000,
+    image:
+      'https://www.ikea.com/us/en/images/products/neiden-bed-frame__0566814_PE664782_S4.JPG',
+    description: `The natural solid wood is beautiful as it is or you can make it more personal by staining, painting or waxing it. Also, the bed frame is high enough so you can place storage boxes underneath.`,
+    quantity: 1
+  })
+  neidenbed.addCategory(comfort)
+  neidenbed.addCategory(bedroom)
+
   const tolkensink = await Product.create({
     name: 'TOLKEN Sink Cabinet',
     price: 52900,
@@ -268,49 +311,6 @@ async function seed() {
   ranlamp.addCategory(living)
   ranlamp.addCategory(surfaces)
 
-  const malmdesk = await Product.create({
-    name: 'MALM Desk',
-    price: 17900,
-    image:
-      'https://www.ikea.com/us/en/images/products/malm-desk-brown__0133380_PE288797_S4.JPG',
-    description: `A clean design that’s just as beautiful on all sides – place it free-standing in the room or against a wall with cables neatly hidden inside. Use with other MALM products in the series for a unified look.`
-  })
-  malmdesk.addCategory(office)
-  malmdesk.addCategory(surfaces)
-
-  const martinchair = await Product.create({
-    name: 'MARTIN Chair',
-    price: 1900,
-    image:
-      'https://www.ikea.com/us/en/images/products/martin-chair-black__0518606_PE641097_S4.JPG',
-    description: `You can stack the chairs, so they take less space when you're not using them.
-    The self-adjusting plastic feet adds stability to the chair.`
-  })
-  martinchair.addCategory(comfort)
-  martinchair.addCategory(office)
-
-  const teochair = await Product.create({
-    name: 'TEODORES Chair',
-    price: 2500,
-    image:
-      'https://www.ikea.com/us/en/images/products/teodores-chair-white__0517051_PE640574_S4.JPG',
-    description: `The chair is easy to store when not in use, since you can stack up to 6 chairs on top of each other. May be completed with FIXA self-adhesive floor protectors to protect the underlying surface against wear.`,
-    quantity: 3
-  })
-  teochair.addCategory(comfort)
-  teochair.addCategory(office)
-
-  const neidenbed = await Product.create({
-    name: 'NEIDEN Bed',
-    price: 30000,
-    image:
-      'https://www.ikea.com/us/en/images/products/neiden-bed-frame__0566814_PE664782_S4.JPG',
-    description: `The natural solid wood is beautiful as it is or you can make it more personal by staining, painting or waxing it. Also, the bed frame is high enough so you can place storage boxes underneath.`,
-    quantity: 1
-  })
-  neidenbed.addCategory(comfort)
-  neidenbed.addCategory(bedroom)
-
   // Seeding Reviews
   const reviews = await Promise.all([
     Review.create({
@@ -354,6 +354,54 @@ async function seed() {
       comment: `The quality was not good. Not happy at all. If I didn't need at that time I would have returned it.`,
       productId: 4,
       userId: 1
+    }),
+    Review.create({
+      rating: 4,
+      comment: 'WE LOVE IT!!!!!! We have 2 of them. One in each bathroom. Lots of room in them and the mirrors are a bonus.',
+      productId: 6,
+      userId: 1
+    }),
+    Review.create({
+      rating: 5,
+      comment: `If you put this over the sink you'd need to be able to move the sink out a bit. Otherwise, they're at the same depth and you smack your head on the mirror as you go to spit out your toothpaste :) Otherwise, it's a lovely unit. Roomy and attractive.`,
+      productId: 6,
+      userId: 3
+    }),
+    Review.create({
+      rating: 1,
+      comment: `This table is super wobbly! I've taken it apart three times and tightened the screws, that I had to purchase from another hardware store. The ones that come with that table does not screw all the way down. I also called Customer Support and they're sending me additional pieces to help secure it (hopefully), but it's going to take 2 weeks to arrive. I would return it, but I live 2hrs away from the closest Ikea- so please take my advice and DO NOT TO BUY IT!`,
+      productId: 9,
+      userId: 2
+    }),
+    Review.create({
+      rating: 2,
+      comment: `I thought this table was a great idea, but the assembly was so difficult that I returned it.`,
+      productId: 10,
+      userId: 1
+    }),
+    Review.create({
+      rating: 1,
+      comment: `Hammocks are supposed to be relaxing. This hammock is so unstable it is impossible to relax. If you don't find the exact center you cannot even get in it without tipping over. And if you DO find the center and get in, you can't move at all.`,
+      productId: 16,
+      userId: 2
+    }),
+    Review.create({
+      rating: 5,
+      comment: `I love my hammock!! It was bought using a gift card and i feel so blessed!`,
+      productId: 16,
+      userId: 3
+    }),
+    Review.create({
+      rating: 4,
+      comment: 'Bought this a few weeks ago and love it. It was very easy to assemble and works perfectly. Love the soft close drawers.',
+      productId: 18,
+      userId: 3
+    }),
+    Review.create({
+      rating: 5,
+      comment: `Was easier to assemble than I thought. Looks and works great.`,
+      productId: 18,
+      userId: 2
     })
   ])
 

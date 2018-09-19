@@ -22,7 +22,6 @@ class SingleProduct extends Component {
     const { id } = this.props.selectedProduct
     let { quantityInput } = this.state
     quantityInput = Number(quantityInput)
-    console.log('type', typeof quantityInput)
     this.props.addProduct(id, quantityInput)
   }
 
@@ -38,9 +37,6 @@ class SingleProduct extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    console.log('prevProps.review: ')
-    console.log(prevProps.review)
-    console.log('------------------------')
     if (this.props.review.length !== prevProps.review.length) {
       this.props.fetchReview(this.props.match.params.productId)
     }
