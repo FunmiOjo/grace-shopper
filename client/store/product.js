@@ -7,6 +7,8 @@ const SET_PRODUCT = 'SET_PRODUCT'
 const ADD_PRODUCT = 'ADD_PRODUCT'
 const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
 const DELETE_PRODUCT = 'DELETE_PRODUCT'
+const TOGGLE_PRODUCT_CATEGORIES = 'TOGGLE_PRODUCT_CATEGORIES'
+const SET_LOADING_STATUS = 'SET_LOADING_STATUS'
 
 // ACTION CREATORS
 const setAllProducts = products => {
@@ -20,6 +22,13 @@ const setProduct = product => {
   return {
     type: SET_PRODUCT,
     product
+  }
+}
+
+const toggleCategories = productCategories => {
+  return {
+    type: SET_PRODUCT_CATEGORIES,
+    productCategories
   }
 }
 
@@ -44,6 +53,13 @@ const deleteProduct = product => {
   }
 }
 
+export const setLoadingStatus = status => {
+  return {
+    type: SET_LOADING_STATUS,
+    status
+  }
+}
+
 // THUNK CREATORS
 export const fetchAllProducts = () => {
   return async dispatch => {
@@ -55,9 +71,14 @@ export const fetchAllProducts = () => {
 
 export const fetchProduct = productId => {
   return async dispatch => {
-    const response = await axios.get(`/api/products/${productId}`)
-    const product = response.data
-    dispatch(setProduct(product))
+    try {
+      dispatch(setLoadingStatus(true))
+      const { data: product } = await axios.get(`/api/products/${productId}`)
+      dispatch(setProduct(product))
+      dispatch(setLoadingStatus(false))
+    } catch (error) {
+      dispatch(setLoadingStatus(false))
+    }
   }
 }
 
@@ -87,10 +108,10 @@ export const editProduct = (productId, productData) => {
 }
 
 const initialState = {
+  isLoading: true,
   allProducts: [],
   selectedProduct: {},
-  filters: [],
-  isLoading: {},
+  selectedCategories: [],
   isError: {}
 }
 // REDUCER
@@ -102,10 +123,16 @@ export default function(state = initialState, action) {
         allProducts: action.products
       }
     case SET_PRODUCT:
+      console.log(action.product)
       return {
         ...state,
-        selectedProduct: action.product
+        selectedProduct: action.product,
+        selectedCategories: action.product.categories
       }
+    // case TOGGLE_PRODUCT_CATEGORIES:
+    //   return {
+
+    //   }
     case ADD_PRODUCT:
       return {
         ...state,
@@ -125,6 +152,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         selectedProduct: action.product
+      }
+    case SET_LOADING_STATUS:
+      return {
+        ...state,
+        isLoading: action.status
       }
     default:
       return state

@@ -6,6 +6,7 @@ const SET_ALL_CATEGORIES = 'SET_ALL_CATEGORIES'
 const SET_CATEGORY_ITEMS = 'SET_CATEGORY_ITEMS'
 const ADD_CATEGORY = 'ADD_CATEGORY'
 const DELETE_CATEGORY = 'DELETE_CATEGORY'
+const SET_PRODUCT_CATEGORIES = 'SET_PRODUCT_CATEGORIES'
 const TOGGLE_CATEGORY = 'TOGGLE_CATEGORY'
 
 // ACTION CREATORS
@@ -34,6 +35,13 @@ const deleteCategory = category => {
   return {
     type: DELETE_CATEGORY,
     category
+  }
+}
+
+const setProductCategories = categories => {
+  return {
+    type: SET_PRODUCT_CATEGORIES,
+    categories
   }
 }
 
@@ -96,12 +104,13 @@ export default function(state = initialState, action) {
       }
     // or write two different actions - select and unselect? maybe do on front end instead
     // case TOGGLE_CATEGORY:
-    // let selectedCategories = state.allCategories.map(category => {
-    //   return category.id === action.categoryId
-    //     ? { ...category, bought: !grocery.bought }
-    //     : grocery;
-    // });
-    // return { ...state, selectedCategories };
+    //   let selectedCategories = state.allCategories.map(category => {
+    //     return category.id === action.categoryId
+    //       ? (category.isActive = !category.isActive)
+    //       : category
+    //   })
+
+    //   return { ...state, selectedCategories: selectedCategories }
     case ADD_CATEGORY: {
       return {
         ...state,
@@ -117,6 +126,7 @@ export default function(state = initialState, action) {
           )
         ]
       }
+
     default:
       return state
   }

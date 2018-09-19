@@ -46,7 +46,8 @@ class ProductGridList extends Component {
 
 const StyledGridListTileBar = withStyles({
   title: {
-    fontSize: '4rem'
+    fontSize: '4rem',
+    lineHeight: 100
   }
 })(GridListTileBar)
 

@@ -1,13 +1,11 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import store from '../../store'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
-import ProductForm from './ProductForm'
-import { editProduct, removeProduct } from '../../store/product'
 import { connect } from 'react-redux'
 import Input from '@material-ui/core/Input'
+import Review from '../Reviews'
+import AddReview from '../AddReview'
+import { postReview, fetchAllReviews } from '../../store/reviews'
 
 class SingleProduct extends Component {
   constructor() {
@@ -17,11 +15,14 @@ class SingleProduct extends Component {
     }
     this.handleClick = this.handleClick.bind(this)
     this.handleChange = this.handleChange.bind(this)
+    this.postReview = this.postReview.bind(this)
   }
 
   handleClick() {
     const { id } = this.props.selectedProduct
-    const { quantityInput } = this.state
+    let { quantityInput } = this.state
+    quantityInput = Number(quantityInput)
+    console.log('type', typeof quantityInput)
     this.props.addProduct(id, quantityInput)
   }
 
@@ -32,11 +33,24 @@ class SingleProduct extends Component {
   }
 
   componentDidMount() {
+    this.props.fetchReview(this.props.match.params.productId)
     this.props.loadSingleProduct()
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.review.length !== prevProps.review.length) {
+      this.props.fetchReview(this.props.match.params.productId)
+    }
+  }
+
+  postReview(data){
+    this.props.postReview(data)
+  }
+
   render() {
-    const product = this.props.selectedProduct
+    const productId = this.props.match.params.productId
+    const product = this.props.product
+    const currentUser = this.props.currentUser
     return (
       <div className="container">
         {product && (
@@ -49,7 +63,7 @@ class SingleProduct extends Component {
                 {product.name}
               </Grid>
               <Grid item xs>
-                ${product.price}
+                ${product.price / 100}
               </Grid>
               <Grid item xs>
                 {product.description}
@@ -63,9 +77,31 @@ class SingleProduct extends Component {
             </Grid>
           </Grid>
         )}
+        <br />
+        <Review reviews={this.props.review} />
+        <br />
+        {currentUser.id && product.id ?
+        <div>
+        <hr />
+        <h2>Add review</h2>
+        <AddReview productId={productId} userId={currentUser.id} postReview={this.postReview} />
+        </div>
+        : null}
       </div>
     )
   }
 }
 
-export default SingleProduct
+const mapStateToProps = state => {
+  return {
+    product: state.product.selectedProduct,
+    review: state.review.allReviews
+  }
+}
+
+const mapDispatchToProps = dispatch => ({
+  postReview: data => dispatch(postReview(data)),
+  fetchReview: id => dispatch(fetchAllReviews(id))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(SingleProduct)

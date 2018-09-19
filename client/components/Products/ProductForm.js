@@ -23,10 +23,6 @@ const styles = theme => ({
     overflowX: 'auto',
     textAlign: 'left'
   },
-  forms: {
-    display: 'flex',
-    flexWrap: 'wrap'
-  },
   formControl: {
     margin: theme.spacing.unit,
     minWidth: 120
@@ -40,12 +36,6 @@ const styles = theme => ({
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit
-  },
-  imageUploader: {
-    border: 1,
-    minHeight: 30,
-    marginTop: theme.spacing.unit * 2,
-    marginBottom: theme.spacing.unit * 2
   },
   quantityPicker: {
     marginLeft: theme.spacing.unit,
@@ -65,10 +55,11 @@ class ProductForm extends Component {
     const product = this.props.product
     const handleChange = this.props.handleChange
     const handleClick = this.props.handleClick
+    const handleCheckbox = this.props.handleCheckbox
     const categories = this.props.categories
     const productAction = this.props.productAction
     const buttonName = this.props.buttonName
-    console.log('prodcut form prop', product)
+    console.log('inside the form', product)
     return (
       product && (
         <div className={classes.root}>
@@ -140,8 +131,8 @@ class ProductForm extends Component {
                       key={category.id}
                       control={
                         <Checkbox
-                          onChange={() => handleChange(category.name)}
-                          value={`${category.id}`}
+                          onChange={() => handleCheckbox(category.id)}
+                          checked={category.isActive}
                         />
                       }
                       label={category.name}

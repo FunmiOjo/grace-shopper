@@ -48,7 +48,7 @@ class Navbar extends Component {
               justify="flex-end"
               alignItems="center"
             >
-              <Button className={classes.buttonPadding} color="inherit">
+              <Button className="hvr-underline-from-center" color="inherit">
                 <Link to="/rooms">Rooms</Link>
               </Button>
               <Button className={classes.buttonPadding} color="inherit">
@@ -59,7 +59,7 @@ class Navbar extends Component {
                   Logout
                 </a>
               </Button>
-              <IconButton color="inherit" component={Link} to="/home">
+              <IconButton color="inherit" component={Link} to="/admin">
                 <AccountCircle />
               </IconButton>
               <IconButton color="inherit" component={Link} to="/cart">

@@ -56,15 +56,20 @@ class ManageProducts extends Component {
     const products = this.props.products
     return (
       <div className={classes.root}>
-        <Button
-          className={classes.buttons}
-          component={Link}
-          to="/manageproducts/products/add"
-        >
-          Add new product
-        </Button>
         <Table className={classes.table}>
           <TableHead>
+            <TableRow>
+              <TableCell>
+                <Button
+                  width={200}
+                  className={classes.buttons}
+                  component={Link}
+                  to="/manageproducts/products/add"
+                >
+                  Add product
+                </Button>
+              </TableCell>
+            </TableRow>
             <TableRow className={classes.tableRows}>
               <TableCell className={classes.tableCells}>
                 Product Image

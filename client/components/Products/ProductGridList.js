@@ -25,7 +25,6 @@ class ProductGridList extends Component {
       searchInput: ''
     }
     this.handleChange = this.handleChange.bind(this)
-    console.log(this.state.products)
   }
 
   handleChange(event) {
@@ -63,7 +62,7 @@ class ProductGridList extends Component {
                   <Link to={`products/${product.id}`}>
                     <GridListTileBar
                       title={product.name}
-                      subtitle={<span>{product.price}</span>}
+                      subtitle={<span>${product.price/100}</span>}
                     />
                   </Link>
                 </GridListTile>
@@ -74,7 +73,7 @@ class ProductGridList extends Component {
                   <Link to={`products/${product.id}`}>
                     <GridListTileBar
                       title={product.name}
-                      subtitle={<span>{product.price}</span>}
+                      subtitle={<span>${product.price/100}</span>}
                     />
                   </Link>
                 </GridListTile>
