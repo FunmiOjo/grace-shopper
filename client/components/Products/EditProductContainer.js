@@ -20,11 +20,11 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 //     console.log('product state', this.state)
 //     return (
 //       <div>
-//         {this.props.isLoading || !this.props.selectedProduct ? (
-//           <CircularProgress size={200} />
-//         ) : (
-//           <EditProduct productToEdit={this.props.selectedProduct} />
-//         )}
+// {this.props.isLoading || !this.props.selectedProduct ? (
+//   <CircularProgress size={200} />
+// ) : (
+//   <EditProduct productToEdit={this.props.selectedProduct} />
+// )}
 //       </div>
 //     )
 //   }
