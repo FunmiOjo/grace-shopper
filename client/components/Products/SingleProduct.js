@@ -56,7 +56,7 @@ class SingleProduct extends Component {
         {product && (
           <div style={{margin: 'auto', width: '60%'}}>
             <Grid container direction="row" spacing={24} alignContent="center">
-              <Grid item xs={24}>
+              <Grid item xs={12}>
                 <Typography variant="display2">{product.name}</Typography>
               </Grid>
               <div style={{margin: 'auto'}}>
