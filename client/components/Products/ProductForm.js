@@ -1,26 +1,26 @@
 import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import classNames from 'classnames'
-import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
 import InputAdornment from '@material-ui/core/InputAdornment'
-import FormHelperText from '@material-ui/core/FormHelperText'
-import FormControl from '@material-ui/core/FormControl'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import FormLabel from '@material-ui/core/FormLabel'
-import FormGroup from '@material-ui/core/FormGroup'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Checkbox from '@material-ui/core/Checkbox'
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
 import Grid from '@material-ui/core/Grid'
 import Chip from '@material-ui/core/Chip'
 
 const styles = theme => ({
   root: {
     width: '50%',
-    overflowX: 'auto',
+    flexGrow: 1,
     textAlign: 'left'
+  },
+  bar: {
+    backgroundColor: 'white',
+    boxShadow: 'none',
+    marginBottom: 20
   },
   formControl: {
     margin: theme.spacing.unit,
@@ -52,17 +52,14 @@ const styles = theme => ({
 })
 
 class ProductForm extends Component {
-  // constructor() {
-  //   super()
-  //   this.state = {}
-  // }
-
   handleDelete() {
     alert('You clicked the delete icon.') // eslint-disable-line no-alert
   }
+
   render() {
     const { classes } = this.props
     const product = this.props.product
+    const titleText = this.props.titleText
     const handleChange = this.props.handleChange
     const handleClick = this.props.handleClick
     const categories = this.props.categories
@@ -72,6 +69,18 @@ class ProductForm extends Component {
     return (
       product && (
         <div className={classes.root}>
+          <AppBar className={classes.bar} position="static" color="default">
+            <Toolbar>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => productAction(product)}
+              >
+                {buttonName}
+              </Button>
+            </Toolbar>
+          </AppBar>
+          <Typography variant="title">{titleText}</Typography>
           <Typography variant="subheading">Product Details</Typography>
           <Grid container direction="row" justify="center" alignItems="center">
             <Grid
@@ -123,7 +132,7 @@ class ProductForm extends Component {
                 multiline={true}
                 variant="filled"
                 helperText="Enter a short description of the product or product details"
-                rows="4"
+                rows="6"
               />
             </Grid>
             <Grid
@@ -152,26 +161,13 @@ class ProductForm extends Component {
                   value={product.image}
                   onChange={handleChange('image')}
                 />
+                <div>
+                  <Typography variant="body2">Preview</Typography>
+                  <img src={product.image} />
+                </div>
               </div>
             </Grid>
           </Grid>
-          {this.props.buttonName === 'UPDATE' ? (
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={() => productAction(product)}
-            >
-              {buttonName}
-            </Button>
-          ) : (
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={() => handleClick()}
-            >
-              {buttonName}
-            </Button>
-          )}
         </div>
       )
     )

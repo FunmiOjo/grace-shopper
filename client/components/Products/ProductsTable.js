@@ -1,8 +1,6 @@
-import React, { Component, PropTypes } from 'react'
-import { connect } from 'react-redux'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
-import store from '../../store'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
@@ -10,7 +8,15 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Button from '@material-ui/core/Button'
 import EditIcon from '@material-ui/icons/Edit'
-import { fetchAllProducts } from '../../store/product'
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
+import AddCircleIcon from '@material-ui/icons/AddCircleOutline'
+import IconButton from '@material-ui/core/IconButton'
+import ExpansionPanel from '@material-ui/core/ExpansionPanel'
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
+import Typography from '@material-ui/core/Typography'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 const styles = theme => ({
   root: {
@@ -18,6 +24,11 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
     textAlign: 'center'
+  },
+  bar: {
+    backgroundColor: 'white',
+    boxShadow: 'none',
+    marginBottom: 20
   },
   buttons: {
     display: 'flex',
@@ -35,9 +46,15 @@ const styles = theme => ({
   descriptionCell: {
     textAlign: 'left'
   },
-  tableHeader: {
-    color: '#000',
-    backgroundColor: '#fff'
+  leftIcon: {
+    marginRight: theme.spacing.unit
+  },
+  list: {
+    fontWeight: 'bold'
+  },
+  heading: {
+    fontSize: theme.typography.pxToRem(15),
+    fontWeight: theme.typography.fontWeightRegular
   }
 })
 
@@ -46,20 +63,21 @@ const ProductsTable = props => {
   const products = props.productData
   return (
     <div className={classes.root}>
+      <AppBar className={classes.bar} position="static" color="default">
+        <Toolbar>
+          <Button
+            width={200}
+            className={classes.buttons}
+            component={Link}
+            to="/manageproducts/products/add"
+          >
+            <AddCircleIcon className={classes.leftIcon} />
+            Add product
+          </Button>
+        </Toolbar>
+      </AppBar>
       <Table className={classes.table}>
         <TableHead>
-          <TableRow>
-            <TableCell>
-              <Button
-                width={200}
-                className={classes.buttons}
-                component={Link}
-                to="/manageproducts/products/add"
-              >
-                Add product
-              </Button>
-            </TableCell>
-          </TableRow>
           <TableRow className={classes.tableRows}>
             <TableCell className={classes.tableCells}>Product Image</TableCell>
             <TableCell className={classes.tableCells} numeric>
@@ -89,10 +107,23 @@ const ProductsTable = props => {
                 </TableCell>
                 <TableCell className={classes.tableCells} numeric>
                   {product.categories && (
-                    <ul>
-                      {product.categories.map(category => (
-                        <li key={category.id}>{category.name}</li>
-                      ))}
+                    <ul className={classes.list}>
+                      {product.categories.map(
+                        category =>
+                          category.kind === 'room' ? (
+                            <li key={category.id}>
+                              <Link to={`/rooms/${category.id}`}>
+                                {category.name}
+                              </Link>
+                            </li>
+                          ) : (
+                            <li key={category.id}>
+                              <Link to={`/product/${category.id}`}>
+                                {category.name}
+                              </Link>
+                            </li>
+                          )
+                      )}
                     </ul>
                   )}
                 </TableCell>
@@ -109,18 +140,17 @@ const ProductsTable = props => {
                   {product.quantity}
                 </TableCell>
                 <TableCell>
-                  <Button
+                  <IconButton
+                    color="secondary"
                     variant="contained"
                     component={Link}
                     to={{
                       pathname: `/manageproducts/edit/product/${product.id}`,
-                      state: {
-                        product: product
-                      }
+                      state: { product: product }
                     }}
                   >
-                    edit<EditIcon />
-                  </Button>
+                    <EditIcon />
+                  </IconButton>
                 </TableCell>
               </TableRow>
             )

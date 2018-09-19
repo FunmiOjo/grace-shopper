@@ -30,7 +30,7 @@ class CategoryGridList extends Component {
           {categories.map(category => (
             <GridListTile key={category.id}>
               <img src={category.image} alt={category.name} />
-              {/* {category.kind === 'room' ? (
+              {category.kind === 'room' ? (
                 <Link to={`rooms/${category.id}`}>
                   <StyledGridListTileBar
                     className={classes.imageTile}
@@ -44,14 +44,7 @@ class CategoryGridList extends Component {
                     title={category.name}
                   />
                 </Link>
-              )} */}
-
-              <Link to={`rooms/${category.id}`}>
-                <StyledGridListTileBar
-                  className={classes.imageTile}
-                  title={category.name}
-                />
-              </Link>
+              )}
             </GridListTile>
           ))}
         </GridList>

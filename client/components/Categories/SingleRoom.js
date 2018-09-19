@@ -73,4 +73,23 @@ class SingleRoom extends Component {
   }
 }
 
-export default withStyles(styles)(SingleRoom)
+const mapStateToProps = state => {
+  return {
+    category: state.category.currentCategory,
+    isLoading: state.category.isLoading
+  }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    loadSingleCategory: () => {
+      const categoryId = ownProps.match.params.categoryId
+      dispatch(fetchSingleCategory(categoryId))
+      console.log('dispatched')
+    }
+  }
+}
+
+export default withStyles(styles)(
+  connect(mapStateToProps, mapDispatchToProps)(SingleRoom)
+)

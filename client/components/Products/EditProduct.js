@@ -69,9 +69,9 @@ class EditProduct extends Component {
       <CircularProgress size={200} />
     ) : (
       <div>
-        <Typography variant="title">Edit Product</Typography>
         <ProductForm
           product={product}
+          titleText="Edit Product"
           categories={this.props.selectedCategories}
           handleChange={this.handleChange}
           handleCategories={this.updateCategories}

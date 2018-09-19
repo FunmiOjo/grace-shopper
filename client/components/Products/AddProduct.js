@@ -32,9 +32,9 @@ class AddProduct extends Component {
   render() {
     return (
       <div>
-        <Typography variant="title">Add a new product</Typography>
         <ProductForm
           product={this.state}
+          titleText="Add Product"
           categories={this.props.categories}
           handleChange={this.handleChange}
           handleSelect={this.handleSelect}

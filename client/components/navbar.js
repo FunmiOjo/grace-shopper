@@ -9,9 +9,11 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
 import IconButton from '@material-ui/core/IconButton'
 import CartIcon from '@material-ui/icons/ShoppingCartOutlined'
-import AccountCircle from '@material-ui/icons/AccountCircle'
+import AccountCircle from '@material-ui/icons/AccountCircleOutlined'
 
 const styles = theme => ({
   root: {
@@ -25,14 +27,33 @@ const styles = theme => ({
   },
   buttonPadding: {
     bottomPadding: 3
+  },
+  navLinks: {
+    fontWeight: 'bold',
+    fontSize: '1rem',
+    textTransform: 'none'
   }
 })
 
 // const Navbar = props => {
 //   const { classes } = props
 class Navbar extends Component {
+  state = {
+    anchorEl: null
+  }
+
+  handleClick = event => {
+    this.setState({ anchorEl: event.currentTarget })
+  }
+
+  handleClose = () => {
+    this.setState({ anchorEl: null })
+  }
+
   render() {
     const { classes } = this.props
+    const { anchorEl } = this.state
+
     return (
       <AppBar className={classes.root} position="static">
         <Toolbar>
@@ -49,19 +70,37 @@ class Navbar extends Component {
               alignItems="center"
             >
               <Button className="hvr-underline-from-center" color="inherit">
-                <Link to="/rooms">Rooms</Link>
+                <Link className={classes.navLinks} to="/rooms">
+                  Rooms
+                </Link>
               </Button>
               <Button className="hvr-underline-from-center" color="inherit">
-                <Link to="/products">Products</Link>
+                <Link className={classes.navLinks} to="/products">
+                  Products
+                </Link>
               </Button>
-              <Button className="hvr-underline-from-center" color="inherit">
-                <a href="#" onClick={this.props.handleClick}>
-                  Logout
-                </a>
-              </Button>
-              <IconButton color="inherit" component={Link} to="/admin">
+              <Button
+                aria-owns={anchorEl ? 'simple-menu' : null}
+                aria-haspopup="true"
+                onClick={this.handleClick}
+              >
                 <AccountCircle />
-              </IconButton>
+              </Button>
+              <Menu
+                id="simple-menu"
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={this.handleClose}
+              >
+                <MenuItem onClick={this.handleClose}>
+                  <Link to="/admin">View Profile</Link>
+                </MenuItem>
+                <MenuItem>
+                  <a href="#" onClick={this.props.handleClick}>
+                    Logout
+                  </a>
+                </MenuItem>
+              </Menu>
               <IconButton color="inherit" component={Link} to="/cart">
                 <CartIcon />
               </IconButton>
