@@ -38,6 +38,9 @@ class SingleProduct extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    console.log('prevProps.review: ')
+    console.log(prevProps.review)
+    console.log('------------------------')
     if (this.props.review.length !== prevProps.review.length) {
       this.props.fetchReview(this.props.match.params.productId)
     }

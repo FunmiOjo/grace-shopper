@@ -25,7 +25,11 @@ class AllOrders extends Component {
     this._mounted = false
   }
   render(){
-    const allOrders = this.state.allOrders
+    const currentUser = this.props.currentUser
+    let allOrders = this.state.allOrders
+    if ( allOrders && currentUser.userType !== 'admin') {
+      allOrders = allOrders.filter(order => (order.user.id === currentUser.id))
+    }
     return (
       <Table>
         <TableHead>
@@ -65,8 +69,14 @@ class AllOrders extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    currentUser: state.user.currentUser
+  }
+}
+
 const mapDispatchToProps = dispatch => ({
   fetchData: () => dispatch(fetchAllOrders())
 })
 
-export default connect(null, mapDispatchToProps)(AllOrders)
+export default connect(mapStateToProps, mapDispatchToProps)(AllOrders)
