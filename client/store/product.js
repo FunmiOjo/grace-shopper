@@ -157,7 +157,6 @@ export default function(state = initialState, action) {
         allProducts: action.products
       }
     case SET_PRODUCT:
-      console.log(action.product)
       return {
         ...state,
         selectedProduct: action.product,

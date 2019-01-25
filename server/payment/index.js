@@ -1,6 +1,6 @@
 const router = require('express').Router()
 
-const stripe = require('stripe')(process.env.STRIPE_SECRET_TEST_KEY || require('../../secrets').STRIPE_SECRET_TEST_KEY)
+const stripe = require('stripe')(process.env.STRIPE_SECRET_TEST_KEY)
 
 router.post('/', async (req, res, next) => {
   const { amount, currency, source, receipt_email /*userId*/ } = req.body
@@ -16,5 +16,3 @@ router.post('/', async (req, res, next) => {
 })
 
 module.exports = router
-
-
