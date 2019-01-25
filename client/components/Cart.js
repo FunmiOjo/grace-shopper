@@ -23,8 +23,8 @@ class Cart extends Component {
     this.handleCheckout = this.handleCheckout.bind(this)
   }
 
-  componentDidMount() {
-    this.props.fetchCart()
+  async componentDidMount() {
+    await this.props.fetchCart()
   }
 
   handleSubmit(updatedItemInfo) {
